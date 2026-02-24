@@ -53,3 +53,7 @@ Commits: Follow Conventional Commits (feat, fix, refactor).
 Styling: Use Prettier and ESLint for consistent formatting.
 
 Deployment: Vercel / Docker-ready.
+
+## ⚖️ License
+Copyright © 2026 SteelCode.cz. All rights reserved. 
+Proprietary software. Unauthorized copying of files, via any medium is strictly prohibited.
