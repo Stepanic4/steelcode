@@ -22,7 +22,7 @@ Professional software engineering and high-end digital solutions. High performan
 - **Responsiveness:** Precision-tuned for resolutions from 320px to 4K.
 - **i18n:** Full support for English and Czech (cs-CZ) out of the box.
 - **SEO:** Dynamic Metadata API, JSON-LD, and automated sitemaps.
-- **Theming:** System-preferred Dark/Light modes with CSS variables.
+- **Theming:** System-preferred Dark modes with CSS variables.
 
 ## 💻 Getting Started
 
