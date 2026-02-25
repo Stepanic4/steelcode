@@ -1,17 +1,26 @@
 export default function Home() {
     return (
-        <div className="flex flex-col items-center justify-center min-h-screen bg-black text-white p-6 font-[family-name:var(--font-geist-sans)]">
-            <main className="text-center space-y-4">
-                <h1 className="text-6xl font-black tracking-tighter">
-                    STEEL<span className="text-blue-500">CODE</span>
+        <div className="flex flex-col items-center justify-center min-h-screen bg-background text-foreground p-6">
+            <main className="text-center space-y-6">
+
+                <h1 className="text-6xl md:text-8xl font-black tracking-tighter uppercase italic">
+                    Steel<span className="text-steel-accent">Code</span>
                 </h1>
-                <div className="h-1 w-20 bg-blue-500 mx-auto"></div>
-                <p className="text-xl text-gray-400 font-light tracking-widest uppercase">
-                    Senior Dev Studio
-                </p>
-                <p className="pt-10 text-sm text-gray-500 animate-pulse">
-                    Deployment in progress...
-                </p>
+
+                <div className="h-1 w-24 mx-auto bg-steel-accent shadow-[0_0_20px_var(--accent)]"></div>
+
+                <div className="space-y-2">
+                    <p className="text-xl md:text-2xl font-light tracking-[0.3em] uppercase">
+                        Senior Dev Studio
+                    </p>
+                    <p className="text-xs tracking-widest uppercase animate-pulse text-steel-muted">
+                        Deployment in progress...
+                    </p>
+                </div>
+
+                <div className="mt-12 p-4 border border-steel-border bg-steel-surface rounded-lg text-xs font-mono text-steel-muted">
+                    $ steelcode --init studio_v1.0.4
+                </div>
             </main>
         </div>
     );
