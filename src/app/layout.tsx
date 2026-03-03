@@ -1,10 +1,10 @@
-import type {Metadata} from "next";
-import {Geist, Geist_Mono} from "next/font/google";
+import type { Metadata } from "next";
+import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 
 const geistSans = Geist({
     variable: "--font-geist-sans",
-    subsets: ["latin", "cyrillic"], // Добавили кириллицу, чтобы русские буквы не превратились в Arial
+    subsets: ["latin", "cyrillic"],
 });
 
 const geistMono = Geist_Mono({
@@ -16,7 +16,6 @@ export const metadata: Metadata = {
     title: "SteelCode.cz | Senior Development Studio",
     description: "High-end software development and digital solutions in Czech Republic.",
     metadataBase: new URL('https://steelcode.cz'),
-    // Когда будем выходить в прод, изменить на true
     robots: {
         index: false,
         follow: false,
@@ -27,7 +26,8 @@ export const metadata: Metadata = {
         url: 'https://steelcode.cz',
         siteName: 'SteelCode',
         images: [
-            {url: '/og-image.png',
+            {
+                url: '/og-image.png',
                 width: 1200,
                 height: 630,
                 alt: 'SteelCode Studio Preview',
