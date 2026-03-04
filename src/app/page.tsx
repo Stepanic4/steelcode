@@ -4,7 +4,7 @@ import DraftCard from "@/components/DraftCard";
 
 export default function Home() {
     return (
-        <div className="flex flex-col min-h-screen bg-[#1a1a1a]">
+        <div className="flex flex-col min-h-screen bg-graphite">
             <Header />
 
             <main className="flex-grow w-full p-4 md:p-8">
