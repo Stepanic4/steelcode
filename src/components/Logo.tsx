@@ -5,7 +5,8 @@ export default function Logo() {
                 x="0"
                 y="30"
                 className="text-3xl font-black italic uppercase tracking-tighter fill-current">
-                Steel<tspan className="fill-blue-500">Code</tspan>
+                Steel
+                <tspan className="fill-blue-500">Code</tspan>
             </text>
         </svg>
     );
