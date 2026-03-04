@@ -19,3 +19,132 @@
         padding: 0;
     }
 }
+
+/* //////////   CARD  //////////   */
+
+@layer components {
+    .steel-heat-tint {
+        position: relative;
+        /* Основа: глубокий стальной градиент с резким переходом */
+        background: linear-gradient(165deg,
+        #232323 0%,
+        #3a3a3a 40%,
+        #111111 45%,
+        #050505 100%
+        );
+        border: 1px solid rgba(255, 255, 255, 0.15);
+        box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.5),
+        inset 0 1px 1px rgba(255, 255, 255, 0.1);
+        overflow: hidden;
+    }
+
+    /* Слой побежалости: только в углах */
+    .steel-heat-tint::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: radial-gradient(circle at 0% 0%,
+        rgba(30, 64, 175, 0.7) 0%,
+        rgba(124, 58, 237, 0.5) 10%,
+        transparent 25%),
+        radial-gradient(circle at 100% 100%,
+                rgba(30, 64, 175, 0.7) 0%,
+                rgba(124, 58, 237, 0.5) 10%,
+                transparent 25%);
+        mix-blend-mode: screen;
+        opacity: 0.6;
+        pointer-events: none;
+    }
+
+    /* Блик: острая белая линия */
+    .steel-heat-tint::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(
+                115deg,
+                transparent 0%,
+                transparent 45%,
+                rgba(255, 255, 255, 0.1) 48%,
+                rgba(255, 255, 255, 0.2) 50%,
+                rgba(255, 255, 255, 0.1) 52%,
+                transparent 55%
+        );
+        pointer-events: none;
+        transform: perspective(1px) translate3d(0, 0, 0);
+        will-change: transform;
+        backface-visibility: hidden;
+    }
+
+    .steel-card {
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
+        border-radius: 0.5rem;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        background-color: rgba(255, 255, 255, 0.02);
+        background-image: linear-gradient(165deg, #232323 0%, #3a3a3a 40%, #111111 45%, #050505 100%);
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        isolation: isolate;
+
+        /* --- РЕМОНТ РАЗМЫТИЯ --- */
+        transform: translate3d(0, 0, 0);
+        will-change: transform;
+        backface-visibility: hidden;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+    }
+
+    .steel-card:hover {
+        transform: translateY(-12px) scale(1.02) translate3d(0, 0, 0);
+        border-color: rgba(255, 255, 255, 0.3);
+        box-shadow:
+                0 25px 50px -12px rgba(0, 0, 0, 0.7),
+                0 0 25px rgba(59, 130, 246, 0.25),
+                inset 0 1px 2px rgba(255, 255, 255, 0.2);
+    }
+
+    /* Внутренняя рамка (фаска) */
+    .steel-card-bevel {
+        position: absolute;
+        top: 1px;
+        right: 1px;
+        bottom: 1px;
+        left: 1px;
+        border-radius: 7px;
+        border: 1px solid rgba(255, 255, 255, 0.05);
+        pointer-events: none;
+    }
+
+    /* Контейнер для текста прогресса */
+    @keyframes steel-pulse {
+        0%, 100% {
+            opacity: 1;
+            box-shadow: 0 0 10px rgba(59, 130, 246, 0.2);
+            transform: scale(1);
+        }
+        50% {
+            opacity: 0.6;
+            box-shadow: 0 0 20px rgba(59, 130, 246, 0.4);
+            transform: scale(0.98);
+        }
+    }
+
+    .steel-badge {
+        padding: 0.5rem 1.25rem;
+        border: 1px solid rgba(59, 130, 246, 0.2);
+        background-color: rgba(0, 0, 0, 0.4);
+        backdrop-filter: blur(12px);
+        border-radius: 0.125rem;
+        animation: steel-pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        transition: all 0.3s ease;
+    }
+
+    .steel-card:hover .steel-badge {
+        animation-duration: 1s;
+        border-color: rgba(59, 130, 246, 0.5);
+        box-shadow: 0 0 30px rgba(59, 130, 246, 0.5);
+    }
+}

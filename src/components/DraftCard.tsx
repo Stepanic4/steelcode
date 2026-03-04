@@ -1,22 +1,17 @@
 export default function DraftCard() {
     return (
-        <div
-            className="w-full aspect-video border border-white/10 bg-white/[0.02] rounded-lg relative overflow-hidden flex items-center justify-center group">
-
-            <div className="flex flex-col items-center space-y-4">
-
-                <span className="text-[17px] uppercase tracking-[0.2em] text-white/50 font-light">
-          Senior Dev Studio
+        <div className="steel-card steel-heat-tint w-full aspect-video cursor-pointer">
+            <div className="steel-card-bevel"></div>
+            <div className="relative z-10 flex flex-col items-center space-y-6">
+                <span className="text-[14px] uppercase tracking-[0.4em] text-white/60 font-light drop-shadow-[0_2px_2px_rgba(0,0,0,0.8)]">
+                     Senior Dev Studio
                 </span>
-
-                <div className="px-4 py-2 border border-blue-500/30 rounded-md animate-pulse">
-                  <span className="text-[12px] font-mono text-blue-400 tracking-[0.3em] uppercase">
-                    Deployment in progress...
-                  </span>
+                <div className="steel-badge">
+                    <span className="text-[10px] font-mono text-blue-400 tracking-[0.3em] uppercase opacity-80">
+                        Deployment in progress...
+                    </span>
                 </div>
-
             </div>
-
         </div>
     );
 }
