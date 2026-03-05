@@ -1,6 +1,6 @@
-import Header from "@/components/Header";
-import Footer from "@/components/Footer";
-import DraftCard from "@/components/DraftCard";
+import Header from "@/components/structure/Header";
+import Footer from "@/components/structure/Footer";
+import DraftCard from "@/components/shared/DraftCard";
 
 export default function Home() {
     return (

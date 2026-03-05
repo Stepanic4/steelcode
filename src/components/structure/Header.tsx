@@ -1,5 +1,5 @@
-import Logo from "./Logo";
-import Burger from "./Burger";
+import Logo from "@/components/ui/Logo";
+import Burger from "@/components/ui/Burger";
 
 export default function Header() {
     return (
