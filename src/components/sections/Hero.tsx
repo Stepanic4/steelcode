@@ -31,9 +31,10 @@ export default function Hero() {
                     // High-End Engineering Studio
                 </span>
 
-<h1 className="text-3xl md:text-5xl lg:text-6xl font-black italic uppercase tracking-tighter text-white px-6 mt-6 leading-tight">
-    Hardcore<br />Development
+<h1 className="text-[12vw] sm:text-6xl md:text-8xl font-black italic uppercase tracking-tighter text-white leading-[0.9] px-4">
+    Hardcore<br className="sm:hidden" /> Development
 </h1>
+
 
 
                 <p className="text-base md:text-xl text-white/50 font-light max-w-2xl mx-auto mb-14 tracking-wide leading-relaxed">
