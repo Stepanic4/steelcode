@@ -41,7 +41,7 @@ export default function Hero() {
                     Focused on Performance, Maintainability, and Clean Architecture.
                 </p>
 
-                <div className="relative z-20 flex flex-col sm:flex-row gap-5 justify-center items-center mt-12 pb-12">
+                <div className="relative z-20 flex flex-col sm:flex-row gap-5 justify-center items-center mt-12 px-10">
                     <a href="#contact"
                         className="block w-full sm:w-auto px-12 py-4 bg-white text-black text-center font-black uppercase tracking-[0.2em] text-sm transition-all hover:bg-blue-600 hover:text-white active:transform active:scale-95">
                         Start Project
