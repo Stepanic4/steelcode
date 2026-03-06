@@ -40,7 +40,7 @@ export default function Contact() {
                         <div
                             className="mt-10 flex items-center gap-2 text-white/80 uppercase tracking-widest text-xs font-medium">
                             <MapPin size={14}/>
-                            <span>Prague, Czech Republic</span>
+                            <span>Mělník, Czech Republic</span>
                         </div>
                     </div>
 
