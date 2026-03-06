@@ -1,9 +1,8 @@
-// src/components/sections/Works.tsx
 import DraftCard from "@/components/shared/DraftCard";
 
 export default function Works() {
     return (
-        <section className="relative px-6 py-24 md:py-32 max-w-7xl mx-auto w-full border-t border-white/5">
+        <section id="works" className="relative px-6 py-24 md:py-32 max-w-7xl mx-auto w-full border-t border-white/5">
             {/* Header Section */}
             <div className="flex flex-col mb-16 md:mb-24">
                 <div className="flex items-center gap-4 mb-4">
