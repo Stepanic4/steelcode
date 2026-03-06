@@ -32,13 +32,13 @@ export default function Contact() {
                         <h2 className="text-3xl md:text-5xl font-bold uppercase tracking-tighter text-white">
                             Contact
                         </h2>
-                        <p className="mt-6 text-zinc-400 text-lg leading-relaxed max-w-md">
+                        <p className="mt-6 text-white/80 text-lg leading-relaxed max-w-md">
                             Ready to discuss your project? We are based in the Czech Republic and work with clients
                             across Europe. Professional approach, zero fluff.
                         </p>
 
                         <div
-                            className="mt-10 flex items-center gap-2 text-zinc-500 uppercase tracking-widest text-xs font-medium">
+                            className="mt-10 flex items-center gap-2 text-white/80 uppercase tracking-widest text-xs font-medium">
                             <MapPin size={14}/>
                             <span>Prague, Czech Republic</span>
                         </div>
