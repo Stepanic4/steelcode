@@ -16,7 +16,7 @@ const contactInfo = [
     {
         label: "LinkedIn",
         value: "Connect on LinkedIn",
-        link: "https://linkedin.com/company/steelcode",
+        link: "https://www.linkedin.com/in/ivan-zolotukhin/",
         icon: <Linkedin className="w-5 h-5"/>
     }
 ];
