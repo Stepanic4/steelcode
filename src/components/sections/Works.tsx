@@ -24,7 +24,7 @@ export default function Works() {
                 <div className="flex flex-col">
                     <DraftCard />
                     <div className="mt-6 flex justify-between items-center px-2">
-                        <span className="text-[10px] font-mono uppercase tracking-widest text-white/70">
+                        <span className="text-[10px] font-mono uppercase tracking-widest text-white/80">
                             Frontend / Tailwind / React
                         </span>
                         <div className="h-[1px] flex-grow mx-4 bg-white/5"></div>
@@ -36,7 +36,7 @@ export default function Works() {
                 <div className="flex flex-col md:mt-24">
                     <DraftCard />
                     <div className="mt-6 flex justify-between items-center px-2">
-                        <span className="text-[10px] font-mono uppercase tracking-widest text-white/70">
+                        <span className="text-[10px] font-mono uppercase tracking-widest text-white/80">
                             UI Engineering / Next.js
                         </span>
                         <div className="h-[1px] flex-grow mx-4 bg-white/5"></div>
@@ -47,8 +47,8 @@ export default function Works() {
 
             {/* Footer of the section */}
             <div className="mt-24 text-center">
-                <p className="text-[10px] font-mono uppercase tracking-[0.4em] text-white/60">
-                    // More projects in development phase
+                <p className="text-[10px] font-mono uppercase tracking-[0.4em] text-white/80">
+                    {"// More projects in development phase"}
                 </p>
             </div>
         </section>

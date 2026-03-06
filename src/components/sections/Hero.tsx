@@ -26,26 +26,25 @@ export default function Hero() {
 
             {/* CONTENT LAYER */}
             <div className="relative z-10 max-w-5xl px-6 text-center">
-                <span
-                    className="inline-block text-blue-500 font-mono text-xs md:text-sm tracking-[0.4em] uppercase mb-6 bg-blue-500/5 px-4 py-2 border border-blue-500/10">
-                    // High-End Engineering Studio
+                <span className="inline-block text-blue-500 font-mono text-xs md:text-sm tracking-[0.4em] uppercase mb-6 bg-blue-500/5 px-4 py-2 border border-blue-500/10">
+                    {"// High-End Engineering Studio"}
                 </span>
 
-<h1 className="text-[12vw] sm:text-8xl font-black italic uppercase tracking-[-0.02em] text-white leading-[0.9] px-4">
-    Hardcore<br className="sm:hidden" /> Development
-</h1>
+                <h1 className="text-[11vw] sm:text-[clamp(3.5rem,8.5vw,8rem)] font-black italic uppercase tracking-[-0.03em] text-white leading-[0.85] mb-10">
+                    Hardcore<br className="md:hidden" /> Development
+                </h1>
 
 
 
 
-                <p className="text-base md:text-xl text-white/50 font-light max-w-2xl mx-auto mb-14 tracking-wide leading-relaxed">
+                <p className="text-base md:text-xl text-white/80 font-light max-w-2xl mx-auto mb-14 tracking-wide leading-relaxed">
                     Building robust, scalable digital infrastructure for businesses. <br/>
                     Focused on Performance, Maintainability, and Clean Architecture.
                 </p>
 
                 <div className="relative z-20 flex flex-col sm:flex-row gap-5 justify-center items-center mt-12 px-10">
                     <a href="#contact"
-                        className="block w-full sm:w-auto px-12 py-4 bg-white text-black text-center font-black uppercase tracking-[0.2em] text-sm transition-all hover:bg-blue-600 hover:text-white active:transform active:scale-95">
+                        className="block w-full sm:w-auto px-12 py-4 bg-white/80 text-black text-center font-black uppercase tracking-[0.2em] text-sm transition-all hover:bg-blue-600 hover:text-white/80 active:transform active:scale-95">
                         Start Project
                     </a>
 
