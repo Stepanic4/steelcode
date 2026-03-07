@@ -23,12 +23,12 @@ const services = [
 
 export default function Services() {
     return (
-        <section id="services" className="py-24 px-6 bg-zinc-950 border-t border-zinc-900">
+        <section id="services" className="py-24 px-6 border-t border-white/70">
             <div className="max-w-7xl mx-auto">
 
                 {/* Section Header */}
                 <div className="mb-16">
-                    <h2 className="text-3xl md:text-5xl font-bold uppercase tracking-tighter text-white">
+                    <h2 className="text-3xl md:text-5xl font-bold uppercase tracking-tighter">
                         Services
                     </h2>
                     <p className="mt-4 text-white/70 max-w-xl uppercase tracking-[0.2em] text-xs font-medium italic">
@@ -37,12 +37,10 @@ export default function Services() {
                 </div>
 
                 {/* Services Grid */}
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
                     {services.map((service, index) => (
-                        <div
-                            key={index}
-                            className="group p-8 border border-zinc-900 bg-zinc-900/30 hover:border-blue-600/50 transition-all duration-500 cursor-crosshair"
-                        >
+                        <div key={index}
+                            className="group p-4 border border-zinc-900 bg-zinc-900/50 hover:border-blue-600/50 transition-all duration-500 cursor-crosshair">
                             <div className="mb-6 inline-block p-4 border border-zinc-800 bg-zinc-900 group-hover:border-blue-600 transition-colors">
                                 {service.icon}
                             </div>

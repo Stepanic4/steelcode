@@ -23,13 +23,13 @@ const contactInfo = [
 
 export default function Contact() {
     return (
-        <section id="contact" className="py-24 px-6 bg-zinc-950 border-t border-zinc-900">
+        <section id="contact" className="py-24 px-6 border-t border-white/70">
             <div className="max-w-7xl mx-auto">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-16">
 
                     {/* Left side: Content */}
                     <div>
-                        <h2 className="text-3xl md:text-5xl font-bold uppercase tracking-tighter text-white">
+                        <h2 className="text-3xl md:text-5xl font-bold uppercase tracking-tighter">
                             Contact
                         </h2>
                         <p className="mt-6 text-white/80 text-lg leading-relaxed max-w-md">

@@ -4,8 +4,8 @@
     --font-geist-sans: "Geist", sans-serif;
     --font-geist-mono: "Geist Mono", monospace;
     /* Графит */
-    --color-graphite: #1a1a1a;
-    --color-text-main: #e2e2e2;
+    --color-graphite: #253b3e;
+    --color-text-main: #ffffff;
 }
 
 @layer base {
