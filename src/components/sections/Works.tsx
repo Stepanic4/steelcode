@@ -11,7 +11,7 @@ export default function Works() {
                         Selected Cases
                     </h2>
                 </div>
-                <h3 className="text-4xl md:text-6xl font-black italic uppercase tracking-tighter text-white">
+                <h3 className="text-4xl md:text-6xl font-black italic uppercase tracking-tighter">
                     Featured <span className="text-white/20">Projects</span>
                 </h3>
             </div>

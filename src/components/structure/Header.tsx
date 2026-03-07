@@ -18,7 +18,7 @@ export default function Header() {
     };
 
     return (
-        <header className="z-[100] flex items-center justify-between px-6 py-4 border-b border-zinc-800 bg-black/80 backdrop-blur-md">
+        <header className="z-[100] flex items-center justify-between px-6 py-4 border-b border-zinc-800 bg-black backdrop-blur-md">
             <Logo/>
 
             <nav className="hidden md:flex items-center gap-8">

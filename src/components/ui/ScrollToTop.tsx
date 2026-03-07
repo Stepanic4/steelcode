@@ -21,7 +21,7 @@ export const ScrollToTop = () => {
     return (
         <button
             onClick={scrollToTop}
-            className="fixed bottom-8 right-8 w-12 h-12 flex items-center justify-center bg-white text-black hover:bg-blue-600 hover:text-white transition-all duration-300 shadow-2xl z-[100] group active:scale-90"
+            className="cursor-crosshair fixed bottom-8 right-8 w-12 h-12 flex items-center justify-center bg-white text-black hover:bg-blue-600 hover:text-white transition-all duration-300 shadow-2xl z-[100] group active:scale-90"
             aria-label="Scroll to top">
             {/* Геометрическая стрелка вместо текстового символа */}
             <svg
