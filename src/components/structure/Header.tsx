@@ -2,6 +2,7 @@
 
 import Logo from "@/components/ui/Logo";
 import Burger from "@/components/ui/Burger";
+import MoleculeScene from "@/components/ui/MoleculeScene";
 
 const navLinks = [
     {id: 'works', label: 'Portfolio'},
@@ -19,7 +20,12 @@ export default function Header() {
 
     return (
         <header className="z-[100] flex items-center justify-between px-6 py-4 border-b border-zinc-800 bg-black backdrop-blur-md">
-            <Logo/>
+            <div className="flex items-center gap-4">
+                <Logo/>
+                <div className="molecule-wrapper w-16 h-16 flex-shrink-0">
+                    <MoleculeScene />
+                </div>
+            </div>
 
             <nav className="hidden md:flex items-center gap-8">
                 {navLinks.map((link) => (

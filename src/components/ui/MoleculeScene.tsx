@@ -6,7 +6,7 @@ import Molecule from './Molecule';
 
 export default function MoleculeScene() {
     return (
-        <div className="w-full h-full min-h-[300px] relative">
+        <div className="w-full h-full relative">
             <Canvas camera={{ position: [0, 0, 5], fov: 45 }}>
                 <ambientLight intensity={0.5} />
                 <spotLight position={[10, 10, 10]} angle={0.15} penumbra={1} />

@@ -11,9 +11,14 @@ export default function Molecule() {
     // Анимация вращения через useFrame
     useFrame((state) => {
         if (!groupRef.current) return;
+
         const t = state.clock.getElapsedTime();
-        groupRef.current.rotation.x = THREE.MathUtils.lerp(groupRef.current.rotation.x, t * 0.2, 0.1);
-        groupRef.current.rotation.y = THREE.MathUtils.lerp(groupRef.current.rotation.y, t * 0.3, 0.1);
+        const mX = state.mouse.x; // Позиция мыши от -1 до 1
+        const mY = state.mouse.y;
+
+        // Базовое вращение + реакция на мышь
+        groupRef.current.rotation.x = THREE.MathUtils.lerp(groupRef.current.rotation.x, t * 0.2 + mY * 0.5, 0.1);
+        groupRef.current.rotation.y = THREE.MathUtils.lerp(groupRef.current.rotation.y, t * 0.3 + mX * 0.5, 0.1);
     });
 
     return (
