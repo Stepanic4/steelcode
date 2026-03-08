@@ -34,12 +34,6 @@ export default function Hero() {
                 <h1 className="text-[11vw] sm:text-[clamp(3.5rem,8.5vw,8rem)] font-black italic uppercase tracking-[-0.03em] leading-[0.85] mb-10">
                     Hardcore<br className="md:hidden" /> Development
                 </h1>
-                <div className="molecule-wrapper">
-                    <MoleculeScene />
-                </div>
-
-
-
 
                 <p className="text-base md:text-xl text-white/80 font-light max-w-2xl mx-auto mb-14 tracking-wide leading-relaxed">
                     Building robust, scalable digital infrastructure for businesses. <br/>
