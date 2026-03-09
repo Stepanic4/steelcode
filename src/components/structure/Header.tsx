@@ -1,6 +1,6 @@
 'use client';
 
-import {useState, useEffect} from 'react';
+import { useState, useEffect } from 'react';
 import Logo from "@/components/ui/Logo";
 import Burger from "@/components/ui/Burger";
 import MoleculeScene from "@/components/ui/MoleculeScene";
@@ -35,7 +35,7 @@ export default function Header() {
             className={`
                 fixed top-0 left-0 w-full z-[100] flex items-center justify-between transition-all duration-300
                 ${isScrolled
-                ? 'py-2 px-6 bg-black/50 backdrop-blur-lg border-b border-zinc-800'
+                ? 'py-2 px-6 bg-black/60 border-b border-zinc-800'
                 : 'py-6 px-6 bg-transparent border-b border-transparent'}
             `}>
             <div className="flex items-center gap-4">
@@ -53,8 +53,7 @@ export default function Header() {
                     <button
                         key={link.id}
                         onClick={() => handleScroll(link.id)}
-                        className="cursor-crosshair text-sm uppercase tracking-widest text-white/80 hover:text-blue-500 transition-colors font-medium"
-                    >
+                        className="cursor-crosshair text-sm uppercase tracking-widest text-white/80 hover:text-blue-500 transition-colors font-medium">
                         {link.label}
                     </button>
                 ))}

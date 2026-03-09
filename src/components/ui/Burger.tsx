@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Terminal, Briefcase, Mail } from 'lucide-react';
 
 const menuItems = [
@@ -12,51 +12,70 @@ const menuItems = [
 export default function Burger() {
     const [isOpen, setIsOpen] = useState(false);
 
+    // Блокировка прокрутки body (Senior practice)
+    useEffect(() => {
+        if (isOpen) {
+            document.body.style.overflow = 'hidden';
+        } else {
+            document.body.style.overflow = 'unset';
+        }
+        return () => { document.body.style.overflow = 'unset'; };
+    }, [isOpen]);
+
     const handleScroll = (id: string) => {
         const element = document.getElementById(id);
         if (element) {
             setIsOpen(false);
-            element.scrollIntoView({ behavior: 'smooth' });
+            // Задержка, чтобы анимация закрытия не конфликтовала со скроллом
+            setTimeout(() => {
+                element.scrollIntoView({ behavior: 'smooth' });
+            }, 150);
         }
     };
 
     return (
-        <div className="relative">
+        <>
+            {/* Кнопка — всегда выше оверлея */}
             <button
                 onClick={() => setIsOpen(!isOpen)}
-                className="flex flex-col gap-1.5 p-2 focus:outline-none group z-[60] relative"
+                className="relative z-[120] flex flex-col gap-1.5 p-2 focus:outline-none group"
                 aria-label="Toggle Menu">
-                <span className={`w-8 h-0.5 bg-white transition-all ${isOpen ? 'rotate-45 translate-y-2' : ''}`}></span>
-                <span className={`w-5 h-0.5 bg-white transition-all ${isOpen ? 'opacity-0' : ''}`}></span>
-                <span className={`w-8 h-0.5 bg-white transition-all ${isOpen ? '-rotate-45 -translate-y-2' : 'w-5 self-end'}`}></span>
+                <span className={`w-8 h-0.5 bg-white transition-all duration-300 ${isOpen ? 'rotate-45 translate-y-2' : ''}`}></span>
+                <span className={`w-5 h-0.5 bg-white transition-all duration-300 ${isOpen ? 'opacity-0' : ''}`}></span>
+                <span className={`w-8 h-0.5 bg-white transition-all duration-300 ${isOpen ? '-rotate-45 -translate-y-2' : 'w-5 self-end'}`}></span>
             </button>
 
-            {/* Выпадающее меню */}
+            {/* Контейнер меню и оверлея */}
             {isOpen && (
-                <>
-                    {/* Overlay для закрытия при клике вне меню */}
+                <div className="fixed inset-0 w-screen h-screen z-[110]">
+
+                    {/* Глобальный Backdrop с мощным блюром */}
                     <div
-                        className="fixed inset-0 z-40 bg-black/20 backdrop-blur-sm"
+                        className="absolute inset-0 bg-black/60 backdrop-blur-xl animate-in fade-in duration-300"
                         onClick={() => setIsOpen(false)}
                     />
 
-                    <div className="absolute right-0 mt-4 w-56 bg-zinc-900 border border-zinc-800 rounded-lg shadow-2xl z-50 overflow-hidden">
+                    {/* Выпадающее окно */}
+                    <div className="absolute right-6 top-24 w-64 bg-zinc-900 border border-zinc-800 rounded-2xl shadow-[0_20px_50px_rgba(0,0,0,0.5)] overflow-hidden animate-in fade-in zoom-in duration-200 origin-top-right">
                         <nav className="flex flex-col">
                             {menuItems.map((item) => (
                                 <button
                                     key={item.id}
                                     onClick={() => handleScroll(item.id)}
-                                    className="flex items-center gap-4 px-5 py-4 text-white/80 hover:text-white hover:bg-zinc-800 transition-all border-b border-zinc-800 last:border-none">
-                                    <span className="text-blue-500">{item.icon}</span>
-                                    <span className="text-sm font-medium uppercase tracking-[0.15em]">
+                                    className="flex items-center gap-4 px-6 py-5 text-white/80 hover:text-white hover:bg-zinc-800 transition-all border-b border-zinc-800/50 last:border-none group/item"
+                                >
+                                    <span className="text-blue-500 group-hover/item:scale-110 transition-transform">
+                                        {item.icon}
+                                    </span>
+                                    <span className="text-sm font-medium uppercase tracking-[0.2em]">
                                         {item.label}
                                     </span>
                                 </button>
                             ))}
                         </nav>
                     </div>
-                </>
+                </div>
             )}
-        </div>
+        </>
     );
 }
