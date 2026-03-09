@@ -1,7 +1,6 @@
 'use client';
 
 import { useState } from 'react';
-// Импортируем иконки. Если их нет на экране - проверь установку: npm i lucide-react
 import { Terminal, Briefcase, Mail } from 'lucide-react';
 
 const menuItems = [
@@ -23,14 +22,12 @@ export default function Burger() {
 
     return (
         <div className="relative">
-            {/* Кнопка гамбургер */}
             <button
                 onClick={() => setIsOpen(!isOpen)}
                 className="flex flex-col gap-1.5 p-2 focus:outline-none group z-[60] relative"
-                aria-label="Toggle Menu"
-            >
+                aria-label="Toggle Menu">
                 <span className={`w-8 h-0.5 bg-white transition-all ${isOpen ? 'rotate-45 translate-y-2' : ''}`}></span>
-                <span className={`w-8 h-0.5 bg-white transition-all ${isOpen ? 'opacity-0' : ''}`}></span>
+                <span className={`w-5 h-0.5 bg-white transition-all ${isOpen ? 'opacity-0' : ''}`}></span>
                 <span className={`w-8 h-0.5 bg-white transition-all ${isOpen ? '-rotate-45 -translate-y-2' : 'w-5 self-end'}`}></span>
             </button>
 
@@ -49,9 +46,7 @@ export default function Burger() {
                                 <button
                                     key={item.id}
                                     onClick={() => handleScroll(item.id)}
-                                    className="flex items-center gap-4 px-5 py-4 text-white/80 hover:text-white hover:bg-zinc-800 transition-all border-b border-zinc-800 last:border-none"
-                                >
-                                    {/* Иконка теперь должна отображаться */}
+                                    className="flex items-center gap-4 px-5 py-4 text-white/80 hover:text-white hover:bg-zinc-800 transition-all border-b border-zinc-800 last:border-none">
                                     <span className="text-blue-500">{item.icon}</span>
                                     <span className="text-sm font-medium uppercase tracking-[0.15em]">
                                         {item.label}
