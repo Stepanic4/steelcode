@@ -51,7 +51,7 @@ export default function Burger() {
 
                     {/* Глобальный Backdrop с мощным блюром */}
                     <div
-                        className="absolute inset-0 bg-black/60 backdrop-blur-xl animate-in fade-in duration-300"
+                        className="absolute inset-0 bg-black/20 backdrop-blur-xl animate-in fade-in duration-300"
                         onClick={() => setIsOpen(false)}
                     />
 

@@ -1,7 +1,6 @@
 'use client'
 import {motion, useScroll, useTransform} from 'framer-motion';
 import {useRef} from 'react';
-import MoleculeScene from "@/components/ui/MoleculeScene";
 
 export default function Hero() {
     const targetRef = useRef(null);
@@ -16,7 +15,7 @@ export default function Hero() {
     return (
         <section
             ref={targetRef}
-            className="relative flex flex-col items-center justify-center min-h-[100svh] w-full overflow-hidden border-b border-white pb-10">
+            className="min-h-[100svh] [@media(max-height:750px)]:min-h-[750px] relative flex flex-col items-center justify-center w-full overflow-hidden border-b border-white pt-5 md:pt-8 lg:pt-12 pb-10">
             <motion.div
                 style={{y, opacity}}
                 className="absolute inset-0 flex items-center justify-center pointer-events-none select-none z-0">

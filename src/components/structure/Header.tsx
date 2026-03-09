@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import {useState, useEffect} from 'react';
 import Logo from "@/components/ui/Logo";
 import Burger from "@/components/ui/Burger";
 import MoleculeScene from "@/components/ui/MoleculeScene";
@@ -18,6 +18,7 @@ export default function Header() {
         const handleScrollEvent = () => {
             setIsScrolled(window.scrollY > 20);
         };
+        handleScrollEvent();
 
         window.addEventListener('scroll', handleScrollEvent);
         return () => window.removeEventListener('scroll', handleScrollEvent);
@@ -35,16 +36,13 @@ export default function Header() {
             className={`
                 fixed top-0 left-0 w-full z-[100] flex items-center justify-between transition-all duration-300
                 ${isScrolled
-                ? 'py-2 px-6 bg-black/60 border-b border-zinc-800'
-                : 'py-6 px-6 bg-transparent border-b border-transparent'}
+                ? 'py-0 px-6 bg-cyan-900/95 shadow-[0_4px_30px_rgba(0,0,0,0.3)]'
+                : 'py-6 px-6 bg-transparent'}
             `}>
             <div className="flex items-center gap-4">
                 <Logo/>
-                <div className={`
-                    molecule-wrapper flex-shrink-0 transition-all duration-300
-                    ${isScrolled ? 'w-10 h-10' : 'w-16 h-16'}
-                `}>
-                    <MoleculeScene/>
+                <div className="molecule-wrapper flex-shrink-0 w-20 h-20 flex items-center justify-center overflow-visible">
+                    <MoleculeScene isScrolled={isScrolled} />
                 </div>
             </div>
 
