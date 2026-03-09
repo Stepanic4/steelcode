@@ -3,8 +3,8 @@ import {Mail, MessageSquare, Linkedin, MapPin} from 'lucide-react';
 const contactInfo = [
     {
         label: "Email",
-        value: "hello@steelcode.cz",
-        link: "mailto:hello@steelcode.cz",
+        value: "steelcode.cz@gmail.com",
+        link: "mailto:steelcode.cz@gmail.com",
         icon: <Mail className="w-5 h-5"/>
     },
     {
