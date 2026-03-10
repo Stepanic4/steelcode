@@ -1,6 +1,5 @@
 import { PROJECTS_DATA } from "@/constants/projects";
 import { notFound } from "next/navigation";
-import Link from "next/link";
 import CompareSlider from "@/components/ui/CompareSlider"; // Импортируем слайдер
 
 export default async function ProjectDetailsPage({ params }: { params: Promise<{ slug: string }> }) {
@@ -12,10 +11,10 @@ export default async function ProjectDetailsPage({ params }: { params: Promise<{
     }
 
     return (
-        <main className="min-h-screen bg-graphite  pt-32 pb-10 px-6">
-            <div className="max-w-5xl mx-auto">
+        <main className="min-h-screen bg-graphite  pt-32 pb-20 px-6">
+            <div className="max-w-5xl mx-auto bg-white/5 border border-white/10 p-8 h-fit">
 
-                <h1 className="text-5xl md:text-8xl font-black italic uppercase tracking-tighter mb-8 leading-none">
+                <h1 className="text-[clamp(2rem,10vw,4.5rem)] md:text-8xl font-black italic uppercase tracking-tighter pb-8 [word-spacing:0.2em] leading-[0.9] break-keep">
                     {project.title}
                 </h1>
 
@@ -60,7 +59,7 @@ export default async function ProjectDetailsPage({ params }: { params: Promise<{
                     {tag}
                 </span>
                             ))}
-                            {/* Дополнительные системные теги для веса */}
+
                             <span className="px-3 py-1 bg-white/5 border border-white/10 text-white/40 text-[10px] font-mono uppercase">TypeScript</span>
                             <span className="px-3 py-1 bg-white/5 border border-white/10 text-white/40 text-[10px] font-mono uppercase">Motion Engine</span>
                         </div>
