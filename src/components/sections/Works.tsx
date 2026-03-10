@@ -1,9 +1,12 @@
+// src/components/sections/Works.tsx
+import Link from "next/link";
 import DraftCard from "@/components/shared/DraftCard";
+import { PROJECTS_DATA } from "@/constants/projects";
 
 export default function Works() {
     return (
         <section id="works" className="relative px-6 py-24 md:py-32 max-w-7xl mx-auto w-full border-t border-white/5">
-            {/* Header Section */}
+            {/* Header */}
             <div className="flex flex-col mb-16 md:mb-24">
                 <div className="flex items-center gap-4 mb-4">
                     <span className="w-12 h-[1px] bg-blue-500"></span>
@@ -16,39 +19,36 @@ export default function Works() {
                 </h3>
             </div>
 
-            {/* Projects Grid */}
+            {/* Grid */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-y-20">
+                {PROJECTS_DATA.map((project, index) => {
+                    const isEven = index % 2 !== 0;
 
-                {/* Project 01 */}
-                <div className="flex flex-col">
-                    <DraftCard />
-                    <div className="mt-6 flex justify-between items-center px-2">
-                        <span className="text-[10px] font-mono uppercase tracking-widest text-white/80">
-                            Frontend / Tailwind / React
-                        </span>
-                        <div className="h-[1px] flex-grow mx-4 bg-white/5"></div>
-                        <span className="text-[10px] font-mono uppercase text-blue-500">2026</span>
-                    </div>
-                </div>
+                    return (
+                        <div key={project.id} className={`flex flex-col ${isEven ? "md:mt-24" : ""}`}>
+                            {/* Если проект НЕ черновик — оборачиваем в Link */}
+                            {!project.isDraft ? (
+                                <Link href={`/works/${project.slug}`} className="group transition-transform hover:scale-[1.01]">
+                                    <DraftCard title={project.title} />
+                                </Link>
+                            ) : (
+                                <div className="opacity-80 grayscale">
+                                    <DraftCard title={project.title} />
+                                </div>
+                            )}
 
-                {/* Project 02 */}
-                <div className="flex flex-col md:mt-24">
-                    <DraftCard />
-                    <div className="mt-6 flex justify-between items-center px-2">
-                        <span className="text-[10px] font-mono uppercase tracking-widest text-white/80">
-                            UI Engineering / Next.js
-                        </span>
-                        <div className="h-[1px] flex-grow mx-4 bg-white/5"></div>
-                        <span className="text-[10px] font-mono uppercase text-blue-500">2026</span>
-                    </div>
-                </div>
-            </div>
-
-            {/* Footer of the section */}
-            <div className="mt-24 text-center">
-                <p className="text-[10px] font-mono uppercase tracking-[0.4em] text-white/80">
-                    {"// More projects in development phase"}
-                </p>
+                            <div className="mt-6 flex justify-between items-center px-2">
+                <span className="text-[10px] font-mono uppercase tracking-widest text-white/80">
+                  {project.tags.join(" / ")}
+                </span>
+                                <div className="h-[1px] flex-grow mx-4 bg-white/5"></div>
+                                <span className="text-[10px] font-mono uppercase text-blue-500">
+                  {project.year}
+                </span>
+                            </div>
+                        </div>
+                    );
+                })}
             </div>
         </section>
     );

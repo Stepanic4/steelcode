@@ -3,6 +3,9 @@ import {Geist, Geist_Mono} from "next/font/google";
 import "./globals.css";
 import "@/components/styles/steel-effects.css";
 import {ScrollToTop} from "@/components/ui/ScrollToTop";
+// Добавляем импорты твоих компонентов
+import Header from "@/components/structure/Header";
+import Footer from "@/components/structure/Footer";
 
 const geistSans = Geist({
     variable: "--font-geist-sans",
@@ -49,10 +52,16 @@ export const metadata: Metadata = {
 export default function RootLayout({children,}: Readonly<{ children: React.ReactNode; }>) {
     return (
         <html lang="cs" className={`${geistSans.variable} ${geistMono.variable}`}>
-          <body className="antialiased">
-             {children}
-            <ScrollToTop/>
-          </body>
+        <body className="antialiased bg-graphite text-white">
+        <div className="flex flex-col min-h-screen">
+            <Header />
+            <main className="flex-grow">
+                {children}
+            </main>
+            <Footer />
+        </div>
+        <ScrollToTop/>
+        </body>
         </html>
     );
 }

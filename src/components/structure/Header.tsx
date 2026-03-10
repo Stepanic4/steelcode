@@ -1,33 +1,42 @@
 'use client';
 
-import {useState, useEffect} from 'react';
+import { useState, useEffect } from 'react';
+import { usePathname, useRouter } from 'next/navigation'; // Добавляем эти хуки
 import Logo from "@/components/ui/Logo";
 import Burger from "@/components/ui/Burger";
 import MoleculeScene from "@/components/ui/MoleculeScene";
 
 const navLinks = [
-    {id: 'works', label: 'Portfolio'},
-    {id: 'services', label: 'Services'},
-    {id: 'contact', label: 'Contact'},
+    { id: 'works', label: 'Portfolio' },
+    { id: 'services', label: 'Services' },
+    { id: 'contact', label: 'Contact' },
 ];
 
 export default function Header() {
     const [isScrolled, setIsScrolled] = useState(false);
+    const pathname = usePathname(); // Узнаем, на какой мы странице
+    const router = useRouter();
 
     useEffect(() => {
         const handleScrollEvent = () => {
             setIsScrolled(window.scrollY > 20);
         };
         handleScrollEvent();
-
         window.addEventListener('scroll', handleScrollEvent);
         return () => window.removeEventListener('scroll', handleScrollEvent);
     }, []);
 
-    const handleScroll = (id: string) => {
-        const element = document.getElementById(id);
-        if (element) {
-            element.scrollIntoView({behavior: 'smooth'});
+    const handleNavClick = (id: string) => {
+        if (pathname === '/') {
+            // Если мы на главной — просто скроллим, как и раньше
+            const element = document.getElementById(id);
+            if (element) {
+                element.scrollIntoView({ behavior: 'smooth' });
+            }
+        } else {
+            // Если мы в кейсе — переходим на главную с хэшем
+            // Next.js сам поймет, что нужно проскроллить к ID после загрузки
+            router.push(`/#${id}`);
         }
     };
 
@@ -40,7 +49,10 @@ export default function Header() {
                 : 'py-6 px-6 bg-transparent'}
             `}>
             <div className="flex items-center gap-4">
-                <Logo/>
+                {/* Оберни Лого в обычную ссылку на главную */}
+                <div onClick={() => router.push('/')} className="cursor-pointer">
+                    <Logo />
+                </div>
                 <div className="molecule-wrapper flex-shrink-0 w-20 h-20 flex items-center justify-center overflow-visible">
                     <MoleculeScene isScrolled={isScrolled} />
                 </div>
@@ -50,15 +62,15 @@ export default function Header() {
                 {navLinks.map((link) => (
                     <button
                         key={link.id}
-                        onClick={() => handleScroll(link.id)}
-                        className="cursor-crosshair text-sm uppercase tracking-widest text-white/80 hover:text-blue-500 transition-colors font-medium">
+                        onClick={() => handleNavClick(link.id)} // Используем новую функцию
+                        className="cursor-crosshair text-sm uppercase tracking-widest text-white/80 hover:text-blue-500 transition-colors font-medium font-mono">
                         {link.label}
                     </button>
                 ))}
             </nav>
 
             <div className="md:hidden">
-                <Burger/>
+                <Burger />
             </div>
         </header>
     );
