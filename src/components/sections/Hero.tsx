@@ -22,7 +22,7 @@ export default function Hero() {
         visible: {
             opacity: 1,
             y: 0,
-            skewX: -12, // Сохраняем италик в динамике
+            skewX: -12,
             transition: {
                 type: "spring",
                 damping: 12,
@@ -38,7 +38,7 @@ export default function Hero() {
             ref={targetRef}
             className="min-h-[100svh] [@media(max-height:750px)]:min-h-[750px] relative flex flex-col items-center justify-center w-full overflow-hidden border-b border-white pt-5 md:pt-8 lg:pt-12 pb-10">
 
-            {/* BACKGROUND LAYER - Твой STEELCODE */}
+            {/* BACKGROUND LAYER - STEELCODE */}
             <motion.div
                 style={{y, opacity}}
                 className="absolute inset-0 flex items-center justify-center pointer-events-none select-none z-0">
@@ -72,7 +72,6 @@ export default function Hero() {
                                  {char}
                              </motion.span>
                          ))}
-                            {/* Добавляем пробел после слова, если оно не последнее */}
                             {wordIndex < text.split(" ").length - 1 && (
                                 <span className="inline-block min-w-[0.25em]">&nbsp;</span>
                             )}
