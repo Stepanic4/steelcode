@@ -3,7 +3,6 @@ import {Geist, Geist_Mono} from "next/font/google";
 import "./globals.css";
 import "@/components/styles/steel-effects.css";
 import {ScrollToTop} from "@/components/ui/ScrollToTop";
-// Добавляем импорты твоих компонентов
 import Header from "@/components/structure/Header";
 import Footer from "@/components/structure/Footer";
 

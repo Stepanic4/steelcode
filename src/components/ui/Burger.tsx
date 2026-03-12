@@ -28,7 +28,6 @@ export default function Burger() {
         setIsOpen(false); // Сразу закрываем меню
 
         if (pathname === '/') {
-            // Если мы на главной — скроллим
             const element = document.getElementById(id);
             if (element) {
                 setTimeout(() => {
@@ -36,7 +35,6 @@ export default function Burger() {
                 }, 300); // Чуть больше задержка для плавности после закрытия меню
             }
         } else {
-            // Если мы в кейсе — летим на главную к нужному якорю
             router.push(`/#${id}`);
         }
     };
@@ -56,17 +54,15 @@ export default function Burger() {
                 <div className="fixed inset-0 w-screen h-screen z-[110]">
                     <div
                         className="absolute inset-0 bg-black/20 backdrop-blur-xl animate-in fade-in duration-300"
-                        onClick={() => setIsOpen(false)}
-                    />
+                        onClick={() => setIsOpen(false)}/>
 
                     <div className="absolute right-6 top-24 w-64 bg-zinc-900 border border-zinc-800 rounded-2xl shadow-[0_20px_50px_rgba(0,0,0,0.5)] overflow-hidden animate-in fade-in zoom-in duration-200 origin-top-right">
                         <nav className="flex flex-col">
                             {menuItems.map((item) => (
                                 <button
                                     key={item.id}
-                                    onClick={() => handleNavClick(item.id)} // Меняем функцию здесь
-                                    className="flex items-center gap-4 px-6 py-5 text-white/80 hover:text-white hover:bg-zinc-800 transition-all border-b border-zinc-800/50 last:border-none group/item"
-                                >
+                                    onClick={() => handleNavClick(item.id)}
+                                    className="flex items-center gap-4 px-6 py-5 text-white/80 hover:text-white hover:bg-zinc-800 transition-all border-b border-zinc-800/50 last:border-none group/item">
                                     <span className="text-blue-500 group-hover/item:scale-110 transition-transform">
                                         {item.icon}
                                     </span>

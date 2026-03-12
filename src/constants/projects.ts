@@ -1,4 +1,4 @@
-// src/constants/projects.ts
+
 export interface Project {
     id: string;
     slug: string;

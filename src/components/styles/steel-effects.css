@@ -127,5 +127,96 @@
         border-color: rgba(59, 130, 246, 0.5);
         box-shadow: 0 0 30px rgba(59, 130, 246, 0.5);
     }
+    /* ////////// END  CARD  //////////   */
+
+
+    /* ////////// SCROLL TO TOP BADGE ////////// */
+
+    .scroll-top-badge {
+        position: fixed;
+        bottom: 2.5rem;
+        right: 2.5rem;
+        z-index: 100;
+
+        /* Размеры и курсор */
+        width: 5rem;
+        height: 5rem;
+        cursor: crosshair;
+        outline: none;
+        user-select: none;
+        background: transparent;
+        border: none;
+        padding: 0;
+
+        .link-text {
+            font-size: 15px;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            font-weight: 500;
+            fill: #ffffff;
+            transform-box: fill-box;
+            transform-origin: center;
+            animation: spin-reverse 12s linear infinite;
+        }
+
+        .link-arrow {
+            transform-origin: center;
+            transition: all 500ms cubic-bezier(0.4, 0, 0.2, 1);
+            stroke: #ffffff;
+            transform: rotate(-90deg);
+        }
+
+        &:hover {
+            .link-arrow {
+                transform: rotate(-90deg) scale(1.25);
+                stroke: #3b82f6;
+            }
+
+            .link-text {
+                animation-play-state: paused;
+            }
+        }
+    }
+
+    @keyframes spin-reverse {
+        from {
+            transform: rotate(360deg);
+        }
+        to {
+            transform: rotate(0deg);
+        }
+    }
+    /* ////////// END SCROLL TO TOP ////////// */
+
+    /* ////////// SCROLL BAR  ////////// */
+        /* Кастомный толстый скролл для горизонтальных блоков */
+        .thick-scrollbar::-webkit-scrollbar {
+            height: 10px; /* Оптимальная толщина для контроля мышкой */
+            cursor: pointer;
+        }
+
+        .thick-scrollbar::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: 20px;
+            margin-inline: 10px; /* Чтобы скролл не упирался в края контейнера */
+        }
+
+        .thick-scrollbar::-webkit-scrollbar-thumb {
+            background: #3b82f6;
+            border-radius: 20px;
+            border: 3px solid #0a0a0a; /* Эффект "парящей" полоски */
+            transition: background 0.2s ease;
+        }
+
+        .thick-scrollbar::-webkit-scrollbar-thumb:hover {
+        }
+
+        /* Для Firefox */
+        .thick-scrollbar {
+            scrollbar-width: auto;
+            scrollbar-color: #3b82f6 transparent;
+        }
+    /* ////////// END SCROLL BAR  ////////// */
 }
-     /* ////////// END  CARD  //////////   */
+
+

@@ -1,73 +1,53 @@
 "use client";
-import {useState, useRef, useEffect} from "react";
+import { motion } from "framer-motion";
 
-export default function CompareSlider({before, after}: { before: string; after: string }) {
-    const [sliderPos, setSliderPos] = useState(50);
-    const [isDragging, setIsDragging] = useState(false);
-    const containerRef = useRef<HTMLDivElement>(null);
-
-    const handleMove = (clientX: number) => {
-        if (!isDragging || !containerRef.current) return;
-        const rect = containerRef.current.getBoundingClientRect();
-        const x = clientX - rect.left;
-        const position = (x / rect.width) * 100;
-        setSliderPos(Math.min(Math.max(position, 0), 100));
-    };
-
-    useEffect(() => {
-        const onMouseMove = (e: MouseEvent) => handleMove(e.clientX);
-        const onMouseUp = () => setIsDragging(false);
-        const onTouchMove = (e: TouchEvent) => handleMove(e.touches[0].clientX);
-        const onTouchEnd = () => setIsDragging(false);
-
-        if (isDragging) {
-            window.addEventListener("mousemove", onMouseMove);
-            window.addEventListener("mouseup", onMouseUp);
-            window.addEventListener("touchmove", onTouchMove);
-            window.addEventListener("touchend", onTouchEnd);
-        }
-        return () => {
-            window.removeEventListener("mousemove", onMouseMove);
-            window.removeEventListener("mouseup", onMouseUp);
-            window.removeEventListener("touchmove", onTouchMove);
-            window.removeEventListener("touchend", onTouchEnd);
-        };
-    }, [isDragging]);
+export default function CompareSlider({ before, after }: { before: string; after: string }) {
+    const images = [
+        { src: before, label: "OLD" },
+        { src: after, label: "NEW" }
+    ].filter(img => img.src);
 
     return (
-        <div ref={containerRef}
-             className="relative w-full aspect-video overflow-hidden border border-white/10 select-none touch-none shadow-xl bg-neutral-900 group"
-             onMouseDown={() => setIsDragging(true)}
-             onTouchStart={() => setIsDragging(true)}>
+        <div className="w-full space-y-4">
+            {/* Контейнер: заменил no-scrollbar на thick-scrollbar и добавил отступ снизу pb-10 */}
+            <div className="flex gap-4 overflow-x-auto thick-scrollbar pb-10 snap-x snap-mandatory cursor-grab active:cursor-grabbing">
+                {images.map((img, index) => (
+                    <motion.div
+                        key={index}
+                        initial={{ opacity: 0, scale: 0.98 }}
+                        whileInView={{ opacity: 1, scale: 1 }}
+                        transition={{ duration: 0.6, ease: "easeOut" }}
+                        viewport={{ once: true }}
+                        className="relative min-w-[90vw] md:min-w-[80%] aspect-video overflow-hidden snap-center group select-none"
+                    >
+                        <img
+                            src={img.src}
+                            alt={img.label}
+                            className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                        />
 
-            <div className="absolute inset-0 w-full h-full">
-                <img src={after} alt="New" className="absolute inset-0 w-full h-full object-cover" draggable={false}/>
-                <div
-                    className="absolute top-4 right-4 z-10 pointer-events-none px-2 py-1 bg-blue-500/70 text-[10px] font-mono uppercase tracking-widest border border-blue-500 text-white">
-                    SteelCode Core
-                </div>
+                        <div className="absolute top-4 left-4 md:top-6 md:left-6 z-20">
+                            <div className="steel-card steel-heat-tint px-4 py-1 md:px-8 md:py-2 shadow-2xl flex items-center justify-center">
+                                <span className="text-[9px] md:text-[12px] font-mono text-white tracking-[0.3em] md:tracking-[0.4em] leading-none uppercase">
+                                    {img.label}
+                                </span>
+                            </div>
+                        </div>
+
+                        <div className="absolute bottom-6 left-6 z-10">
+                            <span className="text-[10px] font-mono text-blue-500 uppercase tracking-[0.3em]">
+                                Phase_0{index + 1}
+                            </span>
+                        </div>
+                    </motion.div>
+                ))}
             </div>
 
-            <div className="absolute inset-0 h-full overflow-hidden border-r-2 border-blue-500 z-20"
-                 style={{width: `${sliderPos}%`}}>
-
-                <div className="absolute inset-0 h-full aspect-video min-w-[1000px] md:min-w-full">
-                    <img src={before} alt="Old" className="absolute inset-0 w-full h-full object-cover grayscale"
-                         draggable={false}/>
-                    <div
-                        className="absolute top-4 left-4 z-30 pointer-events-none px-2 py-1 bg-blue-500/70 text-[10px] font-mono uppercase tracking-widest border border-blue-500 text-white">
-                        Original Case
-                    </div>
-                </div>
-            </div>
-
-            <div
-                className="absolute top-0 bottom-0 z-40 pointer-events-none"
-                style={{left: `${sliderPos}%`}}>
-                <div
-                    className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-10 h-10 bg-blue-600 rounded-full flex items-center justify-center shadow-[0_0_20px_rgba(59,130,246,0.5)] cursor-grab active:cursor-grabbing pointer-events-auto">
-                    <span className="text-white text-lg font-bold">⋮</span>
-                </div>
+            <div className="flex items-center gap-3 px-1">
+                <div className="h-px w-8 bg-blue-500" />
+                <span className="text-[12px] font-mono text-white/30 uppercase tracking-[0.2em]">
+                    Slide to interact
+                </span>
             </div>
         </div>
     );

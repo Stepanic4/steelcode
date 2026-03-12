@@ -1,14 +1,18 @@
 'use client';
+
 import { useEffect, useState } from 'react';
+import { motion, AnimatePresence, useScroll, useTransform } from 'framer-motion';
 
 export const ScrollToTop = () => {
     const [isVisible, setIsVisible] = useState(false);
 
+    const { scrollYProgress } = useScroll();
+
+    const scrollRotation = useTransform(scrollYProgress, [0, 1], [0, 360]);
+
     useEffect(() => {
-        const toggleVisibility = () => {
-            setIsVisible(window.scrollY > 300);
-        };
-        window.addEventListener('scroll', toggleVisibility);
+        const toggleVisibility = () => setIsVisible(window.scrollY > 300);
+        window.addEventListener('scroll', toggleVisibility, { passive: true });
         return () => window.removeEventListener('scroll', toggleVisibility);
     }, []);
 
@@ -16,26 +20,42 @@ export const ScrollToTop = () => {
         window.scrollTo({ top: 0, behavior: 'smooth' });
     };
 
-    if (!isVisible) return null;
-
     return (
-        <button
-            onClick={scrollToTop}
-            className="cursor-crosshair fixed bottom-8 right-8 w-12 h-12 flex items-center justify-center bg-white text-black hover:bg-blue-600 hover:text-white transition-all duration-300 shadow-2xl z-[100] group active:scale-90"
-            aria-label="Scroll to top">
-            {/* Геометрическая стрелка вместо текстового символа */}
-            <svg
-                width="20"
-                height="20"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2.5"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                className="group-hover:-translate-y-1 transition-transform">
-                <path d="M18 15l-6-6-6 6" />
-            </svg>
-        </button>
+        <AnimatePresence>
+            {isVisible && (
+                <motion.button
+                    initial={{ opacity: 0, scale: 0.8 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    exit={{ opacity: 0, scale: 0.8 }}
+                    whileTap={{ scale: 0.9 }}
+                    onClick={scrollToTop}
+                    className="scroll-top-badge group">
+                    <svg viewBox="0 0 200 200" className="w-full h-full overflow-visible">
+                        <path
+                            id="circlePath"
+                            d="M 20, 100 a 80,80 0 1,1 160,0 a 80,80 0 1,1 -160,0"
+                            fill="none"/>
+
+                        <motion.g style={{ rotate: scrollRotation, transformOrigin: 'center' }}>
+                            <text className="link-text animate-spin-reverse">
+                                <textPath href="#circlePath">
+                                    SCROLL TO TOP • SCROLL TO TOP • SCROLL TO TOP •
+                                </textPath>
+                            </text>
+                        </motion.g>
+
+                        {/* Центральная стрелка */}
+                        <path
+                            d="M 75 100 L 125 100 L 110 85 M 125 100 L 110 115"
+                            fill="none"
+                            strokeWidth="4"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            className="link-arrow"
+                        />
+                    </svg>
+                </motion.button>
+            )}
+        </AnimatePresence>
     );
 };

@@ -28,14 +28,11 @@ export default function Header() {
 
     const handleNavClick = (id: string) => {
         if (pathname === '/') {
-            // Если мы на главной — просто скроллим, как и раньше
             const element = document.getElementById(id);
             if (element) {
                 element.scrollIntoView({ behavior: 'smooth' });
             }
         } else {
-            // Если мы в кейсе — переходим на главную с хэшем
-            // Next.js сам поймет, что нужно проскроллить к ID после загрузки
             router.push(`/#${id}`);
         }
     };
@@ -49,7 +46,6 @@ export default function Header() {
                 : 'py-6 px-6 bg-transparent'}
             `}>
             <div className="flex items-center gap-4">
-                {/* Оберни Лого в обычную ссылку на главную */}
                 <div onClick={() => router.push('/')} className="cursor-pointer">
                     <Logo />
                 </div>
@@ -62,7 +58,7 @@ export default function Header() {
                 {navLinks.map((link) => (
                     <button
                         key={link.id}
-                        onClick={() => handleNavClick(link.id)} // Используем новую функцию
+                        onClick={() => handleNavClick(link.id)}
                         className="cursor-crosshair text-sm uppercase tracking-widest text-white/80 hover:text-blue-500 transition-colors font-medium font-mono">
                         {link.label}
                     </button>
