@@ -1,5 +1,3 @@
-
-
 /* //////////   CARD  //////////   */
 
 @layer components {
@@ -80,10 +78,9 @@
     .steel-card:hover {
         transform: translateY(-12px) scale(1.02) translate3d(0, 0, 0);
         border-color: rgba(255, 255, 255, 0.3);
-        box-shadow:
-                0 25px 50px -12px rgba(0, 0, 0, 0.7),
-                0 0 25px rgba(59, 130, 246, 0.25),
-                inset 0 1px 2px rgba(255, 255, 255, 0.2);
+        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7),
+        0 0 25px rgba(59, 130, 246, 0.25),
+        inset 0 1px 2px rgba(255, 255, 255, 0.2);
     }
 
     /* Внутренняя рамка (фаска) */
@@ -127,11 +124,9 @@
         border-color: rgba(59, 130, 246, 0.5);
         box-shadow: 0 0 30px rgba(59, 130, 246, 0.5);
     }
+
     /* ////////// END  CARD  //////////   */
-
-
     /* ////////// SCROLL TO TOP BADGE ////////// */
-
     .scroll-top-badge {
         position: fixed;
         bottom: 2.5rem;
@@ -187,35 +182,35 @@
         }
     }
     /* ////////// END SCROLL TO TOP ////////// */
-
     /* ////////// SCROLL BAR  ////////// */
-        /* Кастомный толстый скролл для горизонтальных блоков */
-        .thick-scrollbar::-webkit-scrollbar {
-            height: 10px; /* Оптимальная толщина для контроля мышкой */
-            cursor: pointer;
-        }
+    /* Кастомный толстый скролл для горизонтальных блоков */
+    .thick-scrollbar::-webkit-scrollbar {
+        height: 10px; /* Оптимальная толщина для контроля мышкой */
+        cursor: pointer;
+    }
 
-        .thick-scrollbar::-webkit-scrollbar-track {
-            background: rgba(255, 255, 255, 0.02);
-            border-radius: 20px;
-            margin-inline: 10px; /* Чтобы скролл не упирался в края контейнера */
-        }
+    .thick-scrollbar::-webkit-scrollbar-track {
+        background: rgba(255, 255, 255, 0.02);
+        border-radius: 20px;
+        margin-inline: 10px; /* Чтобы скролл не упирался в края контейнера */
+    }
 
-        .thick-scrollbar::-webkit-scrollbar-thumb {
-            background: #3b82f6;
-            border-radius: 20px;
-            border: 3px solid #0a0a0a; /* Эффект "парящей" полоски */
-            transition: background 0.2s ease;
-        }
+    .thick-scrollbar::-webkit-scrollbar-thumb {
+        background: #3b82f6;
+        border-radius: 20px;
+        border: 3px solid #0a0a0a; /* Эффект "парящей" полоски */
+        transition: background 0.2s ease;
+    }
 
-        .thick-scrollbar::-webkit-scrollbar-thumb:hover {
-        }
+    .thick-scrollbar::-webkit-scrollbar-thumb:hover {
+    }
 
-        /* Для Firefox */
-        .thick-scrollbar {
-            scrollbar-width: auto;
-            scrollbar-color: #3b82f6 transparent;
-        }
+    /* Для Firefox */
+    .thick-scrollbar {
+        scrollbar-width: auto;
+        scrollbar-color: #3b82f6 transparent;
+    }
+
     /* ////////// END SCROLL BAR  ////////// */
 }
 
