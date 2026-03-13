@@ -159,20 +159,38 @@ export default function ParticleText({ text = "Hardcore Development" }: Particle
             animationFrame = requestAnimationFrame(animate);
         };
 
-        const handleMouseMove = (e: MouseEvent) => {
+        // Обработка движения (мышь и палец)
+        const handlePointerMove = (e: PointerEvent) => {
             const rect = canvas.getBoundingClientRect();
             mouse.x = e.clientX - rect.left;
             mouse.y = e.clientY - rect.top;
         };
 
+        // Сброс координат при отрыве пальца или уходе мыши
+        const handlePointerReset = () => {
+            mouse.x = -1000;
+            mouse.y = -1000;
+        };
+
         init();
         animate();
-        window.addEventListener('mousemove', handleMouseMove);
+
+        // Pointer Events покрывают и мышь, и тач на Android
+        canvas.addEventListener('pointermove', handlePointerMove);
+        canvas.addEventListener('pointerdown', handlePointerMove);
+        canvas.addEventListener('pointerup', handlePointerReset);
+        canvas.addEventListener('pointerleave', handlePointerReset);
+        canvas.addEventListener('pointercancel', handlePointerReset);
+
         window.addEventListener('resize', init);
 
         return () => {
             cancelAnimationFrame(animationFrame);
-            window.removeEventListener('mousemove', handleMouseMove);
+            canvas.removeEventListener('pointermove', handlePointerMove);
+            canvas.removeEventListener('pointerdown', handlePointerMove);
+            canvas.removeEventListener('pointerup', handlePointerReset);
+            canvas.removeEventListener('pointerleave', handlePointerReset);
+            canvas.removeEventListener('pointercancel', handlePointerReset);
             window.removeEventListener('resize', init);
         };
     }, [text]);
@@ -182,7 +200,11 @@ export default function ParticleText({ text = "Hardcore Development" }: Particle
             <canvas
                 ref={canvasRef}
                 className="pointer-events-auto absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"
-                style={{ width: '100vw', height: '800px' }}
+                style={{
+                    width: '100vw',
+                    height: '800px',
+                    touchAction: 'none' // Критично для Android: отключает системный скролл и залипание
+                }}
             />
         </div>
     );
