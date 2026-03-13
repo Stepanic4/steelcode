@@ -105,8 +105,8 @@ export default function ParticleText({ text = "Hardcore Development" }: Particle
             ctx.clearRect(0, 0, w, h);
 
             // --- НАСТРОЙКИ ШРИФТА ---
-            const fontSize = Math.min(w * 0.12, 130);
-            ctx.font = `italic 900 ${fontSize}px Inter, sans-serif`;
+            const fontSize = Math.min(w * 0.1, 120);
+            ctx.font = `900 ${fontSize}px Inter, sans-serif`;
             ctx.textAlign = 'center';
             ctx.textBaseline = 'middle';
 
@@ -146,9 +146,9 @@ export default function ParticleText({ text = "Hardcore Development" }: Particle
             // --- ЦВЕТ ПОБЕЖАЛОСТИ (STEEL HEAT TINT) ---
             // Создаем градиент как в стальных карточках
             const gradient = ctx.createLinearGradient(0, 0, canvas.width, canvas.height);
-            gradient.addColorStop(0, '#3b82f6');      // Яркий синий (Blue 500)
-            gradient.addColorStop(0.3, '#a855f7');    // Насыщенный фиолетовый
-            gradient.addColorStop(0.5, '#ffffff');    // Чисто белый блик
+            gradient.addColorStop(0, '#3b82f6');
+            gradient.addColorStop(0.3, '#a855f7');
+            gradient.addColorStop(0.5, '#ffffff');
             gradient.addColorStop(0.7, '#a855f7');
             gradient.addColorStop(1, '#3b82f6');
 
@@ -161,7 +161,7 @@ export default function ParticleText({ text = "Hardcore Development" }: Particle
                 particles[i].addPath(ctx);
             }
 
-            // Закрашиваем всё одновременно — это в десятки раз быстрее.
+            // Закрашиваем всё одновременно.
             ctx.fill();
 
             animationFrame = requestAnimationFrame(animate);
