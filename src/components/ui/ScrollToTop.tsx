@@ -20,6 +20,30 @@ export const ScrollToTop = () => {
         window.scrollTo({ top: 0, behavior: 'smooth' });
     };
 
+    useEffect(() => {
+        const toggleVisibility = () => {
+            // Проверяем два условия: прокрутку и отсутствие блокировки скролла на body
+            const isScrolled = window.scrollY > 300;
+            const isMenuClosed = document.body.style.overflow !== 'hidden';
+
+            setIsVisible(isScrolled && isMenuClosed);
+        };
+
+        window.addEventListener('scroll', toggleVisibility, { passive: true });
+
+        // Создаем наблюдатель, который будет вызывать ту же функцию при изменении стилей body
+        const observer = new MutationObserver(toggleVisibility);
+        observer.observe(document.body, { attributes: true, attributeFilter: ['style'] });
+
+        // Вызываем один раз при монтировании на всякий случай
+        toggleVisibility();
+
+        return () => {
+            window.removeEventListener('scroll', toggleVisibility);
+            observer.disconnect();
+        };
+    }, []);
+
     return (
         <AnimatePresence>
             {isVisible && (
