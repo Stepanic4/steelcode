@@ -60,11 +60,11 @@ export default function ParticleText({ text = "Hardcore Development" }: Particle
                     const angle = Math.atan2(dy, dx);
 
                     // --- МОЩНОСТЬ ВЗРЫВА (POWER) ---
-                    // Сейчас 50. / 70 — будут улетать пулей./ 10 — будут лениво двигаться.
+                    // Сейчас 50. / 70 — будут улетать пулей./  10 — будут лениво двигаться.
                     const power = force * 50;
 
                     // --- ХАОС (RANDOM) ---
-                    // Число 8 добавляет "песочности". Если убрать — разлет будет ровным кругом.
+                    // Число 8 добавляет "песочности". Если уберешь — разлет будет ровным кругом.
                     this.vx -= Math.cos(angle) * power + (Math.random() - 0.5) * 8;
                     this.vy -= Math.sin(angle) * power + (Math.random() - 0.5) * 8;
                 }
@@ -85,7 +85,7 @@ export default function ParticleText({ text = "Hardcore Development" }: Particle
 
             // Просто помечаем область для заливки, не рисуя её сразу
             addPath(c: CanvasRenderingContext2D) {
-                // Если ширина окна меньше 768px, ставим 2.5, иначе 2.0
+                // Если ширина окна меньше 768px (мобилки), ставим 2.5, иначе 2.0
                 const size = window.innerWidth < 768 ? 2.5 : 2.0;
                 c.rect(this.x, this.y, size, size);
             }
@@ -146,8 +146,8 @@ export default function ParticleText({ text = "Hardcore Development" }: Particle
             // --- ЦВЕТ ПОБЕЖАЛОСТИ (STEEL HEAT TINT) ---
             // Создаем градиент как в стальных карточках
             const gradient = ctx.createLinearGradient(0, 0, canvas.width, canvas.height);
-            gradient.addColorStop(0, '#3b82f6');
-            gradient.addColorStop(0.3, '#a855f7');
+            gradient.addColorStop(0, '#3b82f6');      // Яркий синий (Blue 500)
+            gradient.addColorStop(0.3, '#a855f7');    // Насыщенный фиолетовый
             gradient.addColorStop(0.5, '#ffffff');    // Чисто белый блик
             gradient.addColorStop(0.7, '#a855f7');
             gradient.addColorStop(1, '#3b82f6');
@@ -161,7 +161,9 @@ export default function ParticleText({ text = "Hardcore Development" }: Particle
                 particles[i].addPath(ctx);
             }
 
+            // Закрашиваем всё одновременно — это в десятки раз быстрее.
             ctx.fill();
+
             animationFrame = requestAnimationFrame(animate);
         };
 
@@ -186,7 +188,7 @@ export default function ParticleText({ text = "Hardcore Development" }: Particle
         canvas.addEventListener('pointerdown', handlePointerMove);
         canvas.addEventListener('pointerup', handlePointerReset);
         canvas.addEventListener('pointerleave', handlePointerReset);
-        canvas.addEventListener('pointercancel', handlePointerReset);
+        canvas.addEventListener('pointercancel', handlePointerReset); // Критично для сброса при скролле
 
         window.addEventListener('resize', init);
 
@@ -209,7 +211,7 @@ export default function ParticleText({ text = "Hardcore Development" }: Particle
                 style={{
                     width: '100vw',
                     height: '800px',
-                    touchAction: 'none' // Критично для Android: отключает системный скролл и залипание
+                    touchAction: 'pan-y' // Разрешает вертикальный скролл страницы на мобильных
                 }}
             />
         </div>
