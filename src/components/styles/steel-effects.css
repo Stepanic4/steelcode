@@ -214,6 +214,55 @@
     }
 
     /* ////////// END SCROLL BAR  ////////// */
+
+    /* ////////// BTN NEON ////////// */
+    .btn-neon-steel {
+        background-color: #253b3e; /* Твой базовый цвет */
+        color: #abf0d1;
+        border: 2px solid;
+        border-image: linear-gradient(to bottom, #abf0d1, rgba(0, 0, 0, 0)) 1 100%;
+        text-transform: uppercase;
+        transition: all 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+        position: relative;
+        overflow: hidden;
+        backdrop-filter: blur(4px);
+    }
+
+    /* Эффекты только для устройств с мышкой */
+    @media (hover: hover) {
+        .btn-neon-steel:hover {
+            color: white;
+            border-image: linear-gradient(
+                    to right,
+                    #03100a, #062115, #157449, #47de9a, #68d4ae,
+                    #abf0d1, #bcf3da, #ddf9ec, #feffff
+            );
+            border-image-slice: 1;
+            border-image-repeat: repeat;
+            box-shadow: 0 0.5em 1.5em -0.5em #abf0d1;
+            transform: translateY(-2px);
+            text-shadow: 0 0 8px rgba(171, 240, 209, 0.6);
+        }
+    }
+
+    /* Эффекты для мобилок и планшетов */
+    @media (hover: none) {
+        .btn-neon-steel {
+            background-color: #1d3335;
+        }
+
+        /* Эффект при касании пальцем */
+        .btn-neon-steel:active {
+            background-color: #1a3033;
+            color: white;
+            border-image: linear-gradient(to right, #47de9a, #abf0d1) 1;
+            box-shadow: 0 0 15px rgba(171, 240, 209, 0.4);
+            transition: all 0.1s;
+        }
+    }
+    /* ////////// END BTN NEON ////////// */
+
+
 }
 
 
