@@ -1,7 +1,6 @@
 'use client'
 import {motion, useScroll, useTransform} from 'framer-motion';
 import {useRef} from 'react';
-import ParticleStage from "@/components/ui/ParticleText";
 import ParticleText from "@/components/ui/ParticleText";
 
 export default function Hero() {

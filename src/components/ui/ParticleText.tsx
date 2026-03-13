@@ -12,6 +12,7 @@ export default function ParticleText({ text = "Hardcore Development" }: Particle
     useEffect(() => {
         const canvas = canvasRef.current;
         if (!canvas) return;
+        // willReadFrequently ускоряет частые вызовы getImageData
         const ctx = canvas.getContext('2d', { willReadFrequently: true });
         if (!ctx) return;
 
@@ -20,7 +21,7 @@ export default function ParticleText({ text = "Hardcore Development" }: Particle
 
         // --- РАДИУС ВЗАИМОДЕЙСТВИЯ ---
         // Чем больше число, тем дальше от курсора частицы начинают убегать
-        const mouse = { x: -1000, y: -1000, radius: 70 };
+        const mouse = { x: -1000, y: -1000, radius: 80 };
 
         class Particle {
             x: number; y: number;
@@ -45,71 +46,72 @@ export default function ParticleText({ text = "Hardcore Development" }: Particle
             update() {
                 const dx = mouse.x - this.x;
                 const dy = mouse.y - this.y;
-                const distance = Math.sqrt(dx * dx + dy * dy);
 
-                // 1. ЛОГИКА РАЗЛЕТА
-                if (distance < mouse.radius) {
+                // --- ОПТИМИЗАЦИЯ ДИСТАНЦИИ ---
+                // Сначала проверяем квадрат расстояния, чтобы не считать Math.sqrt лишний раз
+                const distanceSq = dx * dx + dy * dy;
+                const mouseRadiusSq = mouse.radius * mouse.radius;
+
+                if (distanceSq < mouseRadiusSq) {
+                    const distance = Math.sqrt(distanceSq);
                     const force = (mouse.radius - distance) / mouse.radius;
                     const angle = Math.atan2(dy, dx);
 
                     // --- МОЩНОСТЬ ВЗРЫВА (POWER) ---
-                    // Сейчас 30. Поставь 50 — будут улетать пулей. Поставь 10 — будут лениво двигаться.
-                    const power = force * 30;
+                    // Сейчас 50. Поставь 70 — будут улетать пулей. Поставь 10 — будут лениво двигаться.
+                    const power = force * 50;
 
                     // --- ХАОС (RANDOM) ---
-                    // Число 8 добавляет "песочности" (дробовик). Если уберешь — разлет будет идеально ровным кругом.
+                    // Число 8 добавляет "песочности". Если уберешь — разлет будет ровным кругом.
                     this.vx -= Math.cos(angle) * power + (Math.random() - 0.5) * 8;
                     this.vy -= Math.sin(angle) * power + (Math.random() - 0.5) * 8;
                 }
 
-                const currentSpeed = Math.sqrt(this.vx * this.vx + this.vy * this.vy);
+                const currentSpeedSq = this.vx * this.vx + this.vy * this.vy;
 
-                // 2. ДИНАМИЧЕСКИЙ ВОЗВРАТ (EASE)
+                // --- ДИНАМИЧЕСКИЙ ВОЗВРАТ (EASE) ---
                 // dynamicEase — это скорость притяжения к буквам.
-                // 0.01 — когда частица летит (дает ей свободу).
-                // 0.15 — когда частица замедлилась (быстро примагничивает её к букве).
-                const dynamicEase = currentSpeed > 1 ? 0.01 : 0.15;
+                // 0.07 — когда частица летит. 0.20 — когда замедлилась (быстро примагничивает).
+                const dynamicEase = currentSpeedSq > 1 ? 0.07 : 0.20;
 
-                this.x += (this.baseX - this.x) * dynamicEase;
-                this.y += (this.baseY - this.y) * dynamicEase;
+                this.x += (this.baseX - this.x) * dynamicEase + this.vx;
+                this.y += (this.baseY - this.y) * dynamicEase + this.vy;
 
-                // 3. ПРИМЕНЕНИЕ СКОРОСТИ
-                this.x += this.vx;
-                this.y += this.vy;
                 this.vx *= this.friction;
                 this.vy *= this.friction;
             }
 
-            draw() {
-                ctx!.fillStyle = 'rgba(255, 255, 255, 0.9)';
-                // Размер одной точки (1.5 x 1.5 пикселя)
-                ctx!.fillRect(this.x, this.y, 1.5, 1.5);
+            // Просто помечаем область для заливки, не рисуя её сразу
+            addPath(c: CanvasRenderingContext2D) {
+                // Размер одной точки (1.9 x 1.9 пикселя)
+                c.rect(this.x, this.y, 1.9, 1.9);
             }
         }
 
         const init = () => {
             const w = window.innerWidth;
-            const h = 800; // Высота холста (не влияет на верстку, только на зону полета)
+            const h = 800; // Высота холста (зона полета)
             canvas.width = w;
             canvas.height = h;
 
             ctx.clearRect(0, 0, w, h);
 
-            // --- ШРИФТ ---
+            // --- НАСТРОЙКИ ШРИФТА ---
             const fontSize = Math.min(w * 0.12, 130);
             ctx.font = `italic 900 ${fontSize}px Inter, sans-serif`;
             ctx.textAlign = 'center';
             ctx.textBaseline = 'middle';
 
-            const words = text.split(' ');
+            // Фильтруем пустые элементы
+            const words = text.split(' ').filter(word => word.length > 0);
             ctx.fillStyle = 'white';
 
-            // Отрисовка текста в две строки (центрирование)
+            // Отрисовка текста (центрирование)
             if (words.length > 1) {
                 ctx.fillText(words[0].toUpperCase(), w / 2, h / 2 - fontSize * 0.4);
                 ctx.fillText(words[1].toUpperCase(), w / 2, h / 2 + fontSize * 0.5);
-            } else {
-                ctx.fillText(text.toUpperCase(), w / 2, h / 2);
+            } else if (words.length === 1) {
+                ctx.fillText(words[0].toUpperCase(), w / 2, h / 2);
             }
 
             // Сканирование пикселей (создание точек)
@@ -117,9 +119,12 @@ export default function ParticleText({ text = "Hardcore Development" }: Particle
             ctx.clearRect(0, 0, w, h);
             particles = [];
 
-            // Шаг 3: Каждые 3 пикселя создаем частицу (чем меньше шаг, тем больше частиц и тяжелее код)
-            for (let y = 0; y < h; y += 3) {
-                for (let x = 0; x < w; x += 3) {
+            // --- ШАГ ПИКСЕЛЕЙ (ГЛАВНЫЙ РЕГУЛЯТОР) ---
+            // Чем меньше шаг, тем больше частиц и тяжелее код.
+            const step = 3;
+
+            for (let y = 0; y < h; y += step) {
+                for (let x = 0; x < w; x += step) {
                     if (data[(y * w + x) * 4 + 3] > 128) {
                         particles.push(new Particle(x, y));
                     }
@@ -129,10 +134,28 @@ export default function ParticleText({ text = "Hardcore Development" }: Particle
 
         const animate = () => {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            // --- ЦВЕТ ПОБЕЖАЛОСТИ (STEEL HEAT TINT) ---
+            // Создаем градиент как в стальных карточках
+            const gradient = ctx.createLinearGradient(0, 0, canvas.width, canvas.height);
+            gradient.addColorStop(0, '#3b82f6');      // Яркий синий (Blue 500)
+            gradient.addColorStop(0.3, '#a855f7');    // Насыщенный фиолетовый
+            gradient.addColorStop(0.5, '#ffffff');    // Чисто белый блик
+            gradient.addColorStop(0.7, '#a855f7');
+            gradient.addColorStop(1, '#3b82f6');
+
+            // --- ПАКЕТНАЯ ОТРЕСОВКА (BATCHING) ---
+            ctx.beginPath();
+            ctx.fillStyle = gradient;
+
             for (let i = 0; i < particles.length; i++) {
                 particles[i].update();
-                particles[i].draw();
+                particles[i].addPath(ctx);
             }
+
+            // Закрашиваем всё одновременно — это в десятки раз быстрее.
+            ctx.fill();
+
             animationFrame = requestAnimationFrame(animate);
         };
 
@@ -155,7 +178,7 @@ export default function ParticleText({ text = "Hardcore Development" }: Particle
     }, [text]);
 
     return (
-        <div className="relative w-full h-[300px] md:h-[400px] flex justify-center items-center pointer-events-none">
+        <div className="relative w-full h-[150px] md:h-[250px] flex justify-center items-center pointer-events-none">
             <canvas
                 ref={canvasRef}
                 className="pointer-events-auto absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"
