@@ -126,6 +126,7 @@
     }
 
     /* ////////// END  CARD  //////////   */
+
     /* ////////// SCROLL TO TOP BADGE ////////// */
     .scroll-top-badge {
         position: fixed;
@@ -182,6 +183,7 @@
         }
     }
     /* ////////// END SCROLL TO TOP ////////// */
+
     /* ////////// SCROLL BAR  ////////// */
     /* Кастомный толстый скролл для горизонтальных блоков */
     .thick-scrollbar::-webkit-scrollbar {

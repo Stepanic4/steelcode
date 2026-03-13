@@ -1,4 +1,3 @@
-// src/components/sections/Works.tsx
 import Link from "next/link";
 import DraftCard from "@/components/shared/DraftCard";
 import { PROJECTS_DATA } from "@/constants/projects";
