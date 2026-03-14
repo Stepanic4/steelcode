@@ -87,12 +87,12 @@ export default function Burger() {
                                     <div className="flex items-center gap-3">
                                         <Hexagon size={16} className="text-blue-500 animate-spin-slow" />
                                         <span className="text-xs font-mono text-zinc-300 uppercase tracking-[0.2em] font-bold">
-                                            System v1.0.0
+                                            OS_STC_v1.0.0
                                         </span>
                                     </div>
                                     <div className="flex items-center gap-2 bg-blue-500/10 px-2 py-1 rounded-md border border-blue-500/20">
                                         <div className="w-1.5 h-1.5 rounded-full bg-blue-500 animate-pulse" />
-                                        <span className="text-[10px] font-mono text-blue-400 font-bold">ONLINE</span>
+                                        <span className="text-[10px] font-mono text-blue-400 font-bold">[ SYSTEM_READY ]</span>
                                     </div>
                                 </div>
 
