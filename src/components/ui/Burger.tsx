@@ -91,8 +91,8 @@ export default function Burger() {
                                         </span>
                                     </div>
                                     <div className="flex items-center gap-2 bg-blue-500/10 px-2 py-1 rounded-md border border-blue-500/20">
-                                        <div className="w-1.5 h-1.5 rounded-full bg-blue-500 animate-pulse" />
-                                        <span className="text-[10px] font-mono text-blue-400 font-bold">[ SYSTEM_READY ]</span>
+                                        <div className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+                                        <span className="text-[10px] font-mono text-blue-400 font-bold">READY</span>
                                     </div>
                                 </div>
 
