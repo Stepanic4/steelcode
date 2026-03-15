@@ -41,7 +41,7 @@ export default function Hero() {
                             animate={{ opacity: 1 }}
                             transition={{
                                 duration: 0.05,
-                                delay: index * 0.09, // Скорость печати (0.07 сек на букву)
+                                delay: 3.0 + (index * 0.07), // Добавляем 1.2 секунды ожидания // Скорость печати (0.07 сек на букву)
                                 ease: "easeIn"
                             }}
                         >

@@ -180,8 +180,12 @@ export default function ParticleText({ text = "Hardcore Development" }: Particle
             mouse.y = -1000;
         };
 
-        init();
-        animate();
+        // --- ВНЕДРЕНИЕ SETTIMEOUT ---
+        // Запускаем через 1.6 сек, чтобы прелоадер успел исчезнуть
+        const startTimeout = setTimeout(() => {
+            init();
+            animate();
+        }, 1600);
 
         // Pointer Events покрывают и мышь, и тач на Android
         canvas.addEventListener('pointermove', handlePointerMove);
@@ -193,6 +197,8 @@ export default function ParticleText({ text = "Hardcore Development" }: Particle
         window.addEventListener('resize', init);
 
         return () => {
+            // Очищаем и таймер, и анимацию
+            clearTimeout(startTimeout);
             cancelAnimationFrame(animationFrame);
             canvas.removeEventListener('pointermove', handlePointerMove);
             canvas.removeEventListener('pointerdown', handlePointerMove);

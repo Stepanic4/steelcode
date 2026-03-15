@@ -5,6 +5,7 @@ import { useRef, useMemo } from "react";
 import * as THREE from "three";
 
 // --- SHADER SOURCE ---
+
 // language=GLSL
 const fragmentShader = `
 uniform float uTime;
@@ -17,7 +18,7 @@ uniform vec2 uResolution;
 #define ROT(a)      mat2(cos(a), sin(a), -sin(a), cos(a))
 
 const float bstart = 0.0;
-const float bpm    = 120.0;
+const float bpm    = 120.0; // СКОРОСТЬ ПУЛЬСАЦИИ (BPM)
 const float bhz    = bpm/60.0;
 
 float tanh_approx(float x) {
@@ -58,7 +59,7 @@ float dots(vec2 p, float f, float mf) {
   const vec2 gz = vec2(PI/100.0);
   mod2(p, gz);
   p.x /= f;
-  return length(p)-0.005;
+  return length(p)-0.005; // РАЗМЕР ТОЧЕК НА ШАРЕ
 }
 
 float grid(vec2 p, float f, float mf) {
@@ -66,21 +67,22 @@ float grid(vec2 p, float f, float mf) {
   vec2 gz = vec2(PI/(steps*mf), PI/steps);
   mod2(p, gz);
   p.y *= f;
-  return min(abs(p.x), abs(p.y))-0.0025;
+  return min(abs(p.x), abs(p.y))-0.0025; // ТОЛЩИНА СЕТКИ НА ШАРЕ
 }
 
-const vec3 lightPos = vec3(1.0, 2.0, 2.0);
-const float planeY  = -0.75;
+const vec3 lightPos = vec3(1.0, 2.0, 2.0); // ПОЗИЦИЯ ИСТОЧНИКА СВЕТА
+const float planeY  = -0.75; // ВЫСОТА ПОЛА
 
 vec4 ballDim(float bf) {
   float b = 0.25*bf;
-  const float r = 0.5;
+  const float r = 0.5; // РАДИУС ШАРА
   return vec4(vec3(0.0, b+planeY+r, 0.0), r);
 }
 
 vec3 skyColor(float bf, vec3 ro, vec3 rd, vec3 nrd) {
   float pi = -(ro.y-(planeY))/rd.y;
-  if (pi < 0.0) return vec3(0.04, 0.08, 0.12); 
+  if (pi < 0.0) return vec3(0.04, 0.08, 0.12); // ЦВЕТ ГЛУБОКОГО КОСМОСА/НЕБА (R, G, B)
+  
   vec3 pp = ro+rd*pi;
   vec3 npp= ro+nrd*pi;
   vec3 pld = normalize(lightPos-pp);  
@@ -90,12 +92,14 @@ vec3 skyColor(float bf, vec3 ro, vec3 rd, vec3 nrd) {
   vec2 pp2 = pp.xz+0.5*TIME;
   mod2(pp2, vec2(0.5));
   float pd = min(abs(pp2.x), abs(pp2.y))-0.01;
-  vec3 col = vec3(0.7, 0.8, 0.9);
-  col = mix(col, vec3(0.3, 0.4, 0.5), smoothstep(aa, -aa, pd));
+  
+  vec3 col = vec3(0.7, 0.8, 0.9); // ОСНОВНОЙ ЦВЕТ ПОЛА (СВЕТЛЫЙ)
+  col = mix(col, vec3(0.3, 0.4, 0.5), smoothstep(aa, -aa, pd)); // ЦВЕТ СЕТКИ НА ПОЛУ
+  
   if (bi.x > 0.0) {
-    col *= mix(1.0, 1.0-exp(-bi.x), tanh_approx(2.0*(bi.y-bi.x)));
+    col *= mix(1.0, 1.0-exp(-bi.x), tanh_approx(2.0*(bi.y-bi.x))); // ЗДЕСЬ СЧИТАЕТСЯ ТЕНЬ
   }
-  return mix(vec3(0.05, 0.1, 0.15), col, exp(-0.2*max(pi-2.0, 0.0)));
+  return mix(vec3(0.05, 0.1, 0.15), col, exp(-0.2*max(pi-2.0, 0.0))); // ТУМАН НА ГОРИЗОНТЕ
 }
 
 vec3 color(float bf, vec3 ro, vec3 rd, vec3 nrd) {
@@ -113,8 +117,8 @@ vec3 color(float bf, vec3 ro, vec3 rd, vec3 nrd) {
   float sfre = pow(1.0+dot(sn, rd), 2.0);
   
   vec3 spr = sp - ball.xyz;
-  spr.yz *= ROT(TIME*sqrt(0.5));
-  spr.xy *= ROT(TIME*1.234);
+  spr.yz *= ROT(TIME*sqrt(0.5)); // СКОРОСТЬ ВРАЩЕНИЯ ШАРА ПО YZ
+  spr.xy *= ROT(TIME*1.234);     // СКОРОСТЬ ВРАЩЕНИЯ ШАРА ПО XY
   vec3 ssp = toSpherical(spr.zxy);
   vec2 sp2 = ssp.yz;
   float sf = sin(sp2.x); 
@@ -125,10 +129,11 @@ vec3 color(float bf, vec3 ro, vec3 rd, vec3 nrd) {
   float sdd = dots(sp2, sf, smf);
   float sdg = grid(sp2, sf, smf);
   
-  vec3 scol = mix(vec3(0.05), vec3(0.15), sdiff);
-  scol = mix(scol, vec3(0.35), smoothstep(aa, -aa, sdd));
-  scol = mix(scol, vec3(0.5), smoothstep(aa, -aa, sdg));
-  scol += sspe*sfre;
+  // ЦВЕТА САМОГО ШАРА:
+  vec3 scol = mix(vec3(0.05), vec3(0.15), sdiff); // ТЕМНЫЕ УЧАСТКИ ШАРА
+  scol = mix(scol, vec3(0.35), smoothstep(aa, -aa, sdd)); // ЦВЕТ ТОЧЕК НА ШАРЕ
+  scol = mix(scol, vec3(0.5), smoothstep(aa, -aa, sdg)); // ЦВЕТ СЕТКИ НА ШАРЕ
+  scol += sspe*sfre; // ЯРКОСТЬ БЛИКА
   
   return mix(sky, scol, tanh_approx(10.0*(bi.y-bi.x)));
 }
@@ -138,8 +143,8 @@ void main() {
   vec2 p = -1. + 2. * q;
   p.x *= RESOLUTION.x/RESOLUTION.y;
   
-  vec3 ro = vec3(0.0, 0.5, 2.8); 
-  vec3 la = vec3(0.0, 0.0, 0.0);
+  vec3 ro = vec3(0.0, 0.5, 2.8); // ПОЛОЖЕНИЕ КАМЕРЫ (X, Y, Z)
+  vec3 la = vec3(0.0, 0.0, 0.0); // ТОЧКА, КУДА СМОТРИТ КАМЕРА
   vec3 ww = normalize(la - ro);
   vec3 uu = normalize(cross(vec3(0.0,1.0,0.0), ww));
   vec3 vv = cross(ww,uu);
@@ -148,7 +153,9 @@ void main() {
 
   float bf = bouncef(TIME);
   vec3 col = color(bf, ro, rd, nrd);
-  col = mix(col, vec3(1.0), smoothstep(1.5, 0.0, TIME));
+  
+  // ЭФФЕКТ ПОЯВЛЕНИЯ (ВСПЫШКА В НАЧАЛЕ)
+    col = mix(col, vec3(0.7, 0.8, 1.0), smoothstep(2.5, 1.0, TIME));
   
   gl_FragColor = vec4(col, 1.0);
 }
@@ -193,6 +200,7 @@ export default function SteelBackground() {
             <Canvas dpr={[1, 2]}>
                 <BallBackground />
             </Canvas>
+            {/* ГРАДИЕНТ ПОВЕРХ ШЕЙДЕРА (ЗАТЕМНЕНИЕ СВЕРХУ) */}
             <div className="absolute inset-0 pointer-events-none bg-gradient-to-b from-black/40 via-transparent to-transparent" />
         </div>
     );
