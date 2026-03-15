@@ -28,10 +28,39 @@ export default function Hero() {
 
             {/* CONTENT LAYER */}
             <div className="relative z-10 max-w-5xl px-6 text-center">
-                <span
-                    className="inline-block text-blue-500 font-mono text-xs md:text-sm tracking-[0.4em] uppercase mb-6 bg-blue-500/5 px-4 py-2 border border-blue-500/10">
-                    {"// High-End Engineering Studio"}
-                </span>
+                <motion.span
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    className="inline-block text-blue-500 font-mono text-xs md:text-sm tracking-[0.4em] uppercase mb-6 bg-blue-500/5 px-4 py-2 border border-blue-500/10 backdrop-blur-sm"
+                >
+                    {/* Анимация появления букв */}
+                    {"// High-End Engineering Studio".split("").map((char, index) => (
+                        <motion.span
+                            key={index}
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            transition={{
+                                duration: 0.05,
+                                delay: index * 0.09, // Скорость печати (0.07 сек на букву)
+                                ease: "easeIn"
+                            }}
+                        >
+                            {char}
+                        </motion.span>
+                    ))}
+
+                    {/* Мигающий курсор в конце */}
+                    <motion.span
+                        animate={{ opacity: [1, 1, 0, 0] }} // Держим 1, потом резко 0
+                        transition={{
+                            duration: 0.8,
+                            repeat: Infinity,
+                            ease: "linear",
+                            times: [0, 0.5, 0.5, 1] // Резкое переключение на середине
+                        }}
+                        className="inline-block w-[6px] h-[12px] bg-blue-500 ml-2 align-middle"
+                    />
+                </motion.span>
 
                 <div className="relative z-10 w-full">
                     <ParticleText text="Hardcore Development"/>
