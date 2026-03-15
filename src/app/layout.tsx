@@ -6,6 +6,7 @@ import {ScrollToTop} from "@/components/ui/ScrollToTop";
 import Header from "@/components/structure/Header";
 import Footer from "@/components/structure/Footer";
 import SteelBackground from "@/components/ui/SteelBackground";
+import Preloader from "@/components/shared/Preloader";
 
 const geistSans = Geist({
     variable: "--font-geist-sans",
@@ -49,22 +50,24 @@ export const metadata: Metadata = {
     },
 };
 
-export default function RootLayout({children,}: Readonly<{ children: React.ReactNode; }>) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
     return (
         <html lang="cs" className={`${geistSans.variable} ${geistMono.variable}`}>
-        <body className="antialiased bg-graphite text-white">
-        {/*  Живой фон */}
-        <SteelBackground />
+        <body className="antialiased bg-[#050a0f] text-white">
 
-        <div className="relative z-10 flex flex-col min-h-screen">
-            <Header />
-            <main className="flex-grow">
-                {children}
-            </main>
-            <Footer />
-        </div>
+        <Preloader>
+            <SteelBackground />
 
-        <ScrollToTop/>
+            <div className="relative z-10 flex flex-col min-h-screen">
+                <Header />
+                <main className="flex-grow">
+                    {children}
+                </main>
+                <Footer />
+            </div>
+            <ScrollToTop />
+        </Preloader>
+
         </body>
         </html>
     );
