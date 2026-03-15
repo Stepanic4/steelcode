@@ -1,4 +1,7 @@
-import {Mail, MessageSquare, Linkedin, MapPin} from 'lucide-react';
+'use client';
+import { useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { Mail, MessageSquare, Linkedin, MapPin } from 'lucide-react';
 
 const contactInfo = [
     {
@@ -21,6 +24,50 @@ const contactInfo = [
     }
 ];
 
+function LocationLink() {
+    const [isHovered, setIsHovered] = useState(false);
+    const castleImg = "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c8/Melnik.jpg/1280px-Melnik.jpg";
+
+    return (
+        <div className="relative inline-block"
+             onMouseEnter={() => setIsHovered(true)}
+             onMouseLeave={() => setIsHovered(false)}>
+
+            <a href="https://goo.gl/maps/Mělník"
+               target="_blank"
+               rel="noopener noreferrer"
+               className="mt-10 flex items-center gap-2 text-white/80 hover:text-white transition-colors uppercase tracking-widest text-xs font-medium cursor-pointer">
+                <MapPin size={14} className={isHovered ? "text-blue-500" : "transition-colors"}/>
+                <span className="border-b border-white/10 hover:border-white/40 transition-all">
+                    Mělník, Czech Republic
+                </span>
+            </a>
+
+            <AnimatePresence>
+                {isHovered && (
+                    <motion.div
+                        initial={{ opacity: 0, scale: 0.9, y: 10 }}
+                        animate={{ opacity: 1, scale: 1, y: -10 }}
+                        exit={{ opacity: 0, scale: 0.9, y: 10 }}
+                        className="hidden md:block absolute bottom-full left-0 mb-4 z-50 pointer-events-none">
+                        <div className="relative w-64 h-40 rounded-lg border border-white/20 overflow-hidden shadow-[0_0_50px_rgba(0,0,0,0.8)] bg-zinc-950">
+                            <img
+                                src={castleImg}
+                                alt="Mělník Castle"
+                                className="w-full h-full object-cover grayscale brightness-75 contrast-125"/>
+                            <div className="absolute inset-0 bg-blue-900/20 mix-blend-overlay" />
+                            <div className="absolute inset-0 bg-gradient-to-t from-zinc-950/80 via-transparent to-transparent" />
+                            <div className="absolute top-2 right-2 px-1.5 py-0.5 border border-white/10 bg-black/40 backdrop-blur-md rounded text-[8px] text-white/60 font-mono tracking-tighter">
+                                LOCATION: CASTLE_VIEW
+                            </div>
+                        </div>
+                    </motion.div>
+                )}
+            </AnimatePresence>
+        </div>
+    );
+}
+
 export default function Contact() {
     return (
         <section id="contact" className="py-24 px-6 border-t border-white/70">
@@ -36,24 +83,56 @@ export default function Contact() {
                             Ready to discuss your project? We are based in the Czech Republic and work with clients
                             across Europe. Professional approach, zero fluff.
                         </p>
-
-                        <div
-                            className="mt-10 flex items-center gap-2 text-white/80 uppercase tracking-widest text-xs font-medium">
-                            <MapPin size={14}/>
-                            <span>Mělník, Czech Republic</span>
-                        </div>
+                        <LocationLink />
                     </div>
 
-                    {/* Right side: Cards */}
+                    {/* Right side: Interactive Cards */}
                     <div className="space-y-4">
                         {contactInfo.map((item, index) => (
-                            <a key={index}
+                            <motion.a
+                                key={index}
                                 href={item.link}
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="flex items-center justify-between p-6 border border-zinc-800 bg-zinc-900/50 hover:border-blue-600 hover:bg-zinc-900 transition-all group">
-                                <div className="flex items-center gap-5">
-                                    <div className="text-zinc-400 group-hover:text-blue-500 transition-colors">
+                                initial={{ opacity: 0, y: 20 }}
+                                whileInView={{ opacity: 1, y: 0 }}
+                                viewport={{ once: true }}
+                                transition={{ duration: 0.5, delay: index * 0.1 }}
+                                // Возвращаем движение карточки
+                                whileHover="hover"
+                                whileTap={{ scale: 0.97 }}
+                                className="flex items-center justify-between p-6 border border-zinc-800 bg-zinc-900/50 transition-all group relative overflow-hidden"
+                            >
+                                {/* Анимация карточки */}
+                                <motion.div
+                                    className="absolute inset-0 z-0 bg-zinc-900 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                                    variants={{ hover: { x: 0 } }}
+                                />
+
+                                {/* КИСЛОТНЫЙ КИБЕРЛАНЗЕР */}
+                                <motion.div
+                                    variants={{
+                                        hover: { left: '150%' }
+                                    }}
+                                    initial={{ left: '-150%', skewX: -25 }}
+                                    transition={{
+                                        duration: 0.9, // медленнее, чтобы глаз успел считать яд
+                                        ease: [0.23, 1, 0.32, 1]
+                                    }}
+                                    className="absolute top-0 bottom-0 w-80 pointer-events-none z-10"
+                                    style={{
+                                        // ЗКИСЛОТНЫЙ ЗЕЛЕНЫЙ
+                                        background: 'linear-gradient(90deg, transparent, rgba(50, 255, 126, 0.1), rgba(100, 255, 100, 0.4), rgba(50, 255, 126, 0.1), transparent)',
+                                        filter: 'blur(3px)' // Смягчаем края
+                                    }}
+                                />
+
+                                <motion.div
+                                    className="flex items-center gap-5 relative z-20"
+                                    variants={{ hover: { x: 10 } }} // Движение контента вправо
+                                    transition={{ type: "spring", stiffness: 300, damping: 20 }}
+                                >
+                                    <div className="text-zinc-400 group-hover:text-blue-500 group-hover:scale-110 transition-all duration-300">
                                         {item.icon}
                                     </div>
                                     <div>
@@ -64,16 +143,18 @@ export default function Contact() {
                                             {item.value}
                                         </p>
                                     </div>
-                                </div>
-                                <div className="text-zinc-700 group-hover:text-blue-500 transition-colors">
-                                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none"
-                                         xmlns="http://www.w3.org/2000/svg">
+                                </motion.div>
+
+                                <motion.div
+                                    className="text-zinc-700 group-hover:text-blue-500 relative z-20"
+                                    variants={{ hover: { x: 5, y: -5 } }} // Стрелка улетает вверх-вправо
+                                >
+                                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                                         <path d="M4.16666 10H15.8333M15.8333 10L10.8333 5M15.8333 10L10.8333 15"
-                                              stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"
-                                              strokeLinejoin="round"/>
+                                              stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
                                     </svg>
-                                </div>
-                            </a>
+                                </motion.div>
+                            </motion.a>
                         ))}
                     </div>
                 </div>

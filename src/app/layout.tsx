@@ -5,6 +5,7 @@ import "@/components/styles/steel-effects.css";
 import {ScrollToTop} from "@/components/ui/ScrollToTop";
 import Header from "@/components/structure/Header";
 import Footer from "@/components/structure/Footer";
+import SteelBackground from "@/components/ui/SteelBackground";
 
 const geistSans = Geist({
     variable: "--font-geist-sans",
@@ -52,13 +53,17 @@ export default function RootLayout({children,}: Readonly<{ children: React.React
     return (
         <html lang="cs" className={`${geistSans.variable} ${geistMono.variable}`}>
         <body className="antialiased bg-graphite text-white">
-        <div className="flex flex-col min-h-screen">
+        {/*  Живой фон */}
+        <SteelBackground />
+
+        <div className="relative z-10 flex flex-col min-h-screen">
             <Header />
             <main className="flex-grow">
                 {children}
             </main>
             <Footer />
         </div>
+
         <ScrollToTop/>
         </body>
         </html>

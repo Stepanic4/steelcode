@@ -42,7 +42,7 @@ export default function Header() {
             className={`
                 fixed top-0 left-0 w-full z-[100] flex items-center justify-between transition-all duration-300
                 ${isScrolled
-                ? 'py-0 px-6 bg-cyan-900/95 shadow-[0_4px_30px_rgba(0,0,0,0.3)]'
+                ? 'py-0 px-6 bg-[#0f1718]/90 shadow-[0_4px_30px_rgba(0,0,0,0.3)]'
                 : 'py-6 px-6 bg-transparent'}
             `}>
             <div className="flex items-center gap-4">
