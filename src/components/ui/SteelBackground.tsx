@@ -18,7 +18,7 @@ uniform vec2 uResolution;
 #define ROT(a)      mat2(cos(a), sin(a), -sin(a), cos(a))
 
 const float bstart = 0.0;
-const float bpm    = 120.0; // СКОРОСТЬ ПУЛЬСАЦИИ (BPM)
+const float bpm    = 120.0; 
 const float bhz    = bpm/60.0;
 
 float tanh_approx(float x) {
@@ -55,33 +55,27 @@ float bouncef(float tt) {
   return 4.0*(0.25 - t*t);
 }
 
-float dots(vec2 p, float f, float mf) {
-  const vec2 gz = vec2(PI/100.0);
-  mod2(p, gz);
-  p.x /= f;
-  return length(p)-0.005; // РАЗМЕР ТОЧЕК НА ШАРЕ
-}
-
 float grid(vec2 p, float f, float mf) {
   const float steps = 20.0;
   vec2 gz = vec2(PI/(steps*mf), PI/steps);
   mod2(p, gz);
   p.y *= f;
-  return min(abs(p.x), abs(p.y))-0.0025; // ТОЛЩИНА СЕТКИ НА ШАРЕ
+  return min(abs(p.x), abs(p.y))-0.0025; 
 }
 
-const vec3 lightPos = vec3(1.0, 2.0, 2.0); // ПОЗИЦИЯ ИСТОЧНИКА СВЕТА
-const float planeY  = -0.75; // ВЫСОТА ПОЛА
+const vec3 lightPos = vec3(1.0, 2.0, 2.0); 
+const float planeY  = -0.75; 
 
 vec4 ballDim(float bf) {
   float b = 0.25*bf;
-  const float r = 0.5; // РАДИУС ШАРА
+  const float r = 0.5; 
   return vec4(vec3(0.0, b+planeY+r, 0.0), r);
 }
 
+// ОРИГИНАЛЬНЫЙ skyColor (не трогаем)
 vec3 skyColor(float bf, vec3 ro, vec3 rd, vec3 nrd) {
   float pi = -(ro.y-(planeY))/rd.y;
-  if (pi < 0.0) return vec3(0.04, 0.08, 0.12); // ЦВЕТ ГЛУБОКОГО КОСМОСА/НЕБА (R, G, B)
+  if (pi < 0.0) return vec3(0.04, 0.08, 0.12); 
   
   vec3 pp = ro+rd*pi;
   vec3 npp= ro+nrd*pi;
@@ -93,13 +87,20 @@ vec3 skyColor(float bf, vec3 ro, vec3 rd, vec3 nrd) {
   mod2(pp2, vec2(0.5));
   float pd = min(abs(pp2.x), abs(pp2.y))-0.01;
   
-  vec3 col = vec3(0.7, 0.8, 0.9); // ОСНОВНОЙ ЦВЕТ ПОЛА (СВЕТЛЫЙ)
-  col = mix(col, vec3(0.3, 0.4, 0.5), smoothstep(aa, -aa, pd)); // ЦВЕТ СЕТКИ НА ПОЛУ
+  vec3 col = vec3(0.7, 0.8, 0.9); 
+  col = mix(col, vec3(0.3, 0.4, 0.5), smoothstep(aa, -aa, pd)); 
   
   if (bi.x > 0.0) {
-    col *= mix(1.0, 1.0-exp(-bi.x), tanh_approx(2.0*(bi.y-bi.x))); // ЗДЕСЬ СЧИТАЕТСЯ ТЕНЬ
+    col *= mix(1.0, 1.0-exp(-bi.x), tanh_approx(2.0*(bi.y-bi.x))); 
   }
-  return mix(vec3(0.05, 0.1, 0.15), col, exp(-0.2*max(pi-2.0, 0.0))); // ТУМАН НА ГОРИЗОНТЕ
+  return mix(vec3(0.05, 0.1, 0.15), col, exp(-0.2*max(pi-2.0, 0.0))); 
+}
+
+// Побежалость: Фиолетовый -> Темно-синий
+vec3 temperColor(float t) {
+  vec3 purple = vec3(0.4, 0.1, 0.7);
+  vec3 darkBlue = vec3(0.02, 0.05, 0.4);
+  return mix(purple, darkBlue, smoothstep(0.0, 1.0, t));
 }
 
 vec3 color(float bf, vec3 ro, vec3 rd, vec3 nrd) {
@@ -109,32 +110,54 @@ vec3 color(float bf, vec3 ro, vec3 rd, vec3 nrd) {
   if (bi.x < 0.0) return sky;
   
   vec3 sp = ro + bi.x*rd;
-  vec3 nsp = ro + bi.x*nrd;
-  float aa = length(sp-nsp);
-  vec3 sld = normalize(lightPos-sp); 
   vec3 sn = normalize(sp - ball.xyz);
-  vec3 sr = reflect(rd, sn);
-  float sfre = pow(1.0+dot(sn, rd), 2.0);
+  vec3 sr = reflect(rd, sn); // Вектор отражения
+  
+  // Френель (блик по краям)
+  float sfre = pow(1.0 + dot(sn, rd), 3.0); 
   
   vec3 spr = sp - ball.xyz;
-  spr.yz *= ROT(TIME*sqrt(0.5)); // СКОРОСТЬ ВРАЩЕНИЯ ШАРА ПО YZ
-  spr.xy *= ROT(TIME*1.234);     // СКОРОСТЬ ВРАЩЕНИЯ ШАРА ПО XY
+  spr.yz *= ROT(TIME*sqrt(0.5)); 
+  spr.xy *= ROT(TIME*1.234);     
   vec3 ssp = toSpherical(spr.zxy);
+  float verticalPos = ssp.y / PI; 
+
+  // Сетка на шаре
   vec2 sp2 = ssp.yz;
   float sf = sin(sp2.x); 
   float smf = pow(2.0, -ceil(log(sf)/log(2.0)));
-  
-  float sdiff = max(dot(sld, sn), 0.0);
-  float sspe = pow(max(dot(sld, sr), 0.0), 0.5);
-  float sdd = dots(sp2, sf, smf);
   float sdg = grid(sp2, sf, smf);
+  float aa = length(sp - (ro + bi.x*nrd));
+
+  // ХРОМ (верх) и ПОБЕЖАЛОСТЬ (низ)
+  float heatFactor = smoothstep(0.4, 0.9, verticalPos);
   
-  // ЦВЕТА САМОГО ШАРА:
-  vec3 scol = mix(vec3(0.05), vec3(0.15), sdiff); // ТЕМНЫЕ УЧАСТКИ ШАРА
-  scol = mix(scol, vec3(0.35), smoothstep(aa, -aa, sdd)); // ЦВЕТ ТОЧЕК НА ШАРЕ
-  scol = mix(scol, vec3(0.5), smoothstep(aa, -aa, sdg)); // ЦВЕТ СЕТКИ НА ШАРЕ
-  scol += sspe*sfre; // ЯРКОСТЬ БЛИКА
+  // Отражение окружения для эффекта хрома (используем вектор отражения sr)
+  vec3 reflectedColor = skyColor(bf, sp, sr, sr);
   
+  // Добавляем стальной блеск к отражению
+  vec3 chromeColor = mix(reflectedColor, vec3(0.9, 0.95, 1.0), 0.1);
+  vec3 heatColor = temperColor(heatFactor);
+  
+  // Смешиваем хром и побежалость
+  vec3 baseColor = mix(chromeColor, heatColor, heatFactor);
+  
+  // Яркий точечный блик
+  vec3 sld = normalize(lightPos - sp); 
+  float sspe = pow(max(dot(sld, sr), 0.0), 128.0);
+  
+  vec3 scol = baseColor;
+  
+  // Сетка (чуть светлее базы)
+  scol = mix(scol, vec3(0.7), smoothstep(aa, -aa, sdg));
+  
+  // Усиливаем зеркальность на краях через френель
+  scol = mix(scol, reflectedColor, sfre * 0.5);
+  
+  // Добавляем сам блик
+  scol += sspe * vec3(1.0); 
+  
+  // Возвращаем смешивание с фоном только для краев объекта (anti-aliasing)
   return mix(sky, scol, tanh_approx(10.0*(bi.y-bi.x)));
 }
 
@@ -143,8 +166,8 @@ void main() {
   vec2 p = -1. + 2. * q;
   p.x *= RESOLUTION.x/RESOLUTION.y;
   
-  vec3 ro = vec3(0.0, 0.5, 2.8); // ПОЛОЖЕНИЕ КАМЕРЫ (X, Y, Z)
-  vec3 la = vec3(0.0, 0.0, 0.0); // ТОЧКА, КУДА СМОТРИТ КАМЕРА
+  vec3 ro = vec3(0.0, 0.5, 2.8); 
+  vec3 la = vec3(0.0, 0.0, 0.0); 
   vec3 ww = normalize(la - ro);
   vec3 uu = normalize(cross(vec3(0.0,1.0,0.0), ww));
   vec3 vv = cross(ww,uu);
@@ -154,8 +177,8 @@ void main() {
   float bf = bouncef(TIME);
   vec3 col = color(bf, ro, rd, nrd);
   
-  // ЭФФЕКТ ПОЯВЛЕНИЯ (ВСПЫШКА В НАЧАЛЕ)
-    col = mix(col, vec3(0.7, 0.8, 1.0), smoothstep(2.5, 1.0, TIME));
+  // Этот микс тоже оставляем как был (общий цветокор)
+  col = mix(col, vec3(0.7, 0.8, 1.0), smoothstep(2.5, 1.0, TIME));
   
   gl_FragColor = vec4(col, 1.0);
 }
@@ -200,7 +223,6 @@ export default function SteelBackground() {
             <Canvas dpr={[1, 2]}>
                 <BallBackground />
             </Canvas>
-            {/* ГРАДИЕНТ ПОВЕРХ ШЕЙДЕРА (ЗАТЕМНЕНИЕ СВЕРХУ) */}
             <div className="absolute inset-0 pointer-events-none bg-gradient-to-b from-black/40 via-transparent to-transparent" />
         </div>
     );
