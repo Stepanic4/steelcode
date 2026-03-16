@@ -1,23 +1,23 @@
-import { Code2, Layout, Database } from 'lucide-react';
+import { Monitor, Cpu, Sparkles } from 'lucide-react';
 
 const services = [
     {
-        title: "Web Development",
-        description: "High-performance applications built with React and Next.js. Clean code, focused on Core Web Vitals and speed.",
-        icon: <Layout className="w-8 h-8 text-blue-600" />,
-        skills: ["React", "Next.js", "TypeScript"]
+        title: "Immersive Experiences",
+        description: "Crafting digital interfaces that breathe. Focused on interactive storytelling, 3D graphics, and aesthetics that elevate your brand above the noise.",
+        icon: <Monitor className="w-8 h-8 text-blue-600" />,
+        skills: ["Three.js", "Framer Motion", "GSAP"]
     },
     {
-        title: "API & Backend",
-        description: "Architecting scalable backends, third-party integrations, and building robust RESTful APIs for your business.",
-        icon: <Database className="w-8 h-8 text-blue-600" />,
-        skills: ["Node.js", "PostgreSQL", "API Design"]
+        title: "Creative Engineering",
+        description: "Building high-performance solutions with flawless execution. Leveraging Next.js 16 to ensure instant load times under heavy visual loads.",
+        icon: <Cpu className="w-8 h-8 text-blue-600" />,
+        skills: ["Next.js 16", "Tailwind 4", "TypeScript"]
     },
     {
-        title: "Technical Support",
-        description: "Project maintenance, legacy code refactoring, and migrating systems to a modern tech stack.",
-        icon: <Code2 className="w-8 h-8 text-blue-600" />,
-        skills: ["Refactoring", "Optimization", "Audit"]
+        title: "Digital Art Direction",
+        description: "Full-cycle project oversight from concept to launch. Designing strategic visual systems that turn a standard website into a digital masterpiece.",
+        icon: <Sparkles className="w-8 h-8 text-blue-600" />,
+        skills: ["UI/UX Strategy", "Brand Identity", "Motion Design"]
     }
 ];
 
@@ -31,8 +31,8 @@ export default function Services() {
                     <h2 className="text-3xl md:text-5xl font-bold uppercase tracking-tighter">
                         Services
                     </h2>
-                    <p className="mt-4 text-white/70 max-w-xl uppercase tracking-[0.2em] text-xs font-medium italic">
-                        Engineering approach to business solutions
+                    <p className="mt-4 text-white max-w-xl uppercase tracking-[0.2em] text-xs font-medium italic">
+                        HIGH-END DIGITAL EXPERIENCES & CREATIVE CODING
                     </p>
                 </div>
 
