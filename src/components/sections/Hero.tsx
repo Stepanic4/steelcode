@@ -1,7 +1,7 @@
 'use client'
 import {motion} from 'framer-motion';
 import {useRef} from 'react';
-import {usePathname, useRouter} from 'next/navigation'; // Добавили хуки
+import {usePathname, useRouter} from 'next/navigation';
 import ParticleText from "@/components/ui/ParticleText";
 import Magnetic from "@/components/ui/Magnetic";
 

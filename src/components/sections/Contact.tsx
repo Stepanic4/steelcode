@@ -74,17 +74,52 @@ export default function Contact() {
             <div className="max-w-7xl mx-auto">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-16">
 
-                    {/* Left side: Content */}
-                    <div>
-                        <h2 className="text-3xl md:text-5xl font-bold uppercase tracking-tighter">
-                            Contact
-                        </h2>
-                        <p className="mt-6 text-white/80 text-lg leading-relaxed max-w-md">
-                            Ready to discuss your project? We are based in the Czech Republic and work with clients
-                            across Europe. Professional approach, zero fluff.
-                        </p>
-                        <LocationLink />
-                    </div>
+                    {/* Left side: Content (Теперь идентичен правым карточкам) */}
+                    <motion.div
+                        initial={{ opacity: 0, y: 20 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
+                        transition={{ duration: 0.5 }}
+                        whileHover="hover"
+                        className="flex flex-col gap-6 p-8 border border-zinc-800 bg-zinc-900/80 rounded-none text-white relative overflow-hidden group"
+                    >
+                        {/* ЛАЗЕР ДЛЯ ЛЕВОГО БЛОКА */}
+                        <motion.div
+                            variants={{
+                                hover: { left: '150%' }
+                            }}
+                            initial={{ left: '-150%', skewX: -25 }}
+                            transition={{
+                                duration: 0.9,
+                                ease: [0.23, 1, 0.32, 1]
+                            }}
+                            className="absolute top-0 bottom-0 w-80 pointer-events-none z-10"
+                            style={{
+                                background: 'linear-gradient(90deg, transparent, rgba(50, 255, 126, 0.1), rgba(100, 255, 100, 0.4), rgba(50, 255, 126, 0.1), transparent)',
+                                filter: 'blur(3px)'
+                            }}
+                        />
+
+                        <motion.div
+                            className="relative z-20 space-y-6"
+                            variants={{ hover: { x: 10 } }}
+                            transition={{ type: "spring", stiffness: 300, damping: 20 }}
+                        >
+                            <h2 className="text-4xl md:text-5xl font-bold uppercase tracking-tighter">
+                                Contact
+                            </h2>
+                            <div className="space-y-4">
+                                <p className="text-lg leading-relaxed max-w-md">
+                                    Ready to discuss your project? We are based in the Czech Republic
+                                    and work with clients across Europe.
+                                </p>
+                                <p className="font-medium uppercase tracking-widest text-sm text-zinc-400 group-hover:text-blue-500 transition-colors">
+                                    Professional approach, zero fluff.
+                                </p>
+                                <LocationLink />
+                            </div>
+                        </motion.div>
+                    </motion.div>
 
                     {/* Right side: Interactive Cards */}
                     <div className="space-y-4">
@@ -97,18 +132,11 @@ export default function Contact() {
                                 initial={{ opacity: 0, y: 20 }}
                                 whileInView={{ opacity: 1, y: 0 }}
                                 viewport={{ once: true }}
-                                transition={{ duration: 0.5, delay: index * 0.1 }}
-                                // Возвращаем движение карточки
+                                transition={{ duration: 0.5, delay: (index + 1) * 0.1 }} // Задержка после левого блока
                                 whileHover="hover"
                                 whileTap={{ scale: 0.97 }}
-                                className="flex items-center justify-between p-6 border border-zinc-800 bg-zinc-900/50 transition-all group relative overflow-hidden"
+                                className="flex items-center justify-between p-6 border border-zinc-800 bg-zinc-900/80 transition-all group relative overflow-hidden"
                             >
-                                {/* Анимация карточки */}
-                                <motion.div
-                                    className="absolute inset-0 z-0 bg-zinc-900 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-                                    variants={{ hover: { x: 0 } }}
-                                />
-
                                 {/* КИСЛОТНЫЙ КИБЕРЛАНЗЕР */}
                                 <motion.div
                                     variants={{
@@ -116,20 +144,19 @@ export default function Contact() {
                                     }}
                                     initial={{ left: '-150%', skewX: -25 }}
                                     transition={{
-                                        duration: 0.9, // медленнее, чтобы глаз успел считать яд
+                                        duration: 0.9,
                                         ease: [0.23, 1, 0.32, 1]
                                     }}
                                     className="absolute top-0 bottom-0 w-80 pointer-events-none z-10"
                                     style={{
-                                        // ЗКИСЛОТНЫЙ ЗЕЛЕНЫЙ
                                         background: 'linear-gradient(90deg, transparent, rgba(50, 255, 126, 0.1), rgba(100, 255, 100, 0.4), rgba(50, 255, 126, 0.1), transparent)',
-                                        filter: 'blur(3px)' // Смягчаем края
+                                        filter: 'blur(3px)'
                                     }}
                                 />
 
                                 <motion.div
                                     className="flex items-center gap-5 relative z-20"
-                                    variants={{ hover: { x: 10 } }} // Движение контента вправо
+                                    variants={{ hover: { x: 10 } }}
                                     transition={{ type: "spring", stiffness: 300, damping: 20 }}
                                 >
                                     <div className="text-zinc-400 group-hover:text-blue-500 group-hover:scale-110 transition-all duration-300">
@@ -147,7 +174,7 @@ export default function Contact() {
 
                                 <motion.div
                                     className="text-zinc-700 group-hover:text-blue-500 relative z-20"
-                                    variants={{ hover: { x: 5, y: -5 } }} // Стрелка улетает вверх-вправо
+                                    variants={{ hover: { x: 5, y: -5 } }}
                                 >
                                     <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                                         <path d="M4.16666 10H15.8333M15.8333 10L10.8333 5M15.8333 10L10.8333 15"
