@@ -40,14 +40,14 @@ export default function Services() {
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
                     {services.map((service, index) => (
                         <div key={index}
-                            className="group p-4 border border-zinc-900 bg-zinc-900/50 hover:border-blue-600/50 transition-all duration-500 cursor-crosshair">
+                            className="group p-4 border border-zinc-900 bg-zinc-900/80 hover:border-blue-600 transition-all duration-500 cursor-crosshair">
                             <div className="mb-6 inline-block p-4 border border-zinc-800 bg-zinc-900 group-hover:border-blue-600 transition-colors">
                                 {service.icon}
                             </div>
-                            <h3 className="text-xl font-bold text-white/90 mb-4 uppercase tracking-tight">
+                            <h3 className="text-xl font-bold text-white mb-4 uppercase tracking-tight">
                                 {service.title}
                             </h3>
-                            <p className="text-white/80 text-sm leading-relaxed mb-8">
+                            <p className="text-white text-sm leading-relaxed mb-8">
                                 {service.description}
                             </p>
 
@@ -55,7 +55,7 @@ export default function Services() {
                             <div className="flex flex-wrap gap-2">
                                 {service.skills.map((skill) => (
                                     <span key={skill}
-                                        className="text-[10px] uppercase tracking-widest px-3 py-1.5 bg-black text-white/80 border border-zinc-800 font-bold">
+                                        className="text-[10px] uppercase tracking-widest px-3 py-1.5 bg-black text-white border border-zinc-800 font-bold">
                                         {skill}
                                     </span>
                                 ))}
