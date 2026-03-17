@@ -3,6 +3,7 @@
 import { Canvas, useFrame } from "@react-three/fiber";
 import { useRef, useMemo } from "react";
 import * as THREE from "three";
+import { useLoading } from "@/context/LoadingContext";
 
 // --- SHADER SOURCE ---
 
@@ -72,9 +73,11 @@ vec4 ballDim(float bf) {
   return vec4(vec3(0.0, b+planeY+r, 0.0), r);
 }
 
-// ОРИГИНАЛЬНЫЙ skyColor (не трогаем)
 vec3 skyColor(float bf, vec3 ro, vec3 rd, vec3 nrd) {
+  // Расстояние до плоскости пола
   float pi = -(ro.y-(planeY))/rd.y;
+  
+  // ЦВЕТ "НЕБА" (пустоты выше горизонта)
   if (pi < 0.0) return vec3(0.04, 0.08, 0.12); 
   
   vec3 pp = ro+rd*pi;
@@ -83,20 +86,29 @@ vec3 skyColor(float bf, vec3 ro, vec3 rd, vec3 nrd) {
   float aa = length(npp-pp);
   vec4 ball = ballDim(bf);
   vec2 bi = raySphere(pp, pld, ball);
+  
+  // ПАРАМЕТРЫ СЕТКИ: 0.5 - размер ячейки, 0.5*TIME - скорость движения пола
   vec2 pp2 = pp.xz+0.5*TIME;
   mod2(pp2, vec2(0.5));
-  float pd = min(abs(pp2.x), abs(pp2.y))-0.01;
   
-  vec3 col = vec3(0.7, 0.8, 0.9); 
+  // ТОЛЩИНА ЛИНИЙ СЕТКИ: 0.01 (чем больше число, тем толще линии)
+  float pd = min(abs(pp2.x), abs(pp2.y))-0.01;
+
+    // ЦВЕТ ПОВЕРХНОСТИ ПОЛА (второй vec3 в функции mix)
+  vec3 col = vec3(0.48, 0.68, 0.82); 
+    
+    // ЦВЕТ ЛИНИЙ СЕТКИ (RGB от 0 до 1)
   col = mix(col, vec3(0.3, 0.4, 0.5), smoothstep(aa, -aa, pd)); 
   
+  // Тень от шара на полу
   if (bi.x > 0.0) {
     col *= mix(1.0, 1.0-exp(-bi.x), tanh_approx(2.0*(bi.y-bi.x))); 
   }
+  
+  // ТУМАН НА ГОРИЗОНТЕ: vec3(0.05, 0.1, 0.15) - цвет, в который уходит пол вдалеке
   return mix(vec3(0.05, 0.1, 0.15), col, exp(-0.2*max(pi-2.0, 0.0))); 
 }
 
-// Побежалость: Фиолетовый -> Темно-синий
 vec3 temperColor(float t) {
   vec3 purple = vec3(0.4, 0.1, 0.7);
   vec3 darkBlue = vec3(0.02, 0.05, 0.4);
@@ -111,9 +123,8 @@ vec3 color(float bf, vec3 ro, vec3 rd, vec3 nrd) {
   
   vec3 sp = ro + bi.x*rd;
   vec3 sn = normalize(sp - ball.xyz);
-  vec3 sr = reflect(rd, sn); // Вектор отражения
+  vec3 sr = reflect(rd, sn); 
   
-  // Френель (блик по краям)
   float sfre = pow(1.0 + dot(sn, rd), 3.0); 
   
   vec3 spr = sp - ball.xyz;
@@ -122,42 +133,28 @@ vec3 color(float bf, vec3 ro, vec3 rd, vec3 nrd) {
   vec3 ssp = toSpherical(spr.zxy);
   float verticalPos = ssp.y / PI; 
 
-  // Сетка на шаре
   vec2 sp2 = ssp.yz;
   float sf = sin(sp2.x); 
   float smf = pow(2.0, -ceil(log(sf)/log(2.0)));
   float sdg = grid(sp2, sf, smf);
   float aa = length(sp - (ro + bi.x*nrd));
 
-  // ХРОМ (верх) и ПОБЕЖАЛОСТЬ (низ)
   float heatFactor = smoothstep(0.4, 0.9, verticalPos);
   
-  // Отражение окружения для эффекта хрома (используем вектор отражения sr)
   vec3 reflectedColor = skyColor(bf, sp, sr, sr);
-  
-  // Добавляем стальной блеск к отражению
   vec3 chromeColor = mix(reflectedColor, vec3(0.9, 0.95, 1.0), 0.1);
   vec3 heatColor = temperColor(heatFactor);
   
-  // Смешиваем хром и побежалость
   vec3 baseColor = mix(chromeColor, heatColor, heatFactor);
   
-  // Яркий точечный блик
   vec3 sld = normalize(lightPos - sp); 
   float sspe = pow(max(dot(sld, sr), 0.0), 128.0);
   
   vec3 scol = baseColor;
-  
-  // Сетка (чуть светлее базы)
   scol = mix(scol, vec3(0.7), smoothstep(aa, -aa, sdg));
-  
-  // Усиливаем зеркальность на краях через френель
   scol = mix(scol, reflectedColor, sfre * 0.5);
-  
-  // Добавляем сам блик
   scol += sspe * vec3(1.0); 
   
-  // Возвращаем смешивание с фоном только для краев объекта (anti-aliasing)
   return mix(sky, scol, tanh_approx(10.0*(bi.y-bi.x)));
 }
 
@@ -176,8 +173,6 @@ void main() {
 
   float bf = bouncef(TIME);
   vec3 col = color(bf, ro, rd, nrd);
-  
-  // Этот микс тоже оставляем как был (общий цветокор)
   col = mix(col, vec3(0.7, 0.8, 1.0), smoothstep(2.5, 1.0, TIME));
   
   gl_FragColor = vec4(col, 1.0);
@@ -186,6 +181,7 @@ void main() {
 
 function BallBackground() {
     const meshRef = useRef<THREE.Mesh>(null!);
+    const { isReady } = useLoading();
 
     const uniforms = useMemo<{[key: string]: THREE.IUniform}>(() => ({
         uTime: { value: 0 },
@@ -193,6 +189,8 @@ function BallBackground() {
     }), []);
 
     useFrame((state) => {
+        if (!isReady) return;
+
         if (meshRef.current) {
             const material = meshRef.current.material as THREE.ShaderMaterial;
             material.uniforms.uTime.value = state.clock.getElapsedTime();
@@ -218,12 +216,21 @@ function BallBackground() {
 }
 
 export default function SteelBackground() {
+    const { isReady } = useLoading();
+
     return (
         <div className="fixed inset-0 -z-10 pointer-events-none bg-[#050a0f]">
-            <Canvas dpr={[1, 2]}>
+            <Canvas
+                dpr={[1, 2]}
+                gl={{ powerPreference: "high-performance" }}
+            >
                 <BallBackground />
             </Canvas>
-            <div className="absolute inset-0 pointer-events-none bg-gradient-to-b from-black/40 via-transparent to-transparent" />
+            <div
+                className={`absolute inset-0 pointer-events-none bg-gradient-to-b from-black/40 via-transparent to-transparent transition-opacity duration-1000 ${
+                    isReady ? 'opacity-100' : 'opacity-0'
+                }`}
+            />
         </div>
     );
 }

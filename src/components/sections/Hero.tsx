@@ -2,10 +2,13 @@
 import {motion} from 'framer-motion';
 import {useRef} from 'react';
 import {usePathname, useRouter} from 'next/navigation';
+import {useLoading} from '@/context/LoadingContext';
 import ParticleText from "@/components/ui/ParticleText";
 import Magnetic from "@/components/ui/Magnetic";
+import LiquidGlass from "@/components/ui/LiquidGlass";
 
 export default function Hero() {
+    const {isReady} = useLoading();
     const targetRef = useRef(null);
     const pathname = usePathname();
     const router = useRouter();
@@ -13,9 +16,7 @@ export default function Hero() {
     const handleNavClick = (id: string) => {
         if (pathname === '/') {
             const element = document.getElementById(id);
-            if (element) {
-                element.scrollIntoView({behavior: 'smooth'});
-            }
+            if (element) element.scrollIntoView({behavior: 'smooth'});
         } else {
             router.push(`/#${id}`);
         }
@@ -26,102 +27,97 @@ export default function Hero() {
             ref={targetRef}
             className="min-h-[100svh] [@media(max-height:750px)]:min-h-[750px] relative flex flex-col items-center justify-center w-full overflow-hidden border-b border-white pt-5 md:pt-8 lg:pt-12 pb-10">
 
-            {/* CONTENT LAYER */}
             <div className="relative z-10 max-w-5xl px-6 text-center">
+                {/* ЭТАП 1: Верхняя строка начинает печататься сразу (T = 0) */}
                 <motion.span
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
+                    initial={{opacity: 0}}
+                    animate={isReady ? {opacity: 1} : {opacity: 0}}
                     className="inline-block text-blue-500 font-mono text-xs md:text-sm tracking-[0.4em] uppercase mb-6 bg-blue-500/5 px-4 py-2 border border-blue-500/10 backdrop-blur-sm"
                 >
-                    {/* Анимация появления букв */}
                     {"// High-End Engineering Studio".split("").map((char, index) => (
                         <motion.span
                             key={index}
-                            initial={{ opacity: 0 }}
-                            animate={{ opacity: 1 }}
+                            initial={{opacity: 0}}
+                            animate={isReady ? {opacity: 1} : {opacity: 0}}
                             transition={{
                                 duration: 0.05,
-                                delay: 3.0 + (index * 0.07), // Добавляем 1.2 секунды ожидания // Скорость печати (0.07 сек на букву)
+                                delay: isReady ? (index * 0.04) : 0, // Плотная печать
                                 ease: "easeIn"
                             }}
                         >
                             {char}
                         </motion.span>
                     ))}
-
-                    {/* Мигающий курсор в конце */}
-                    <motion.span
-                        animate={{ opacity: [1, 1, 0, 0] }} // Держим 1, потом резко 0
-                        transition={{
-                            duration: 0.8,
-                            repeat: Infinity,
-                            ease: "linear",
-                            times: [0, 0.5, 0.5, 1] // Резкое переключение на середине
-                        }}
-                        className="inline-block w-[6px] h-[12px] bg-blue-500 ml-2 align-middle"
-                    />
+                    {isReady && (
+                        <motion.span
+                            animate={{opacity: [1, 1, 0, 0]}}
+                            transition={{duration: 0.8, repeat: Infinity, ease: "linear", times: [0, 0.5, 0.5, 1]}}
+                            className="inline-block w-[6px] h-[12px] bg-blue-500 ml-2 align-middle"
+                        />
+                    )}
                 </motion.span>
 
+                {/* ЭТАП 2: ParticleText (T = 0.5с - когда верхняя строка наполовину готова) */}
                 <div className="relative z-10 w-full">
-                    <ParticleText text="Hardcore Development"/>
+                    <ParticleText text="Hardcore Development" isStarted={isReady}/>
                 </div>
 
-                <div className="max-w-3xl mx-auto mb-14">
-                    <p className="text-lg md:text-2xl text-white/95 font-medium tracking-wide leading-tight mb-4">
+                {/* ЭТАП 3: Описание (T = 1.2с - когда заголовок уже читается) */}
+                <motion.div
+                    initial={{opacity: 0, y: 15}}
+                    animate={isReady ? {opacity: 1, y: 0} : {opacity: 0}}
+                    transition={{
+                        delay: isReady ? 1.2 : 0,
+                        duration: 0.8,
+                        ease: "easeOut"
+                    }}
+                    className="max-w-3xl mx-auto mb-14 text-white"
+                >
+                    <p className="text-lg md:text-2xl font-medium tracking-wide leading-tight mb-4">
                         Authorial decomposition of ideas into flawless digital products.
                     </p>
-                    <p className="text-sm md:text-base text-white/60 font-light tracking-widest uppercase">
+                    <p className="text-sm md:text-base text-white/90 font-light tracking-widest uppercase">
                         High-performance interfaces through declarative UI and procedural graphics.
                     </p>
-                </div>
+                </motion.div>
 
-
-                <div className="relative z-20 flex flex-col sm:flex-row gap-5 justify-center items-center mt-12 px-10">
+                {/* ЭТАП 4: Кнопки (T = 1.6с - финальный аккорд композиции) */}
+                <motion.div
+                    initial={{opacity: 0, scale: 0.95}}
+                    animate={isReady ? {opacity: 1, scale: 1} : {opacity: 0, scale: 0.95}}
+                    transition={{
+                        delay: isReady ? 1.6 : 0,
+                        duration: 0.6,
+                        ease: "backOut"
+                    }}
+                    className="relative z-20 flex flex-col sm:flex-row gap-6 justify-center items-center mt-12 px-10"
+                >
                     <Magnetic>
                         <motion.button
                             onClick={() => handleNavClick('contact')}
-                            animate={{
-                                y: [0, -5, 0],
-                                filter: [
-                                    "drop-shadow(0 0 0px rgba(171,240,209,0))",
-                                    "drop-shadow(0 0 10px rgba(171,240,209,0.3))",
-                                    "drop-shadow(0 0 0px rgba(171,240,209,0))"
-                                ]
-                            }}
-                            transition={{
-                                duration: 4,
-                                repeat: Infinity,
-                                ease: "easeInOut"
-                            }}
-                            className="btn-neon-steel cursor-pointer block w-full sm:w-auto px-12 py-4 font-black uppercase tracking-[0.2em] text-sm active:transform active:scale-95"
+                            className="group cursor-pointer block w-full sm:w-auto p-0 border-none bg-transparent active:scale-95 transition-transform"
                         >
-                            Start Project
+                            <LiquidGlass className="px-12 py-4 rounded-full border border-white/20 hover:border-white/40 transition-colors">
+                              <span className="font-black uppercase tracking-[0.2em] text-sm text-white drop-shadow-md">
+                               Start Project
+                              </span>
+                            </LiquidGlass>
                         </motion.button>
                     </Magnetic>
 
                     <Magnetic>
                         <motion.button
                             onClick={() => handleNavClick('works')}
-                            animate={{
-                                y: [0, -5, 0],
-                                filter: [
-                                    "drop-shadow(0 0 0px rgba(171,240,209,0))",
-                                    "drop-shadow(0 0 10px rgba(171,240,209,0.3))",
-                                    "drop-shadow(0 0 0px rgba(171,240,209,0))"
-                                ]
-                            }}
-                            transition={{
-                                duration: 4,
-                                repeat: Infinity,
-                                ease: "easeInOut",
-                                delay: 0.5
-                            }}
-                            className="btn-neon-steel cursor-pointer block w-full sm:w-auto px-12 py-4 font-bold uppercase tracking-[0.2em] text-sm active:transform active:scale-95"
+                            className="group cursor-pointer block w-full sm:w-auto p-0 border-none bg-transparent active:scale-95 transition-transform"
                         >
-                            View Works
+                            <LiquidGlass className="px-12 py-4 rounded-full border border-white/20 hover:border-white/40 transition-colors">
+                              <span className="font-bold uppercase tracking-[0.2em] text-sm text-white drop-shadow-md">
+                                View Works
+                              </span>
+                            </LiquidGlass>
                         </motion.button>
                     </Magnetic>
-                </div>
+                </motion.div>
             </div>
         </section>
     );
