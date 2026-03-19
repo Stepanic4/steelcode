@@ -42,11 +42,11 @@ export default function Preloader({
                             opacity: 0,
                             transition: {duration: 0.8, ease: [0.43, 0.13, 0.23, 0.96]}
                         }}
-                        className="fixed inset-0 z-[9999] flex flex-col items-center justify-center bg-[#050a0f]">
+                        className="fixed inset-0 z-[9999] flex flex-col items-center justify-center bg-black">
                         <motion.div
                             initial={{opacity: 0}}
                             animate={{opacity: 0.6}}
-                            className="text-blue-500 font-mono text-xs tracking-[0.5em] uppercase mb-8">
+                            className="text-blue-400 font-mono text-xs tracking-[0.5em] uppercase mb-8">
                             {"// SteelCode Architecture"}
                         </motion.div>
                         <div className="w-[180px] h-[1px] bg-white/10 relative overflow-hidden">
