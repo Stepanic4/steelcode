@@ -120,41 +120,31 @@ vec3 color(float bf, vec3 ro, vec3 rd, vec3 nrd) {
   vec3 sky = skyColor(bf, ro, rd, nrd);
   vec2 bi = raySphere(ro, rd, ball);
   if (bi.x < 0.0) return sky;
-  
   vec3 sp = ro + bi.x*rd;
   vec3 sn = normalize(sp - ball.xyz);
-  vec3 sr = reflect(rd, sn); 
-  
-  float sfre = pow(1.0 + dot(sn, rd), 3.0); 
-  
+  vec3 sr = reflect(rd, sn);
+  float sfre = pow(1.0 + dot(sn, rd), 3.0);
   vec3 spr = sp - ball.xyz;
   spr.yz *= ROT(TIME*sqrt(0.5)); 
   spr.xy *= ROT(TIME*1.234);     
   vec3 ssp = toSpherical(spr.zxy);
   float verticalPos = ssp.y / PI; 
-
   vec2 sp2 = ssp.yz;
   float sf = sin(sp2.x); 
   float smf = pow(2.0, -ceil(log(sf)/log(2.0)));
   float sdg = grid(sp2, sf, smf);
   float aa = length(sp - (ro + bi.x*nrd));
-
   float heatFactor = smoothstep(0.4, 0.9, verticalPos);
-  
   vec3 reflectedColor = skyColor(bf, sp, sr, sr);
   vec3 chromeColor = mix(reflectedColor, vec3(0.9, 0.95, 1.0), 0.1);
   vec3 heatColor = temperColor(heatFactor);
-  
   vec3 baseColor = mix(chromeColor, heatColor, heatFactor);
-  
   vec3 sld = normalize(lightPos - sp); 
   float sspe = pow(max(dot(sld, sr), 0.0), 128.0);
-  
   vec3 scol = baseColor;
   scol = mix(scol, vec3(0.7), smoothstep(aa, -aa, sdg));
   scol = mix(scol, reflectedColor, sfre * 0.5);
   scol += sspe * vec3(1.0); 
-  
   return mix(sky, scol, tanh_approx(10.0*(bi.y-bi.x)));
 }
 
@@ -162,7 +152,6 @@ void main() {
   vec2 q = gl_FragCoord.xy / RESOLUTION.xy;
   vec2 p = -1. + 2. * q;
   p.x *= RESOLUTION.x/RESOLUTION.y;
-  
   vec3 ro = vec3(0.0, 0.5, 2.8); 
   vec3 la = vec3(0.0, 0.0, 0.0); 
   vec3 ww = normalize(la - ro);
@@ -170,11 +159,9 @@ void main() {
   vec3 vv = cross(ww,uu);
   vec3 rd = normalize(-p.x*uu + p.y*vv + 2.0*ww);
   vec3 nrd = normalize(-(p.x+2.0/RESOLUTION.y)*uu + p.y*vv + 2.0*ww);
-
   float bf = bouncef(TIME);
   vec3 col = color(bf, ro, rd, nrd);
   col = mix(col, vec3(0.7, 0.8, 1.0), smoothstep(2.5, 1.0, TIME));
-  
   gl_FragColor = vec4(col, 1.0);
 }
 `;
@@ -183,26 +170,25 @@ function BallBackground() {
     const meshRef = useRef<THREE.Mesh>(null!);
     const { isReady } = useLoading();
 
-    const uniforms = useMemo<{[key: string]: THREE.IUniform}>(() => ({
+    const uniforms = useMemo(() => ({
         uTime: { value: 0 },
-        uResolution: { value: new THREE.Vector2(0, 0) }
+        uResolution: { value: new THREE.Vector2(
+                typeof window !== 'undefined' ? window.innerWidth : 1920,
+                typeof window !== 'undefined' ? window.innerHeight : 1080
+            ) }
     }), []);
 
     useFrame((state) => {
-        if (!isReady) return;
-
-        if (meshRef.current) {
-            const material = meshRef.current.material as THREE.ShaderMaterial;
-            material.uniforms.uTime.value = state.clock.getElapsedTime();
-            material.uniforms.uResolution.value.set(state.size.width, state.size.height);
-        }
+        if (!isReady || !meshRef.current) return;
+        const material = meshRef.current.material as THREE.ShaderMaterial;
+        material.uniforms.uTime.value = state.clock.getElapsedTime();
+        material.uniforms.uResolution.value.set(state.size.width, state.size.height);
     });
 
     return (
         <mesh ref={meshRef}>
             <planeGeometry args={[2, 2]} />
             <shaderMaterial
-                key={THREE.REVISION}
                 fragmentShader={fragmentShader}
                 vertexShader={`
                     void main() {
@@ -222,7 +208,7 @@ export default function SteelBackground() {
         <div className="fixed inset-0 -z-10 pointer-events-none bg-[#050a0f]">
             <Canvas
                 dpr={[1, 2]}
-                gl={{ powerPreference: "high-performance" }}
+                gl={{ powerPreference: "high-performance", antialias: false }}
             >
                 <BallBackground />
             </Canvas>
