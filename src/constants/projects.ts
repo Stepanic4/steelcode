@@ -1,4 +1,3 @@
-
 export interface Project {
     id: string;
     slug: string;
@@ -6,27 +5,23 @@ export interface Project {
     tags: string[];
     year: string;
     isDraft: boolean;
-    imageBefore?: string;
-    imageAfter?: string;
 }
 
 export const PROJECTS_DATA: Project[] = [
     {
         id: "01",
-        slug: "modern-landing",
-        title: "Modern Landing Redesign",
-        tags: ["Frontend", "Tailwind", "React"],
+        slug: "vantage-motorworks",
+        title: "Vantage Motorworks",
+        tags: ["Automotive UI", "Performance", "Three.js"],
         year: "2026",
-        isDraft: false, // ЭТОТ ПРОЕКТ БУДЕТ КЛИКАБЕЛЬНЫМ
-        imageBefore: "/cases/yale-old.png",
-        imageAfter: "/cases/yale-new.png",
+        isDraft: false,
     },
     {
         id: "02",
-        slug: "ecommerce-ux",
-        title: "E-commerce System",
-        tags: ["UI Engineering", "Next.js"],
+        slug: "iron-hop-craft",
+        title: "Iron Hop Craft",
+        tags: ["Digital Identity", "Experience", "Framer Motion"],
         year: "2026",
-        isDraft: true, // ЭТОТ ОСТАНЕТСЯ ЗАГЛУШКОЙ
+        isDraft: false,
     },
 ];

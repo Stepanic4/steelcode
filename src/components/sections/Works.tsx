@@ -25,25 +25,19 @@ export default function Works() {
 
                     return (
                         <div key={project.id} className={`flex flex-col ${isEven ? "md:mt-24" : ""}`}>
-                            {/* Если проект НЕ черновик — оборачиваем в Link */}
-                            {!project.isDraft ? (
-                                <Link href={`/works/${project.slug}`} className="group transition-transform hover:scale-[1.01]">
-                                    <DraftCard title={project.title} />
-                                </Link>
-                            ) : (
-                                <div className="opacity-80 grayscale">
-                                    <DraftCard title={project.title} />
-                                </div>
-                            )}
+                            <Link href={`/works/${project.slug}`}
+                                className="group transition-transform hover:scale-[1.01]">
+                                <DraftCard title={project.title}/>
+                            </Link>
 
                             <div className="mt-6 flex justify-between items-center px-2">
-                <span className="text-[10px] font-mono uppercase tracking-widest text-white/80">
-                  {project.tags.join(" / ")}
-                </span>
+                                <span className="text-[10px] font-mono uppercase tracking-widest text-white/80">
+                                    {project.tags.join(" / ")}
+                                </span>
                                 <div className="h-[1px] flex-grow mx-4 bg-white/5"></div>
                                 <span className="text-[10px] font-mono uppercase text-blue-500">
-                  {project.year}
-                </span>
+                                    {project.year}
+                                </span>
                             </div>
                         </div>
                     );
