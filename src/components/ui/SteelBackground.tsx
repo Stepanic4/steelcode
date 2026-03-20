@@ -1,7 +1,7 @@
 "use client";
 
 import { Canvas, useFrame } from "@react-three/fiber";
-import { useRef, useMemo } from "react";
+import { useRef, useMemo, useEffect } from "react";
 import * as THREE from "three";
 import { useLoading } from "@/context/LoadingContext";
 
@@ -170,6 +170,7 @@ function BallBackground() {
     const meshRef = useRef<THREE.Mesh>(null!);
     const { isReady } = useLoading();
 
+    // Инициализируем разрешение один раз
     const uniforms = useMemo(() => ({
         uTime: { value: 0 },
         uResolution: { value: new THREE.Vector2(
@@ -178,11 +179,30 @@ function BallBackground() {
             ) }
     }), []);
 
+    // Ручной контроль ресайза для Android
+    useEffect(() => {
+        let lastWidth = window.innerWidth;
+        const handleResize = () => {
+            const currentWidth = window.innerWidth;
+            const currentHeight = window.innerHeight;
+            // Обновляем только если изменилась ширина (поворот экрана)
+            // Игнорируем изменение высоты (скрытие адресной строки)
+            if (currentWidth !== lastWidth) {
+                if (meshRef.current) {
+                    const material = meshRef.current.material as THREE.ShaderMaterial;
+                    material.uniforms.uResolution.value.set(currentWidth, currentHeight);
+                }
+                lastWidth = currentWidth;
+            }
+        };
+        window.addEventListener('resize', handleResize);
+        return () => window.removeEventListener('resize', handleResize);
+    }, []);
+
     useFrame((state) => {
         if (!isReady || !meshRef.current) return;
         const material = meshRef.current.material as THREE.ShaderMaterial;
         material.uniforms.uTime.value = state.clock.getElapsedTime();
-        material.uniforms.uResolution.value.set(state.size.width, state.size.height);
     });
 
     return (
@@ -205,7 +225,7 @@ export default function SteelBackground() {
     const { isReady } = useLoading();
 
     return (
-        <div className="fixed inset-0 -z-10 pointer-events-none bg-[#050a0f]">
+        <div className="fixed inset-0 -z-10 pointer-events-none overflow-hidden h-[100lvh]">
             <Canvas
                 dpr={[1, 2]}
                 gl={{ powerPreference: "high-performance", antialias: false }}
@@ -213,7 +233,7 @@ export default function SteelBackground() {
                 <BallBackground />
             </Canvas>
             <div
-                className={`absolute inset-0 pointer-events-none bg-gradient-to-b from-black/40 via-transparent to-transparent transition-opacity duration-1000 ${
+                className={`absolute inset-0 pointer-events-none bg-gradient-to-b from-cyan-800 via-transparent to-transparent transition-opacity duration-1000 ${
                     isReady ? 'opacity-100' : 'opacity-0'
                 }`}
             />

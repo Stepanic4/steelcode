@@ -11,17 +11,19 @@ function LayoutContent({ children }: { children: React.ReactNode }) {
     const { setIsReady } = useLoading();
 
     return (
-        <Preloader onComplete={() => setIsReady(true)}>
-            <SteelBackground />
-            <div className="relative z-10 flex flex-col min-h-screen">
-                <Header />
-                <main className="flex-grow">
-                    {children}
-                </main>
-                <Footer />
-            </div>
-            <ScrollToTop />
-        </Preloader>
+        <>
+            <Preloader onComplete={() => setIsReady(true)}>
+                <SteelBackground />
+                <div className="relative z-10 flex flex-col min-h-screen">
+                    <Header />
+                    <main className="flex-grow">
+                        {children}
+                    </main>
+                    <Footer />
+                </div>
+                <ScrollToTop />
+            </Preloader>
+        </>
     );
 }
 

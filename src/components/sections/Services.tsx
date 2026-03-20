@@ -29,7 +29,7 @@ export function ServiceCard({ service }: { service: typeof services[0] }) {
     return (
         <div onMouseEnter={() => setIsHovered(true)}
              onMouseLeave={() => setIsHovered(false)}
-             className="group relative p-4 border border-zinc-900 bg-zinc-900/80 hover:bg-zinc-900 transition-all duration-500 cursor-crosshair spark-border overflow-hidden">
+             className="shadow-[0_0_50px_-10px_rgba(6,182,212,0.8)] group relative p-4 border border-zinc-900 bg-zinc-900/80 hover:bg-zinc-900 transition-all duration-500 cursor-crosshair spark-border overflow-hidden">
             {/*  блок отвечает за искру */}
             <div className="spark-trail" />
 
