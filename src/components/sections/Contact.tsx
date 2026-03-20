@@ -81,7 +81,7 @@ export default function Contact() {
                         viewport={{ once: true }}
                         transition={{ duration: 0.5 }}
                         whileHover="hover"
-                        className="flex flex-col gap-6 p-8 border border-zinc-800 bg-zinc-900/80 rounded-none text-white relative overflow-hidden group"
+                        className="shadow-sky-800 shadow-md flex flex-col gap-6 p-8 border border-zinc-800 bg-zinc-900/80 rounded-none text-white relative overflow-hidden group"
                     >
                         {/* ЛАЗЕР ДЛЯ ЛЕВОГО БЛОКА */}
                         <motion.div
@@ -135,7 +135,7 @@ export default function Contact() {
                                 transition={{ duration: 0.5, delay: (index + 1) * 0.1 }} // Задержка после левого блока
                                 whileHover="hover"
                                 whileTap={{ scale: 0.97 }}
-                                className="flex items-center justify-between p-6 border border-zinc-800 bg-zinc-900/80 transition-all group relative overflow-hidden"
+                                className="shadow-sky-800 shadow-md flex items-center justify-between p-6 border border-zinc-800 bg-zinc-900/80 transition-all group relative overflow-hidden"
                             >
                                 {/* КИСЛОТНЫЙ КИБЕРЛАНЗЕР */}
                                 <motion.div
@@ -155,7 +155,7 @@ export default function Contact() {
                                 />
 
                                 <motion.div
-                                    className="flex items-center gap-5 relative z-20"
+                                    className="flex items-center gap-5 relative z-20 "
                                     variants={{ hover: { x: 10 } }}
                                     transition={{ type: "spring", stiffness: 300, damping: 20 }}
                                 >
