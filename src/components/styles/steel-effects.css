@@ -125,7 +125,6 @@
     }
 
     /* ////////// END  CARD  //////////   */
-
     /* ////////// SCROLL TO TOP BADGE ////////// */
     .scroll-top-badge {
         position: fixed;
@@ -182,7 +181,6 @@
         }
     }
     /* ////////// END SCROLL TO TOP ////////// */
-
     /* ////////// SCROLL BAR  ////////// */
     /* Кастомный толстый скролл для горизонтальных блоков */
     .thick-scrollbar::-webkit-scrollbar {
@@ -213,7 +211,6 @@
     }
 
     /* ////////// END SCROLL BAR  ////////// */
-
     /* ////////// Border ////////// */
     @property --angle {
         syntax: "<angle>";
@@ -266,10 +263,125 @@
     }
 
     @keyframes spark-spin-smooth {
-        from { transform: rotate(0deg) translateZ(0); }
-        to { transform: rotate(360deg) translateZ(0); }
+        from {
+            transform: rotate(0deg) translateZ(0);
+        }
+        to {
+            transform: rotate(360deg) translateZ(0);
+        }
     }
     /* ////////// END Border ////////// */
+    /* ////////// PRELOADER SMILEY ////////// */
+    .smiley-container {
+        position: relative;
+        margin-bottom: 2rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 128px;
+        height: 128px;
+    }
+
+    .smiley {
+        width: 100%;
+        height: 100%;
+    }
+
+    .smiley__eye1,
+    .smiley__eye2,
+    .smiley__mouth1,
+    .smiley__mouth2 {
+        animation: smiley-eye1 3s ease-in-out infinite;
+    }
+
+    .smiley__eye1,
+    .smiley__eye2 {
+        transform-origin: 64px 64px;
+    }
+
+    .smiley__eye2 {
+        animation-name: smiley-eye2;
+    }
+
+    .smiley__mouth1 {
+        animation-name: smiley-mouth1;
+    }
+
+    .smiley__mouth2 {
+        animation-name: smiley-mouth2;
+        visibility: hidden;
+    }
+}
+
+/* Анимации выносим за пределы @layer, чтобы избежать проблем с парсингом unknown utilities */
+@keyframes smiley-eye1 {
+    from {
+        transform: rotate(-260deg) translate(0, -56px);
+    }
+    50%, 60% {
+        animation-timing-function: cubic-bezier(0.17, 0, 0.58, 1);
+        transform: rotate(-40deg) translate(0, -56px) scale(1);
+    }
+    to {
+        transform: rotate(225deg) translate(0, -56px) scale(0.35);
+    }
+}
+
+@keyframes smiley-eye2 {
+    from {
+        transform: rotate(-260deg) translate(0, -56px);
+    }
+    50% {
+        transform: rotate(40deg) translate(0, -56px) rotate(-40deg) scale(1);
+    }
+    52.5% {
+        transform: rotate(40deg) translate(0, -56px) rotate(-40deg) scale(1, 0);
+    }
+    55%, 70% {
+        animation-timing-function: cubic-bezier(0, 0, 0.28, 1);
+        transform: rotate(40deg) translate(0, -56px) rotate(-40deg) scale(1);
+    }
+    to {
+        transform: rotate(150deg) translate(0, -56px) scale(0.4);
+    }
+}
+
+@keyframes smiley-mouth1 {
+    from {
+        animation-timing-function: ease-in;
+        stroke-dasharray: 0 351.86;
+        stroke-dashoffset: 0;
+    }
+    25% {
+        animation-timing-function: ease-out;
+        stroke-dasharray: 175.93 351.86;
+        stroke-dashoffset: 0;
+    }
+    50% {
+        animation-timing-function: steps(1, start);
+        stroke-dasharray: 175.93 351.86;
+        stroke-dashoffset: -175.93;
+        visibility: visible;
+    }
+    75%, to {
+        visibility: hidden;
+    }
+}
+
+@keyframes smiley-mouth2 {
+    from {
+        animation-timing-function: steps(1, end);
+        visibility: hidden;
+    }
+    50% {
+        animation-timing-function: ease-in-out;
+        visibility: visible;
+        stroke-dashoffset: 0;
+    }
+    to {
+        stroke-dashoffset: -351.86;
+    }
+    /* ////////// END PRELOADER SMILEY ////////// */
 
 }
 
