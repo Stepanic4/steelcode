@@ -6,6 +6,7 @@ import {useLoading} from '@/context/LoadingContext';
 import ParticleText from "@/components/ui/ParticleText";
 import Magnetic from "@/components/ui/Magnetic";
 import LiquidGlass from "@/components/ui/LiquidGlass";
+import Spanizer from "@/components/ui/Spanizer";
 
 export default function Hero() {
     const {isReady} = useLoading();
@@ -32,8 +33,7 @@ export default function Hero() {
                 <motion.span
                     initial={{opacity: 0}}
                     animate={isReady ? {opacity: 1} : {opacity: 0}}
-                    className="inline-block text-blue-500 font-mono text-xs md:text-sm tracking-[0.4em] uppercase mb-6 bg-blue-500/5 px-4 py-2 border border-blue-500/10 backdrop-blur-sm"
-                >
+                    className="inline-block text-blue-500 font-mono text-xs md:text-sm tracking-[0.4em] uppercase mb-6 bg-blue-500/5 px-4 py-2 border border-blue-500/10 backdrop-blur-sm">
                     {"// High-End Engineering Studio".split("").map((char, index) => (
                         <motion.span
                             key={index}
@@ -43,8 +43,7 @@ export default function Hero() {
                                 duration: 0.05,
                                 delay: isReady ? (index * 0.04) : 0, // Плотная печать
                                 ease: "easeIn"
-                            }}
-                        >
+                            }}>
                             {char}
                         </motion.span>
                     ))}
@@ -71,13 +70,24 @@ export default function Hero() {
                         duration: 0.8,
                         ease: "easeOut"
                     }}
-                    className="max-w-3xl mx-auto mb-14 text-white"
-                >
+                    className="max-w-3xl mx-auto mb-14 text-white">
+
                     <p className="text-lg md:text-2xl font-medium tracking-wide leading-tight mb-4">
-                        Authorial decomposition of ideas into flawless digital products.
+                        <Spanizer
+                            text="Authorial decomposition of ideas into flawless digital products."
+                            shouldStart={isReady}
+                            startDelay={1.2}
+                            delayStep={0.04}
+                        />
                     </p>
+
                     <p className="text-sm md:text-base text-white/90 font-light tracking-widest uppercase">
-                        High-performance interfaces through declarative UI and procedural graphics.
+                        <Spanizer
+                            text="High-performance interfaces through declarative UI and procedural graphics."
+                            shouldStart={isReady}
+                            startDelay={1.7}
+                            delayStep={0.04}
+                        />
                     </p>
                 </motion.div>
 
@@ -90,16 +100,18 @@ export default function Hero() {
                         duration: 0.6,
                         ease: "backOut"
                     }}
-                    className="relative z-20 flex flex-col sm:flex-row gap-6 justify-center items-center mt-12 px-10"
-                >
+                    className="relative z-20 flex flex-col sm:flex-row gap-6 justify-center items-center mt-12 px-10">
                     <Magnetic>
                         <motion.button
                             onClick={() => handleNavClick('contact')}
-                            className="group cursor-pointer block w-full sm:w-auto p-0 border-none bg-transparent active:scale-95 transition-transform"
-                        >
-                            <LiquidGlass className="px-12 py-4 rounded-full border border-white/20 hover:border-white/40 transition-colors">
+                            className="group cursor-pointer block w-full sm:w-auto p-0 border-none bg-transparent active:scale-95 transition-transform">
+                            <LiquidGlass
+                                className="px-12 py-4 rounded-full border border-white/20 hover:border-white/40 transition-colors">
                               <span className="font-black uppercase tracking-[0.2em] text-sm text-white drop-shadow-md">
-                               Start Project
+                                  <Spanizer text="Start Project"
+                                            shouldStart={isReady}
+                                            startDelay={2.0}
+                                            delayStep={0.04}/>
                               </span>
                             </LiquidGlass>
                         </motion.button>
@@ -108,11 +120,14 @@ export default function Hero() {
                     <Magnetic>
                         <motion.button
                             onClick={() => handleNavClick('works')}
-                            className="group cursor-pointer block w-full sm:w-auto p-0 border-none bg-transparent active:scale-95 transition-transform"
-                        >
-                            <LiquidGlass className="px-12 py-4 rounded-full border border-white/20 hover:border-white/40 transition-colors">
+                            className="group cursor-pointer block w-full sm:w-auto p-0 border-none bg-transparent active:scale-95 transition-transform">
+                            <LiquidGlass
+                                className="px-12 py-4 rounded-full border border-white/20 hover:border-white/40 transition-colors">
                               <span className="font-bold uppercase tracking-[0.2em] text-sm text-white drop-shadow-md">
-                                View Works
+                                  <Spanizer text="View Works"
+                                            shouldStart={isReady}
+                                            startDelay={2.0}
+                                            delayStep={0.04}/>
                               </span>
                             </LiquidGlass>
                         </motion.button>

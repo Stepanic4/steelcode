@@ -298,6 +298,20 @@
     }
     /* ////////// END PRELOADER CIRCLE ////////// */
 
+    /* ////////// Spanizer Text ////////// */
+    @keyframes letter-glow {
+        0% { opacity: 0; text-shadow: 0px 0px 1px rgba(255,255,255,0.1); }
+        66% { opacity: 1; text-shadow: 0px 0px 20px rgba(255,255,255,0.9); }
+        100% { opacity: 0.8; text-shadow: 0px 0px 0px rgba(255,255,255,0); }
+    }
+
+    .animate-letter {
+        display: inline-block;
+        opacity: 0;
+        animation: letter-glow 0.7s ease forwards;
+    }
+    /* ////////// End Spanizer Text ////////// */
+
 }
 
 

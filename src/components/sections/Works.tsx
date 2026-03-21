@@ -9,7 +9,7 @@ export default function Works() {
             <div className="flex flex-col mb-16 md:mb-24">
                 <div className="flex items-center gap-4 mb-4">
                     <span className="w-12 h-[1px] bg-blue-500"></span>
-                    <h2 className="text-xs font-mono uppercase tracking-[0.5em] text-blue-500">
+                    <h2 className="text-sm font-mono uppercase tracking-[0.5em] text-blue-500">
                         Selected Cases
                     </h2>
                 </div>
@@ -31,11 +31,11 @@ export default function Works() {
                             </Link>
 
                             <div className="mt-6 flex justify-between items-center px-2">
-                                <span className="text-[10px] font-mono uppercase tracking-widest text-white/80">
+                                <span className="text-[10px] md:text-xs font-mono uppercase tracking-widest text-white/90">
                                     {project.tags.join(" / ")}
                                 </span>
-                                <div className="h-[1px] flex-grow mx-4 bg-white/5"></div>
-                                <span className="text-[10px] font-mono uppercase text-blue-500">
+                                <div className="h-[1px] flex-grow mx-4 bg-sky-500"></div>
+                                <span className="text-[10px] md:text-xs font-mono uppercase text-sky-500">
                                     {project.year}
                                 </span>
                             </div>
