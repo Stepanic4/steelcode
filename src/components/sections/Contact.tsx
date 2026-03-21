@@ -28,12 +28,14 @@ function LocationLink() {
     const [isHovered, setIsHovered] = useState(false);
     const castleImg = "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c8/Melnik.jpg/1280px-Melnik.jpg";
 
+    const mapUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent("Mělník, Czech Republic")}`;
+
     return (
         <div className="relative inline-block"
              onMouseEnter={() => setIsHovered(true)}
              onMouseLeave={() => setIsHovered(false)}>
 
-            <a href="https://goo.gl/maps/Mělník"
+            <a href={mapUrl}
                target="_blank"
                rel="noopener noreferrer"
                className="mt-10 flex items-center gap-2 text-white/80 hover:text-white transition-colors uppercase tracking-widest text-xs font-medium cursor-pointer">

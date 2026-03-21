@@ -1,6 +1,6 @@
 "use client";
-import {motion, AnimatePresence} from "framer-motion";
-import {useEffect, useState} from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { useEffect, useState } from "react";
 
 export default function Preloader({
                                       children,
@@ -15,12 +15,10 @@ export default function Preloader({
     useEffect(() => {
         const handleComplete = () => {
             setShouldRenderContent(true);
-
             const timer = setTimeout(() => {
                 setIsLoading(false);
                 if (onComplete) onComplete();
             }, 800);
-
             return () => clearTimeout(timer);
         };
 
@@ -40,22 +38,20 @@ export default function Preloader({
                         key="preloader"
                         exit={{
                             opacity: 0,
-                            transition: {duration: 0.8, ease: [0.43, 0.13, 0.23, 0.96]}
+                            transition: { duration: 0.8, ease: [0.43, 0.13, 0.23, 0.96] }
                         }}
-                        className="fixed inset-0 z-[9999] flex flex-col items-center justify-center bg-black">
+                        className="fixed inset-0 z-[9999] flex flex-col items-center justify-center bg-slate-950">
+
+                        <div className="smiley-container">
+                            <div className="loader-circle"></div>
+                        </div>
+
                         <motion.div
-                            initial={{opacity: 0}}
-                            animate={{opacity: 0.6}}
-                            className="text-blue-400 font-mono text-xs tracking-[0.5em] uppercase mb-8">
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 0.6 }}
+                            className="text-sky-500 font-mono text-sm md:text-base tracking-[0.5em] uppercase text-center px-4">
                             {"// SteelCode Architecture"}
                         </motion.div>
-                        <div className="w-[180px] h-[1px] bg-white/10 relative overflow-hidden">
-                            <motion.div
-                                animate={{x: ["-100%", "100%"]}}
-                                transition={{duration: 1.5, repeat: Infinity, ease: "linear"}}
-                                className="absolute inset-0 w-full h-full bg-gradient-to-r from-transparent via-blue-500 to-transparent"
-                            />
-                        </div>
                     </motion.div>
                 )}
             </AnimatePresence>
