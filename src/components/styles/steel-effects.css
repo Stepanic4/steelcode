@@ -1,130 +1,47 @@
-/* //////////   CARD  //////////   */
 @layer components {
-    .steel-heat-tint {
-        position: relative;
-        /* Основа: глубокий стальной градиент с резким переходом */
-        background: linear-gradient(165deg,
-        #232323 0%,
-        #3a3a3a 40%,
-        #111111 45%,
-        #050505 100%
-        );
-        border: 1px solid rgba(255, 255, 255, 0.15);
-        box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.5),
-        inset 0 1px 1px rgba(255, 255, 255, 0.1);
-        overflow: hidden;
+    /* ////////// GOLDEN PIXEL CARD ////////// */
+    .theme-gold {
+        --accent-color: #fde047;
+        --accent-glow: rgba(234, 179, 8, 0.4);
+        --pixel-colors: #fef08a, #fde047, #eab308;
     }
 
-    /* Слой побежалости: только в углах */
-    .steel-heat-tint::before {
-        content: "";
-        position: absolute;
-        inset: 0;
-        background: radial-gradient(circle at 0% 0%,
-        rgba(30, 64, 175, 0.7) 0%,
-        rgba(124, 58, 237, 0.5) 10%,
-        transparent 25%),
-        radial-gradient(circle at 100% 100%,
-                rgba(30, 64, 175, 0.7) 0%,
-                rgba(124, 58, 237, 0.5) 10%,
-                transparent 25%);
-        mix-blend-mode: screen;
-        opacity: 0.6;
-        pointer-events: none;
+    .theme-sky {
+        --accent-color: #38bdf8;
+        --accent-glow: rgba(14, 165, 233, 0.4);
+        --pixel-colors: #0ea5e9, #38bdf8, #7dd3fc;
     }
 
-    /* Блик: острая белая линия */
-    .steel-heat-tint::after {
-        content: "";
-        position: absolute;
-        inset: 0;
-        background: linear-gradient(
-                115deg,
-                transparent 0%,
-                transparent 45%,
-                rgba(255, 255, 255, 0.1) 48%,
-                rgba(255, 255, 255, 0.2) 50%,
-                rgba(255, 255, 255, 0.1) 52%,
-                transparent 55%
-        );
-        pointer-events: none;
-        transform: perspective(1px) translate3d(0, 0, 0);
-        will-change: transform;
-        backface-visibility: hidden;
-    }
-
-    .steel-card {
-        position: relative;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        overflow: hidden;
-        border-radius: 0.5rem;
-        border: 1px solid rgba(255, 255, 255, 0.1);
-        background-color: rgba(255, 255, 255, 0.02);
-        background-image: linear-gradient(165deg, #232323 0%, #3a3a3a 40%, #111111 45%, #050505 100%);
-        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        isolation: isolate;
-
-        /* --- РЕМОНТ РАЗМЫТИЯ --- */
-        transform: translate3d(0, 0, 0);
-        will-change: transform;
-        backface-visibility: hidden;
-        -webkit-font-smoothing: antialiased;
-        -moz-osx-font-smoothing: grayscale;
-    }
-
+    /* ////////// CARD ENGINE ////////// */
     .steel-card:hover {
-        transform: translateY(-12px) scale(1.02) translate3d(0, 0, 0);
-        border-color: rgba(255, 255, 255, 0.3);
-        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7),
-        0 0 25px rgba(59, 130, 246, 0.25),
-        inset 0 1px 2px rgba(255, 255, 255, 0.2);
+        border-color: var(--accent-color) !important;
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6),
+        0 0 20px var(--accent-glow);
     }
 
-    /* Внутренняя рамка (фаска) */
-    .steel-card-bevel {
-        position: absolute;
-        top: 1px;
-        right: 1px;
-        bottom: 1px;
-        left: 1px;
-        border-radius: 7px;
-        border: 1px solid rgba(255, 255, 255, 0.05);
-        pointer-events: none;
+    .steel-card:hover .gold-text {
+        color: var(--accent-color) !important;
+        text-shadow: 0 0 8px var(--accent-glow);
     }
 
-    /* Контейнер для текста прогресса */
-    @keyframes steel-pulse {
-        0%, 100% {
-            opacity: 1;
-            box-shadow: 0 0 10px rgba(59, 130, 246, 0.2);
-            transform: scale(1);
-        }
-        50% {
-            opacity: 0.6;
-            box-shadow: 0 0 20px rgba(59, 130, 246, 0.4);
-            transform: scale(0.98);
-        }
+    /* Внутренняя рамка */
+    .steel-card:hover .inner-border {
+        border-color: var(--accent-color) !important;
+        opacity: 0.4;
     }
 
-    .steel-badge {
-        padding: 0.5rem 1.25rem;
-        border: 1px solid rgba(59, 130, 246, 0.2);
-        background-color: rgba(0, 0, 0, 0.4);
-        backdrop-filter: blur(12px);
-        border-radius: 0.125rem;
-        animation: steel-pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
-        transition: all 0.3s ease;
-    }
-
+    /* Бейдж внутри карточки */
     .steel-card:hover .steel-badge {
-        animation-duration: 1s;
-        border-color: rgba(59, 130, 246, 0.5);
-        box-shadow: 0 0 30px rgba(59, 130, 246, 0.5);
+        border-color: var(--accent-color) !important;
+        box-shadow: inset 0 0 10px var(--accent-glow);
     }
 
-    /* ////////// END  CARD  //////////   */
+    /* Базовый стиль бейджа (чтобы не дублировать в JSX) */
+    .steel-badge {
+        transition: all 0.4s ease-in-out;
+    }
+    /* ////////// END GOLDEN PIXEL CARD ////////// */
+
     /* ////////// SCROLL TO TOP BADGE ////////// */
     .scroll-top-badge {
         position: fixed;
@@ -271,7 +188,6 @@
         }
     }
     /* ////////// END Border ////////// */
-
     /* ////////// PRELOADER CIRCLE ////////// */
     .smiley-container {
         position: relative;
@@ -293,16 +209,28 @@
     }
 
     @keyframes spin {
-        from { transform: rotate(0deg); }
-        to { transform: rotate(360deg); }
+        from {
+            transform: rotate(0deg);
+        }
+        to {
+            transform: rotate(360deg);
+        }
     }
     /* ////////// END PRELOADER CIRCLE ////////// */
-
     /* ////////// Spanizer Text ////////// */
     @keyframes letter-glow {
-        0% { opacity: 0; text-shadow: 0px 0px 1px rgba(255,255,255,0.1); }
-        66% { opacity: 1; text-shadow: 0px 0px 20px rgba(255,255,255,0.9); }
-        100% { opacity: 0.8; text-shadow: 0px 0px 0px rgba(255,255,255,0); }
+        0% {
+            opacity: 0;
+            text-shadow: 0px 0px 1px rgba(255, 255, 255, 0.1);
+        }
+        66% {
+            opacity: 1;
+            text-shadow: 0px 0px 20px rgba(255, 255, 255, 0.9);
+        }
+        100% {
+            opacity: 0.8;
+            text-shadow: 0px 0px 0px rgba(255, 255, 255, 0);
+        }
     }
 
     .animate-letter {
@@ -310,7 +238,70 @@
         opacity: 0;
         animation: letter-glow 0.7s ease forwards;
     }
+
     /* ////////// End Spanizer Text ////////// */
+    /* ////////// GOLDEN PIXEL CARD ////////// */
+    .steel-card {
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
+        border-radius: 0.5rem;
+        /* Матовая черная база */
+        background: #0a0a0a;
+        border: 1px solid rgba(255, 255, 255, 0.05);
+        transition: all 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+        isolation: isolate;
+        transform: translateZ(0);
+    }
+
+    /* Стальной градиент в покое (едва заметный) */
+    .steel-card::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(165deg, #1a1a1a 0%, #0a0a0a 100%);
+        opacity: 1;
+        transition: opacity 0.6s ease;
+        z-index: -1;
+    }
+
+    /* Золотое свечение при ховере */
+    .steel-card:hover, .steel-card:active {
+        border-color: #fde047;
+        transform: translateY(-8px) scale(1.01);
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.8),
+        0 0 25px rgba(234, 179, 8, 0.15);
+    }
+
+    /* Текст и контент внутри */
+    .steel-card .content-wrapper {
+        position: relative;
+        z-index: 10;
+        pointer-events: none; /* Пропускаем клики сквозь текст на карточку */
+    }
+
+    /* Убираем синий из бейджа */
+    .steel-badge {
+        padding: 0.5rem 1.25rem;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        background: rgba(0, 0, 0, 0.6);
+        backdrop-filter: blur(8px);
+        transition: all 0.4s ease;
+    }
+
+    .steel-card:hover .steel-badge, .steel-card:active .steel-badge {
+        border-color: #fde047;
+        box-shadow: 0 0 15px rgba(254, 240, 138, 0.2);
+    }
+
+    .steel-card:hover .gold-text, .steel-card:active .gold-text {
+        color: #fde047;
+        text-shadow: 0 0 10px rgba(254, 240, 138, 0.5);
+    }
+
+    /* ////////// END GOLDEN PIXEL CARD ////////// */
 
 }
 

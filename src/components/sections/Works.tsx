@@ -26,8 +26,11 @@ export default function Works() {
                     return (
                         <div key={project.id} className={`flex flex-col ${isEven ? "md:mt-24" : ""}`}>
                             <Link href={`/works/${project.slug}`}
-                                className="group transition-transform hover:scale-[1.01]">
-                                <DraftCard title={project.title}/>
+                                  className="group transition-transform hover:scale-[1.01]">
+                                <DraftCard
+                                    title={project.title}
+                                    theme={project.theme || "theme-gold"}
+                                />
                             </Link>
 
                             <div className="mt-6 flex justify-between items-center px-2">

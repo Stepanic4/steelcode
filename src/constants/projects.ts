@@ -5,6 +5,7 @@ export interface Project {
     tags: string[];
     year: string;
     isDraft: boolean;
+    theme?: "theme-gold" | "theme-sky" | "theme-silver";
 }
 
 export const PROJECTS_DATA: Project[] = [
@@ -15,6 +16,7 @@ export const PROJECTS_DATA: Project[] = [
         tags: ["Automotive UI", "Performance", "Three.js"],
         year: "2026",
         isDraft: false,
+        theme: "theme-gold",
     },
     {
         id: "02",
@@ -23,5 +25,6 @@ export const PROJECTS_DATA: Project[] = [
         tags: ["Digital Identity", "Experience", "Framer Motion"],
         year: "2026",
         isDraft: false,
+        theme: "theme-sky",
     },
 ];
