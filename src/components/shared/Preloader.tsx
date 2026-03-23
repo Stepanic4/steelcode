@@ -49,7 +49,7 @@ export default function Preloader({
                         <motion.div
                             initial={{ opacity: 0 }}
                             animate={{ opacity: 0.6 }}
-                            className="text-sky-500 font-mono text-sm md:text-base tracking-[0.5em] uppercase text-center px-4">
+                            className="text-sky-500 font-mono text-xs md:text-base tracking-[0.3em] uppercase text-center px-4">
                             {"// SteelCode Architecture"}
                         </motion.div>
                     </motion.div>
