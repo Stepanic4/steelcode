@@ -98,36 +98,7 @@
         }
     }
     /* ////////// END SCROLL TO TOP ////////// */
-    /* ////////// SCROLL BAR  ////////// */
-    /* Кастомный толстый скролл для горизонтальных блоков */
-    .thick-scrollbar::-webkit-scrollbar {
-        height: 10px; /* Оптимальная толщина для контроля мышкой */
-        cursor: pointer;
-    }
 
-    .thick-scrollbar::-webkit-scrollbar-track {
-        background: rgba(255, 255, 255, 0.02);
-        border-radius: 20px;
-        margin-inline: 10px; /* Чтобы скролл не упирался в края контейнера */
-    }
-
-    .thick-scrollbar::-webkit-scrollbar-thumb {
-        background: #3b82f6;
-        border-radius: 20px;
-        border: 3px solid #0a0a0a; /* Эффект "парящей" полоски */
-        transition: background 0.2s ease;
-    }
-
-    .thick-scrollbar::-webkit-scrollbar-thumb:hover {
-    }
-
-    /* Для Firefox */
-    .thick-scrollbar {
-        scrollbar-width: auto;
-        scrollbar-color: #3b82f6 transparent;
-    }
-
-    /* ////////// END SCROLL BAR  ////////// */
     /* ////////// Border ////////// */
     @property --angle {
         syntax: "<angle>";
@@ -188,6 +159,7 @@
         }
     }
     /* ////////// END Border ////////// */
+
     /* ////////// PRELOADER CIRCLE ////////// */
     .smiley-container {
         position: relative;

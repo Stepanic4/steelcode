@@ -66,8 +66,8 @@ export default function Hero() {
                     initial={{opacity: 0, y: 15}}
                     animate={isReady ? {opacity: 1, y: 0} : {opacity: 0}}
                     transition={{
-                        delay: isReady ? 1.2 : 0,
-                        duration: 0.8,
+                        delay: isReady ? 0.5 : 0,
+                        duration: 0.5,
                         ease: "easeOut"
                     }}
                     className="max-w-3xl mx-auto mb-14 text-white">
@@ -76,8 +76,8 @@ export default function Hero() {
                         <Spanizer
                             text="Authorial decomposition of ideas into flawless digital products."
                             shouldStart={isReady}
-                            startDelay={1.2}
-                            delayStep={0.04}
+                            startDelay={0.8}
+                            delayStep={0.02}
                         />
                     </p>
 
@@ -85,8 +85,8 @@ export default function Hero() {
                         <Spanizer
                             text="High-performance interfaces through declarative UI and procedural graphics."
                             shouldStart={isReady}
-                            startDelay={1.7}
-                            delayStep={0.04}
+                            startDelay={2.0}
+                            delayStep={0.015}
                         />
                     </p>
                 </motion.div>

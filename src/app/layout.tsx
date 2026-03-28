@@ -18,6 +18,19 @@ export const metadata: Metadata = {
     title: "SteelCode.cz | Senior Development Studio",
     description: "High-end software development and digital solutions in Czech Republic.",
     metadataBase: new URL('https://steelcode.cz'),
+
+    icons: {
+        icon: [
+            { url: '/icons/favicon.ico' },
+            { url: '/icons/favicon-96x96.png', sizes: '96x96', type: 'image/png' },
+            { url: '/icons/favicon.svg', type: 'image/svg+xml' },
+        ],
+        apple: [
+            { url: '/icons/apple-touch-icon.png', sizes: '180x180', type: 'image/png' },
+        ],
+    },
+    manifest: '/icons/site.webmanifest',
+
     robots: {
         index: false,
         follow: false,

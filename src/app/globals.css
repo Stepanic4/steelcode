@@ -3,14 +3,11 @@
 :root {
     --font-geist-sans: "Geist", sans-serif;
     --font-geist-mono: "Geist Mono", monospace;
-    /* Графит */
-    --color-graphite: #253b3e;
     --color-text-main: #ffffff;
 }
 
 @layer base {
     body {
-        background-color: var(--color-graphite);
         color: var(--color-text-main);
         font-family: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
         -webkit-font-smoothing: antialiased;

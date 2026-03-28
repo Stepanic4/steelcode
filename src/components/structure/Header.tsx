@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { usePathname, useRouter } from 'next/navigation'; // Добавляем эти хуки
+import { usePathname, useRouter } from 'next/navigation';
 import Logo from "@/components/ui/Logo";
 import Burger from "@/components/ui/Burger";
 import MoleculeScene from "@/components/ui/MoleculeScene";
@@ -42,7 +42,7 @@ export default function Header() {
             className={`
                 fixed top-0 left-0 w-full z-[100] flex items-center justify-between transition-all duration-300
                 ${isScrolled
-                ? 'py-0 px-6 bg-zinc-900/80'
+                ? 'py-0 px-6 bg-zinc-900/95'
                 : 'py-6 px-6 bg-transparent'}
             `}>
             <div className="flex items-center gap-4">
