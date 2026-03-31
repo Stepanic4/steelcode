@@ -11,8 +11,8 @@ export interface Project {
 export const PROJECTS_DATA: Project[] = [
     {
         id: "01",
-        slug: "vantage-motorworks",
-        title: "Vantage Motorworks",
+        slug: "vintage-garage",
+        title: "Vintage Garage",
         tags: ["Automotive UI", "Performance", "Three.js"],
         year: "2026",
         isDraft: false,

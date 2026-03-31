@@ -1,5 +1,6 @@
 import { PROJECTS_DATA } from "@/constants/projects";
 import { notFound } from "next/navigation";
+import SceneContainer from "./_scenes/SceneContainer";
 
 export default async function ProjectDetailsPage({ params }: { params: Promise<{ slug: string }> }) {
     const { slug } = await params;
@@ -25,8 +26,14 @@ export default async function ProjectDetailsPage({ params }: { params: Promise<{
 
                 {/* Main Preview Block */}
                 <div className="shadow-sky-800 shadow-md group relative p-4 border border-zinc-900 bg-zinc-900/80 hover:bg-zinc-900/90 transition-all duration-500 mb-5">
-                    <div className="aspect-video w-full flex items-center justify-center">
-                        <button className="text-xs cursor-pointer uppercase tracking-widest px-6 py-3 bg-black text-white border border-zinc-800 font-bold hover:bg-white hover:text-blue-700 transition-all">
+                
+                    <div className="aspect-video w-full flex items-center justify-center relative overflow-hidden">
+                        
+                        <div className="absolute inset-0 z-0 pointer-events-none">
+                            <SceneContainer slug={slug} />
+                        </div>
+ 
+                        <button className="relative z-10 text-xs cursor-pointer uppercase tracking-widest px-6 py-3 bg-black text-white border border-zinc-800 font-bold hover:bg-white hover:text-blue-700 transition-all">
                             Initialize Experience
                         </button>
                     </div>
