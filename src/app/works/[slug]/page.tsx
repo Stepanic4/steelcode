@@ -24,20 +24,22 @@ export default async function ProjectDetailsPage({ params }: { params: Promise<{
                     </p>
                 </div>
 
-                {/* Main Preview Block */}
-                <div className="shadow-sky-800 shadow-md group relative p-4 border border-zinc-900 bg-zinc-900/80 hover:bg-zinc-900/90 transition-all duration-500 mb-5">
+{/* Main Preview Block */}
+<div className="shadow-sky-800 shadow-md group relative p-4 border border-zinc-900 bg-zinc-900/80 hover:bg-zinc-900/90 transition-all duration-500 mb-5">
                 
-                    <div className="aspect-video w-full flex items-center justify-center relative overflow-hidden">
-                        
-                        <div className="absolute inset-0 z-0 pointer-events-none">
-                            <SceneContainer slug={slug} />
-                        </div>
- 
-                        <button className="relative z-10 text-xs cursor-pointer uppercase tracking-widest px-6 py-3 bg-black text-white border border-sky-500/50 shadow-[0_0_20px_rgba(14,165,233,0.5)] font-bold hover:bg-white hover:text-blue-700 hover:shadow-[0_0_30px_rgba(14,165,233,0.8)] transition-all animate-pulse">
-                            Initialize Experience
-                        </button>
-                    </div>
-                </div>
+    {/* Изменяем aspect-video на динамический: квадрат на мобилке, видео на десктопе */}
+    <div className="aspect-square md:aspect-video w-full flex justify-center items-end pb-8 md:pb-12 relative overflow-hidden">
+        
+        <div className="absolute inset-0 z-0 pointer-events-none">
+            <SceneContainer slug={slug} />
+        </div>
+
+        {/* Немного уменьшаем кнопку для мобилок (py-2 вместо py-3), чтобы она не съедала весь экран */}
+        <button className="relative z-10 text-[10px] md:text-xs cursor-pointer uppercase tracking-widest px-4 py-2 md:px-6 md:py-3 bg-black text-white border border-sky-500/50 shadow-[0_0_20px_rgba(14,165,233,0.5)] font-bold hover:bg-white hover:text-blue-700 transition-all animate-pulse">
+            Initialize Experience
+        </button>
+    </div>
+</div>
 
                 {/* Info Grid */}
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
