@@ -19,9 +19,9 @@ function FloatingDetail() {
       <mesh ref={meshRef}>
         <cylinderGeometry args={[1, 1.2, 0.5, 6]} />
         <meshStandardMaterial 
-          color="#444" 
+          color="#e0e0e0" 
           metalness={0.8} 
-          roughness={0.2} 
+          roughness={0.8} 
           wireframe={false} 
         />
       </mesh>
@@ -36,19 +36,19 @@ export default function GarageScene() {
         <PerspectiveCamera makeDefault position={[0, 2, 8]} fov={50} />
         
         {/* Освещение */}
-        <ambientLight intensity={0.2} color="#4455ff" />
+        <ambientLight intensity={1.5} color="#4455ff" />
         <spotLight 
-          position={[5, 10, 5]} 
+          position={[0, 15, 0]} 
           angle={0.3} 
           penumbra={1} 
-          intensity={150} 
+          intensity={800} 
           castShadow 
           color="#ffaa44"
         />
         <pointLight position={[-5, 2, -2]} intensity={20} color="#3355ff" />
 
         {/* Пыль в воздухе */}
-        <Sparkles count={50} scale={10} size={2} speed={0.4} opacity={0.5} color="#ffccaa" />
+        <Sparkles count={200} scale={15} size={2} speed={0.4} opacity={0.8} color="#ffccaa" />
 
         {/* Центральный объект */}
         <group position={[0, 0.5, 0]}>
@@ -73,7 +73,7 @@ export default function GarageScene() {
           />
         </mesh>
 
-        <fog attach="fog" args={["#050505", 5, 15]} />
+        {/* <fog attach="fog" args={["#050505", 5, 15]} /> */}
       </Canvas>
     </div>
   )
