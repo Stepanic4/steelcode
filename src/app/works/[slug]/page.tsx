@@ -33,7 +33,7 @@ export default async function ProjectDetailsPage({ params }: { params: Promise<{
                             <SceneContainer slug={slug} />
                         </div>
  
-                        <button className="relative z-10 text-xs cursor-pointer uppercase tracking-widest px-6 py-3 bg-black text-white border border-zinc-800 font-bold hover:bg-white hover:text-blue-700 transition-all">
+                        <button className="relative z-10 text-xs cursor-pointer uppercase tracking-widest px-6 py-3 bg-black text-white border border-sky-500/50 shadow-[0_0_20px_rgba(14,165,233,0.5)] font-bold hover:bg-white hover:text-blue-700 hover:shadow-[0_0_30px_rgba(14,165,233,0.8)] transition-all animate-pulse">
                             Initialize Experience
                         </button>
                     </div>

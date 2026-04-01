@@ -9,29 +9,51 @@ import {
   MeshWobbleMaterial, 
   Stars, 
   Sparkles,
-  Grid
+  Grid,
+  Text,
+  ContactShadows
 } from '@react-three/drei'
 import * as THREE from 'three'
 
 function MatrixCore() {
   const meshRef = useRef<THREE.Mesh>(null!)
+  const innerRef = useRef<THREE.Mesh>(null!)
+  
   useFrame((state) => {
-    meshRef.current.rotation.x = state.clock.getElapsedTime() * 0.3
-    meshRef.current.rotation.y = state.clock.getElapsedTime() * 0.5
+    const t = state.clock.getElapsedTime()
+    meshRef.current.rotation.x = t * 0.3
+    meshRef.current.rotation.y = t * 0.5
+    innerRef.current.rotation.y = -t * 0.8
+    innerRef.current.scale.setScalar(1 + Math.sin(t * 2) * 0.05)
   })
 
   return (
-    <mesh ref={meshRef}>
-      <sphereGeometry args={[1.5, 32, 32]} />
-      <meshStandardMaterial 
-        color="#0ea5e9" 
-        wireframe 
-        transparent 
-        opacity={0.3} 
-        emissive="#0ea5e9" 
-        emissiveIntensity={2}
-      />
-    </mesh>
+    <group>
+      {/* Внешняя сфера-портал */}
+      <mesh ref={meshRef}>
+        <sphereGeometry args={[1.8, 32, 32]} />
+        <meshStandardMaterial 
+          color="#0ea5e9" 
+          wireframe 
+          transparent 
+          opacity={0.4} 
+          emissive="#0ea5e9" 
+          emissiveIntensity={5}
+        />
+      </mesh>
+      {/* Внутреннее ядро с эффектом искажения */}
+      <mesh ref={innerRef}>
+        <sphereGeometry args={[1.4, 32, 32]} />
+        <MeshDistortMaterial 
+          color="#0ea5e9" 
+          speed={2} 
+          distort={0.4} 
+          radius={1}
+          emissive="#0ea5e9"
+          emissiveIntensity={2}
+        />
+      </mesh>
+    </group>
   )
 }
 
@@ -66,87 +88,101 @@ function ReconstructionObject({ position, args, color }: { position: [number, nu
   )
 }
 
-function DataStream() {
-  const points = useMemo(() => {
-    const p = new Float32Array(300 * 3)
-    for (let i = 0; i < 300; i++) {
-      p[i * 3] = (Math.random() - 0.5) * 10
-      p[i * 3 + 1] = (Math.random() - 0.5) * 5
-      p[i * 3 + 2] = (Math.random() - 0.5) * 10
-    }
-    return p
-  }, [])
+function DataWaterfall() {
+  const group = useRef<THREE.Group>(null!)
+  const words = ["PROJECT DETAILS", "CASE STUDY // 2024", "RECONSTRUCTION", "VINTAGE", "SYSTEM", "GARAGE", "DATA"];
+  
+  const elements = useMemo(() => {
+    return Array.from({ length: 40 }).map((_, i) => ({
+      position: [(Math.random() - 0.5) * 15, Math.random() * 10, (Math.random() - 0.5) * 10] as [number, number, number],
+      text: words[Math.floor(Math.random() * words.length)],
+      speed: 0.02 + Math.random() * 0.05
+    }));
+  }, []);
 
-  const ref = useRef<THREE.Points>(null!)
-  useFrame((state) => {
-    ref.current.position.y = (state.clock.getElapsedTime() * 0.5) % 5
-  })
+  useFrame(() => {
+    group.current.children.forEach((child, i) => {
+      child.position.y -= elements[i].speed;
+      if (child.position.y < -5) child.position.y = 5;
+    });
+  });
 
   return (
-    <points ref={ref}>
-      <bufferGeometry>
-        <bufferAttribute 
-          attach="attributes-position" 
-          count={points.length / 3} 
-          array={points} 
-          itemSize={3} 
-        />
-      </bufferGeometry>
-      <pointsMaterial size={0.03} color="#0ea5e9" transparent opacity={0.6} sizeAttenuation />
-    </points>
-  )
+    <group ref={group}>
+      {elements.map((el, i) => (
+        <Text
+          key={i}
+          position={el.position}
+          fontSize={0.2}
+          color="#0ea5e9"
+          font="/fonts/GeistMono-Bold.woff" // Предполагаем наличие или стандартный fallback
+          anchorX="center"
+          anchorY="middle"
+          fillOpacity={0.5}
+        >
+          {el.text}
+        </Text>
+      ))}
+    </group>
+  );
 }
 
 export default function GarageScene() {
   return (
     <div className="w-full h-full bg-black">
       <Canvas shadows>
-        <PerspectiveCamera makeDefault position={[0, 2, 7]} />
+        <PerspectiveCamera makeDefault position={[0, 2, 8]} fov={50} />
         
-        {/* Освещение */}
-        <ambientLight intensity={0.2} />
+        {/* Освещение: Интенсивное и неоновое */}
+        <ambientLight intensity={0.1} />
         <spotLight 
-          position={[10, 10, 10]} 
-          angle={0.15} 
-          penumbra={1} 
-          intensity={2} 
+          position={[0, 10, 2]} 
+          angle={0.5} 
+          penumbra={0.5} 
+          intensity={10} 
           castShadow 
           color="#0ea5e9"
         />
-        <pointLight position={[-5, 5, -5]} intensity={1} color="#a855f7" />
+        <pointLight position={[0, 0, 0]} intensity={15} color="#0ea5e9" />
         <rectAreaLight
-          width={15}
-          height={15}
-          intensity={5}
-          position={[0, 0, -5]}
+          width={20}
+          height={20}
+          intensity={2}
+          position={[0, 0, -10]}
           color="#0ea5e9"
         />
 
         {/* Эффекты окружения */}
-        <Stars radius={100} depth={50} count={5000} factor={4} saturation={0} fade speed={1} />
-        <Sparkles count={200} scale={10} size={1} speed={0.5} color="#0ea5e9" />
+        <Stars radius={100} depth={50} count={2000} factor={4} saturation={0} fade speed={1} />
+        <Sparkles count={400} scale={15} size={3} speed={1} color="#0ea5e9" opacity={0.8} />
         
-        {/* Центральное ядро-матрица */}
-        <MatrixCore />
+        {/* Центральное ядро-портал */}
+        <group position={[0, 0.5, 0]}>
+            <MatrixCore />
+            {/* Имитация внутренних деталей гаража в сфере */}
+            <ReconstructionObject position={[0, 0, 0]} args={[1, 0.5, 1.5]} color="#222" />
+        </group>
 
-        {/* Объекты гаража (символические формы машин/мотоциклов) */}
-        <ReconstructionObject position={[-2.5, -0.5, 1]} args={[2, 0.8, 4]} color="#333" /> {/* Машина */}
-        <ReconstructionObject position={[2.5, -1, 2]} args={[0.5, 1.2, 2]} color="#444" /> {/* Мотоцикл */}
+        {/* Объекты гаража (символические формы) */}
+        <ReconstructionObject position={[-4, -0.5, -2]} args={[3, 1, 5]} color="#111" />
+        <ReconstructionObject position={[4, -1, -1]} args={[1, 1.5, 2]} color="#111" />
         
-        {/* Потоки данных */}
-        <DataStream />
+        {/* Цифровой водопад */}
+        <DataWaterfall />
 
-        {/* Сетка пола (Neon Grid) */}
+        {/* Сетка пола с глубоким затуханием */}
         <Grid 
           infiniteGrid 
-          fadeDistance={20} 
+          fadeDistance={30} 
           sectionColor="#0ea5e9" 
-          cellColor="#a855f7" 
-          sectionThickness={1.5} 
+          cellColor="#0284c7" 
+          sectionThickness={1.2} 
           position={[0, -2, 0]} 
         />
+        
+        <ContactShadows position={[0, -1.9, 0]} opacity={0.6} scale={20} blur={2} far={4.5} />
 
-        <fog attach="fog" args={["#000", 5, 15]} />
+        <fog attach="fog" args={["#000", 2, 20]} />
       </Canvas>
     </div>
   )
