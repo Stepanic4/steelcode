@@ -12,6 +12,12 @@
         --pixel-colors: #0ea5e9, #38bdf8, #7dd3fc;
     }
 
+    .theme-silver {
+        --accent-color: #e2e8f0;
+        --accent-glow: rgba(148, 163, 184, 0.4);
+        --pixel-colors: #f8fafc, #cbd5e1, #94a3b8;
+    }
+
     /* ////////// CARD ENGINE ////////// */
     .steel-card:hover {
         border-color: var(--accent-color) !important;
@@ -34,6 +40,11 @@
     .steel-card:hover .steel-badge {
         border-color: var(--accent-color) !important;
         box-shadow: inset 0 0 10px var(--accent-glow);
+    }
+
+    .steel-card:hover .silver-text {
+        color: var(--accent-color) !important;
+        text-shadow: 0 0 8px var(--accent-glow);
     }
 
     /* Базовый стиль бейджа (чтобы не дублировать в JSX) */
