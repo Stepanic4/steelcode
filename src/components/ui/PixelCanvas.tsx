@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef } from "react";
 
 class Pixel {
     width: number; height: number; ctx: CanvasRenderingContext2D; x: number; y: number;
@@ -48,8 +48,6 @@ class Pixel {
 }
 
 export default function PixelCanvas({ gap = 5, speed = 25, theme = "" }) {
-    const containerRef = useRef<HTMLDivElement>(null);
-
     useEffect(() => {
         if (typeof window === "undefined") return;
 
@@ -57,6 +55,7 @@ export default function PixelCanvas({ gap = 5, speed = 25, theme = "" }) {
             canvas!: HTMLCanvasElement; ctx!: CanvasRenderingContext2D; pixels: Pixel[] = [];
             animationFrame: number | null = null; timeInterval = 1000 / 60; timePrevious = performance.now();
             _parent: HTMLElement | null = null;
+            _resizeObserver: ResizeObserver | null = null;
 
             get colors() {
                 const style = getComputedStyle(this);
@@ -68,13 +67,20 @@ export default function PixelCanvas({ gap = 5, speed = 25, theme = "" }) {
 
             connectedCallback() {
                 const shadow = this.attachShadow({ mode: "open" });
-                shadow.innerHTML = `<style>:host{display:block;width:100%;height:100%;position:absolute;inset:0;pointer-events:none;z-index:0;}</style><canvas></canvas>`;
+                shadow.innerHTML = `
+                    <style>
+                        :host{display:block;width:100%;height:100%;position:absolute;inset:0;pointer-events:none;z-index:0;}
+                        canvas{width:100%;height:100%;display:block;}
+                    </style>
+                    <canvas></canvas>
+                `;
                 this.canvas = shadow.querySelector("canvas")!;
                 this.ctx = this.canvas.getContext("2d")!;
                 this._parent = this.parentElement;
 
-                this.init();
-                window.addEventListener('resize', () => this.init());
+                // Основная логика слежения за размером
+                this._resizeObserver = new ResizeObserver(() => this.init());
+                if (this._parent) this._resizeObserver.observe(this._parent);
 
                 const appearTrigger = () => this.handleTrigger("appear");
                 const disappearTrigger = () => this.handleTrigger("disappear");
@@ -85,16 +91,29 @@ export default function PixelCanvas({ gap = 5, speed = 25, theme = "" }) {
                 this._parent?.addEventListener("touchend", disappearTrigger, {passive: true});
             }
 
+            disconnectedCallback() {
+                this._resizeObserver?.disconnect();
+                if (this.animationFrame) cancelAnimationFrame(this.animationFrame);
+            }
+
             handleTrigger(fnName: "appear" | "disappear") {
                 if (this.animationFrame) cancelAnimationFrame(this.animationFrame);
                 this.runLoop(fnName);
             }
 
             init() {
-                const rect = this.getBoundingClientRect();
-                if (rect.width === 0 || rect.height === 0) return;
-                this.canvas.width = rect.width;
-                this.canvas.height = rect.height;
+                if (!this._parent) return;
+
+                const width = this._parent.offsetWidth;
+                const height = this._parent.offsetHeight;
+
+                if (width === 0 || height === 0) return;
+
+                if (this.canvas.width === width && this.canvas.height === height) return;
+
+                this.canvas.width = width;
+                this.canvas.height = height;
+
                 const isMobile = window.innerWidth < 768;
                 const finalGap = isMobile ? this.baseGap + 2 : this.baseGap;
                 this.createPixels(finalGap);
@@ -102,7 +121,7 @@ export default function PixelCanvas({ gap = 5, speed = 25, theme = "" }) {
 
             createPixels(renderGap: number) {
                 this.pixels = [];
-                const currentColors = this.colors; // Кэшируем цвета темы
+                const currentColors = this.colors;
                 for (let x = 0; x < this.canvas.width; x += renderGap) {
                     for (let y = 0; y < this.canvas.height; y += renderGap) {
                         const color = currentColors[Math.floor(Math.random() * currentColors.length)];

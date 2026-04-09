@@ -1,6 +1,7 @@
 "use client";
 import { useState } from 'react';
 import ServiceIcon from '@/components/ui/ServiceIcon';
+import { motion } from 'framer-motion';
 
 const services = [
     {
@@ -59,7 +60,9 @@ export function ServiceCard({ service }: { service: typeof services[0] }) {
 }
 export default function Services() {
     return (
-        <section id="services" className="py-24 px-6 border-t border-white/70">
+        <motion.section layout
+            id="services"
+            className="py-24 px-6 border-t border-white/70">
             <div className="max-w-7xl mx-auto">
                 <div className="mb-16">
                     <h2 className="text-3xl md:text-5xl font-bold uppercase tracking-tighter">Services</h2>
@@ -74,6 +77,6 @@ export default function Services() {
                     ))}
                 </div>
             </div>
-        </section>
+        </motion.section>
     );
 }

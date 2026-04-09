@@ -27,4 +27,13 @@ export const PROJECTS_DATA: Project[] = [
         isDraft: false,
         theme: "theme-sky",
     },
+    {
+        id: "03",
+        slug: "steel-cube",
+        title: "Art-steel",
+        tags: ["Art Digital", "Cube", "Framer Motion"],
+        year: "2025",
+        isDraft: false,
+        theme: "theme-silver",
+    },
 ];

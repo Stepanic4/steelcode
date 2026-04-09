@@ -1,6 +1,7 @@
 'use client';
 
 import { LoadingProvider, useLoading } from "@/context/LoadingContext";
+import { LayoutGroup } from "framer-motion";
 import Preloader from "@/components/shared/Preloader";
 import SteelBackground from "@/components/ui/SteelBackground";
 import Header from "@/components/structure/Header";
@@ -16,9 +17,11 @@ function LayoutContent({ children }: { children: React.ReactNode }) {
                 <SteelBackground />
                 <div className="relative z-10 flex flex-col min-h-screen">
                     <Header />
-                    <main className="flex-grow">
-                        {children}
-                    </main>
+                    <LayoutGroup>
+                        <main className="flex-grow">
+                            {children}
+                        </main>
+                    </LayoutGroup>
                     <Footer />
                 </div>
                 <ScrollToTop />
