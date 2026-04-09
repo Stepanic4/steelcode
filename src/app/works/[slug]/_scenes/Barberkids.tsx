@@ -2,15 +2,14 @@
 
 import React from "react";
 
-export default function SteelCube() {
-    const placeholderImg =
-        "https://images.unsplash.com/photo-1774270905958-86e7eaeae23d?q=80&w=729&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D";
+export default function BarberKids() {
+    const placeholderImg = "/assets/barber.jpg";
 
     return (
         <div className="relative w-full h-full overflow-hidden bg-black group">
             <img
                 src={placeholderImg}
-                alt="Steel Cube in start"
+                alt="Barber Kids"
                 className="w-full h-full object-cover opacity-70 group-hover:opacity-90 group-hover:scale-105 transition-all duration-700 ease-out"
             />
 
@@ -20,7 +19,7 @@ export default function SteelCube() {
 
             <div className="absolute bottom-0 left-4 z-3">
                 <p className="text-[10px] text-white font-mono uppercase tracking-[0.3em]">
-                    Visual Cube // Process Cube
+                    Visual Art // Process Kids
                 </p>
             </div>
         </div>

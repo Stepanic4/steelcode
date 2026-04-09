@@ -29,9 +29,9 @@ export const PROJECTS_DATA: Project[] = [
     },
     {
         id: "03",
-        slug: "steel-cube",
-        title: "Art-steel",
-        tags: ["Art Digital", "Cube", "Framer Motion"],
+        slug: "barber-kids",
+        title: "Barber Kids",
+        tags: ["HTML5/CSS3", "JavaScript", "jQuery"],
         year: "2025",
         isDraft: false,
         theme: "theme-silver",

@@ -14,6 +14,18 @@ export default function Works() {
     return (
         <section id="works" className="relative px-6 py-24 md:py-32 max-w-7xl mx-auto w-full border-t border-white/5">
 
+            <div className="flex flex-col mb-16 md:mb-24">
+                <div className="flex items-center gap-4 mb-4">
+                    <span className="w-12 h-[1px] bg-blue-500"></span>
+                    <h2 className="text-sm font-mono uppercase tracking-[0.5em] text-blue-500">
+                        Selected Cases
+                    </h2>
+                </div>
+                <h3 className="text-4xl md:text-6xl font-black italic uppercase tracking-tighter">
+                    Featured <span className="text-white/20">Projects</span>
+                </h3>
+            </div>
+
             <motion.div layout
                 transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
                 className="grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-y-20">
