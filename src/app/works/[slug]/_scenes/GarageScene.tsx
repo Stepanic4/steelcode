@@ -11,7 +11,7 @@ export default function GarageScene() {
       <img
         src={placeholderImg}
         alt="Garage Scene Preview"
-        className="w-full h-full object-cover opacity-70 group-hover:opacity-90 group-hover:scale-105 transition-all duration-700 ease-out"
+        className="w-full h-full object-cover group-hover:opacity-90 group-hover:scale-105 transition-all duration-700 ease-out"
       />
 
       <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-black/40 pointer-events-none" />
