@@ -1,14 +1,24 @@
 "use client";
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { Box, Code2, Palette } from "lucide-react";
+import { Box, Code2, Palette, LucideIcon } from "lucide-react";
+import { DotLottiePlayer } from "@dotlottie/react-player";
 
-const services = [
+interface Service {
+  title: string;
+  description: string;
+  icon: LucideIcon;
+  lottiePath?: string;
+  skills: string[];
+}
+
+const services: Service[] = [
   {
     title: "Immersive Experiences",
     description:
       "Crafting digital interfaces that breathe. Focused on interactive storytelling, 3D graphics, and aesthetics that elevate your brand above the noise.",
     icon: Box,
+    lottiePath: "/animations/services/boo.json",
     skills: ["Three.js", "Framer Motion", "GSAP"],
   },
   {
@@ -16,6 +26,7 @@ const services = [
     description:
       "Building high-performance solutions with flawless execution. Leveraging Next.js 16 to ensure instant load times under heavy visual loads.",
     icon: Code2,
+    lottiePath: "/animations/services/ai.json",
     skills: ["Next.js 16", "Tailwind 4", "TypeScript"],
   },
   {
@@ -27,7 +38,7 @@ const services = [
   },
 ];
 
-export function ServiceCard({ service }: { service: (typeof services)[0] }) {
+export function ServiceCard({ service }: { service: Service }) {
   const [isHovered, setIsHovered] = useState(false);
   const Icon = service.icon;
 
@@ -41,16 +52,27 @@ export function ServiceCard({ service }: { service: (typeof services)[0] }) {
 
       <div className="relative z-10">
         <div className="mb-6 inline-block p-1">
-          <div className="w-16 h-16 flex items-center justify-center border border-zinc-800 bg-black/50">
-            <motion.div
-              animate={{
-                scale: isHovered ? 1.2 : 1,
-                rotate: isHovered ? 5 : 0,
-              }}
-              transition={{ type: "spring", stiffness: 300 }}
-            >
-              <Icon size={32} className="text-white" strokeWidth={1.5} />
-            </motion.div>
+          <div className="w-16 h-16 flex items-center justify-center border border-zinc-800 bg-black/50 overflow-hidden">
+            {service.lottiePath ? (
+              <div className="w-15 h-15 flex items-center justify-center">
+                <DotLottiePlayer
+                  src={service.lottiePath}
+                  autoplay
+                  loop
+                  style={{ width: "100%", height: "100%" }}
+                />
+              </div>
+            ) : (
+              <motion.div
+                animate={{
+                  scale: isHovered ? 1.2 : 1,
+                  rotate: isHovered ? 5 : 0,
+                }}
+                transition={{ type: "spring", stiffness: 300 }}
+              >
+                <Icon size={32} className="text-white" strokeWidth={1.5} />
+              </motion.div>
+            )}
           </div>
         </div>
 

@@ -4,12 +4,12 @@ import Services from "@/components/sections/Services";
 import Contact from "@/components/sections/Contact";
 
 export default function Home() {
-    return (
-        <>
-            <Hero />
-            <Works />
-            <Services />
-            <Contact />
-        </>
-    );
+  return (
+    <>
+      <Hero />
+      <Works />
+      <Services />
+      <Contact />
+    </>
+  );
 }
