@@ -34,6 +34,7 @@ const services: Service[] = [
     description:
       "Full-cycle project oversight from concept to launch. Designing strategic visual systems that turn a standard website into a digital masterpiece.",
     icon: Palette,
+    lottiePath: "/animations/services/cat.json",
     skills: ["UI/UX Strategy", "Brand Identity", "Motion Design"],
   },
 ];
