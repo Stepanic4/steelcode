@@ -26,7 +26,7 @@ const services: Service[] = [
     description:
       "Building high-performance solutions with flawless execution. Leveraging Next.js 16 to ensure instant load times under heavy visual loads.",
     icon: Code2,
-    lottiePath: "/animations/services/ai.json",
+    lottiePath: "/animations/services/aiservice.json",
     skills: ["Next.js 16", "Tailwind 4", "TypeScript"],
   },
   {
