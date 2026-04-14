@@ -29,16 +29,26 @@ export default async function ProjectDetailsPage({
 
         {/* Main Preview Block */}
         <div className="shadow-sky-800 shadow-md group relative p-4 border border-zinc-900 bg-transparent md:bg-zinc-900/80 md:hover:bg-transparent transition-all duration-500 mb-5">
-          {/* Изменяем aspect-video на динамический: квадрат на мобилке, видео на десктопе */}
           <div className="aspect-square md:aspect-video w-full flex justify-center items-end pb-8 md:pb-12 relative overflow-hidden">
             <div className="absolute inset-0 z-0 pointer-events-none">
               <SceneContainer slug={slug} />
             </div>
 
-            {/* Немного уменьшаем кнопку для мобилок (py-2 вместо py-3), чтобы она не съедала весь экран */}
-            <button className="relative z-10 text-[10px] md:text-xs cursor-pointer uppercase tracking-widest px-4 py-2 md:px-6 md:py-3 bg-black text-white border border-sky-500/50 shadow-[0_0_20px_rgba(14,165,233,0.5)] font-bold hover:bg-white hover:text-blue-700 transition-all animate-pulse">
-              Initialize Experience
-            </button>
+            {/* Если ссылка есть — рендерим как <a>, если нет — оставляем как декоративную кнопку */}
+            {project.externalLink ? (
+              <a
+                href={project.externalLink}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="relative z-10 text-[10px] md:text-xs cursor-pointer uppercase tracking-widest px-4 py-2 md:px-6 md:py-3 bg-black text-white border border-sky-500/50 shadow-[0_0_20px_rgba(14,165,233,0.5)] font-bold hover:bg-white hover:text-blue-700 transition-all animate-pulse inline-block"
+              >
+                Initialize Experience
+              </a>
+            ) : (
+              <button className="relative z-10 text-[10px] md:text-xs cursor-not-allowed uppercase tracking-widest px-4 py-2 md:px-6 md:py-3 bg-black/50 text-white/50 border border-zinc-800 font-bold">
+                Experience Coming Soon
+              </button>
+            )}
           </div>
         </div>
 
