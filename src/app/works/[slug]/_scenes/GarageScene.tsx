@@ -4,7 +4,7 @@ import React from "react";
 
 export default function GarageScene() {
   const placeholderImg =
-    "https://images.unsplash.com/photo-1614162692292-7ac56d7f7f1e?q=80&w=2070&auto=format&fit=crop";
+    "https://www.bmw-m.com/content/dam/bmw/marketBMW_M/www_bmw-m_com/topics/magazine-article-pool/2018/bmw-m3-e30/bmw-m3-e30-stage-02-16x9.jpg?imwidth=1440";
 
   return (
     <div className="absolute inset-0 w-full h-full overflow-hidden bg-black group">

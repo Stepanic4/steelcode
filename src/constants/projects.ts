@@ -18,7 +18,7 @@ export const PROJECTS_DATA: Project[] = [
     year: "2026",
     isDraft: false,
     theme: "theme-gold",
-    externalLink: "https://stepanic4.github.io/SteelCodeHTML5/",
+    externalLink: "https://steelcode-3d-garage.vercel.app/",
   },
   {
     id: "02",
@@ -37,5 +37,6 @@ export const PROJECTS_DATA: Project[] = [
     year: "2025",
     isDraft: false,
     theme: "theme-silver",
+    externalLink: "https://stepanic4.github.io/SteelCodeHTML5/",
   },
 ];
