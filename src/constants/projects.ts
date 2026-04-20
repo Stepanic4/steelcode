@@ -7,6 +7,7 @@ export interface Project {
   isDraft: boolean;
   theme?: "theme-gold" | "theme-sky" | "theme-silver";
   externalLink?: string;
+  image: string;
 }
 
 export const PROJECTS_DATA: Project[] = [
@@ -19,6 +20,7 @@ export const PROJECTS_DATA: Project[] = [
     isDraft: false,
     theme: "theme-gold",
     externalLink: "https://steelcode-3d-garage.vercel.app/",
+    image: "/assets/bmw_m3.webp",
   },
   {
     id: "02",
@@ -28,6 +30,7 @@ export const PROJECTS_DATA: Project[] = [
     year: "2026",
     isDraft: false,
     theme: "theme-sky",
+    image: "/assets/placeholder-2.webp",
   },
   {
     id: "03",
@@ -38,5 +41,6 @@ export const PROJECTS_DATA: Project[] = [
     isDraft: false,
     theme: "theme-silver",
     externalLink: "https://stepanic4.github.io/SteelCodeHTML5/",
+    image: "/assets/placeholder-3.webp",
   },
 ];

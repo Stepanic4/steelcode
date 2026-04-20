@@ -1,292 +1,294 @@
+@import "tailwindcss";
+
+:root {
+  --font-geist-sans: "Geist", sans-serif;
+  --font-geist-mono: "Geist Mono", monospace;
+  --color-text-main: #ffffff;
+}
+
+@layer base {
+  body {
+    color: var(--color-text-main);
+    font-family: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    margin: 0;
+    padding: 0;
+  }
+
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: #0a0a0a;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: #3b82f6;
+    border-radius: 10px;
+    border: 1px solid #0a0a0a;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: #2563eb;
+  }
+
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: #3b82f6 #0a0a0a;
+  }
+}
+
 @layer components {
-    /* ////////// GOLDEN PIXEL CARD ////////// */
-    .theme-gold {
-        --accent-color: #fde047;
-        --accent-glow: rgba(234, 179, 8, 0.4);
-        --pixel-colors: #fef08a, #fde047, #eab308;
-    }
+  /* ////////// THEMES ////////// */
+  .theme-gold {
+    --accent-color: #fde047;
+    --accent-glow: rgba(234, 179, 8, 0.4);
+    --pixel-colors: #fef08a, #fde047, #eab308;
+  }
 
-    .theme-sky {
-        --accent-color: #38bdf8;
-        --accent-glow: rgba(14, 165, 233, 0.4);
-        --pixel-colors: #0ea5e9, #38bdf8, #7dd3fc;
-    }
+  .theme-sky {
+    --accent-color: #38bdf8;
+    --accent-glow: rgba(14, 165, 233, 0.4);
+    --pixel-colors: #0ea5e9, #38bdf8, #7dd3fc;
+  }
 
-    .theme-silver {
-        --accent-color: #e2e8f0;
-        --accent-glow: rgba(148, 163, 184, 0.4);
-        --pixel-colors: #f8fafc, #cbd5e1, #94a3b8;
-    }
+  .theme-silver {
+    --accent-color: #e2e8f0;
+    --accent-glow: rgba(148, 163, 184, 0.4);
+    --pixel-colors: #f8fafc, #cbd5e1, #94a3b8;
+  }
 
-    /* ////////// CARD ENGINE ////////// */
+  /* ////////// BASE CARD STYLES ////////// */
+  .steel-card {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    border-radius: 0.5rem;
+    background: #0a0a0a;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    transition: all 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+    isolation: isolate;
+    transform: translateZ(0);
+  }
+
+  .steel-card::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(165deg, #1a1a1a 0%, #0a0a0a 100%);
+    opacity: 1;
+    transition: opacity 0.6s ease;
+    z-index: -1;
+  }
+
+  .steel-card .content-wrapper {
+    position: relative;
+    z-index: 10;
+    pointer-events: none;
+  }
+
+  .steel-badge {
+    padding: 0.5rem 1.25rem;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(8px);
+    transition: all 0.4s ease-in-out;
+  }
+
+  /* ////////// ISOLATED HOVER EFFECTS (DESKTOP ONLY) ////////// */
+  @media (hover: hover) and (pointer: fine) {
     .steel-card:hover {
-        border-color: var(--accent-color) !important;
-        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6),
+      border-color: var(--accent-color) !important;
+      transform: translateY(-8px) scale(1.01);
+      box-shadow:
+        0 20px 40px rgba(0, 0, 0, 0.6),
         0 0 20px var(--accent-glow);
     }
 
-    .steel-card:hover .gold-text {
-        color: var(--accent-color) !important;
-        text-shadow: 0 0 8px var(--accent-glow);
-    }
-
-    /* Внутренняя рамка */
-    .steel-card:hover .inner-border {
-        border-color: var(--accent-color) !important;
-        opacity: 0.4;
-    }
-
-    /* Бейдж внутри карточки */
-    .steel-card:hover .steel-badge {
-        border-color: var(--accent-color) !important;
-        box-shadow: inset 0 0 10px var(--accent-glow);
-    }
-
+    .steel-card:hover .gold-text,
     .steel-card:hover .silver-text {
-        color: var(--accent-color) !important;
-        text-shadow: 0 0 8px var(--accent-glow);
+      color: var(--accent-color) !important;
+      text-shadow: 0 0 8px var(--accent-glow);
     }
 
-    /* Базовый стиль бейджа (чтобы не дублировать в JSX) */
-    .steel-badge {
-        transition: all 0.4s ease-in-out;
-    }
-    /* ////////// END GOLDEN PIXEL CARD ////////// */
-
-    /* ////////// SCROLL TO TOP BADGE ////////// */
-    .scroll-top-badge {
-        position: fixed;
-        bottom: 2.5rem;
-        right: 2.5rem;
-        z-index: 100;
-
-        /* Размеры и курсор */
-        width: 5rem;
-        height: 5rem;
-        cursor: crosshair;
-        outline: none;
-        user-select: none;
-        background: transparent;
-        border: none;
-        padding: 0;
-
-        .link-text {
-            font-size: 15px;
-            text-transform: uppercase;
-            letter-spacing: 0.15em;
-            font-weight: 500;
-            fill: #ffffff;
-            transform-box: fill-box;
-            transform-origin: center;
-            animation: spin-reverse 12s linear infinite;
-        }
-
-        .link-arrow {
-            transform-origin: center;
-            transition: all 500ms cubic-bezier(0.4, 0, 0.2, 1);
-            stroke: #ffffff;
-            transform: rotate(-90deg);
-        }
-
-        &:hover {
-            .link-arrow {
-                transform: rotate(-90deg) scale(1.25);
-                stroke: #3b82f6;
-            }
-
-            .link-text {
-                animation-play-state: paused;
-            }
-        }
+    .steel-card:hover .inner-border {
+      border-color: var(--accent-color) !important;
+      opacity: 0.4;
     }
 
-    @keyframes spin-reverse {
-        from {
-            transform: rotate(360deg);
-        }
-        to {
-            transform: rotate(0deg);
-        }
+    .steel-card:hover .steel-badge {
+      border-color: var(--accent-color) !important;
+      box-shadow: inset 0 0 10px var(--accent-glow);
     }
-    /* ////////// END SCROLL TO TOP ////////// */
+  }
 
-    /* ////////// Border ////////// */
-    @property --angle {
-        syntax: "<angle>";
-        initial-value: 0deg;
-        inherits: false;
-    }
+  /* ////////// SCROLL TO TOP BADGE ////////// */
+  .scroll-top-badge {
+    position: fixed;
+    bottom: 2.5rem;
+    right: 2.5rem;
+    z-index: 100;
+    width: 5rem;
+    height: 5rem;
+    cursor: crosshair;
+    outline: none;
+    user-select: none;
+    background: transparent;
+    border: none;
+    padding: 0;
 
-    .spark-border {
-        position: relative;
-    }
-
-    .spark-trail {
-        position: absolute;
-        inset: 0;
-        z-index: 1;
-        pointer-events: none;
-        opacity: 0;
-        transition: opacity 0.3s ease;
-
-        padding: 1.5px;
-        -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-        mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-        -webkit-mask-composite: xor;
-        mask-composite: exclude;
+    .link-text {
+      font-size: 15px;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      font-weight: 500;
+      fill: #ffffff;
+      transform-box: fill-box;
+      transform-origin: center;
+      animation: spin-reverse 12s linear infinite;
     }
 
-    .group:hover .spark-trail {
-        opacity: 1;
+    .link-arrow {
+      transform-origin: center;
+      transition: all 500ms cubic-bezier(0.4, 0, 0.2, 1);
+      stroke: #ffffff;
+      transform: rotate(-90deg);
     }
 
-    .spark-trail::before {
-        content: "";
-        position: absolute;
-        width: 250%;
-        height: 250%;
-        top: -75%;
-        left: -75%;
+    &:hover {
+      .link-arrow {
+        transform: rotate(-90deg) scale(1.25);
+        stroke: #3b82f6;
+      }
 
-        background: conic-gradient(
-                from 0deg at 50% 50%,
-                transparent 75%,
-                #3b82f6 95%,
-                #fff 100%
-        );
-
-        /* выносим на GPU */
-        will-change: transform;
-        transform: translateZ(0);
-        animation: spark-spin-smooth 2s linear infinite;
+      .link-text {
+        animation-play-state: paused;
+      }
     }
+  }
 
-    @keyframes spark-spin-smooth {
-        from {
-            transform: rotate(0deg) translateZ(0);
-        }
-        to {
-            transform: rotate(360deg) translateZ(0);
-        }
+  @keyframes spin-reverse {
+    from {
+      transform: rotate(360deg);
     }
-    /* ////////// END Border ////////// */
-
-    /* ////////// PRELOADER CIRCLE ////////// */
-    .smiley-container {
-        position: relative;
-        margin-bottom: 2rem;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        width: 128px;
-        height: 128px;
+    to {
+      transform: rotate(0deg);
     }
+  }
 
-    .loader-circle {
-        width: 64px;
-        height: 64px;
-        border: 3px solid rgba(14, 165, 233, 0.1);
-        border-top: 3px solid #0ea5e9;
-        border-radius: 50%;
-        animation: spin 0.8s linear infinite;
+  /* ////////// Border ////////// */
+  @property --angle {
+    syntax: "<angle>";
+    initial-value: 0deg;
+    inherits: false;
+  }
+
+  .spark-border {
+    position: relative;
+  }
+
+  .spark-trail {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    padding: 1.5px;
+    -webkit-mask:
+      linear-gradient(#fff 0 0) content-box,
+      linear-gradient(#fff 0 0);
+    mask:
+      linear-gradient(#fff 0 0) content-box,
+      linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+  }
+
+  .group:hover .spark-trail {
+    opacity: 1;
+  }
+
+  .spark-trail::before {
+    content: "";
+    position: absolute;
+    width: 250%;
+    height: 250%;
+    top: -75%;
+    left: -75%;
+    background: conic-gradient(
+      from 0deg at 50% 50%,
+      transparent 75%,
+      #3b82f6 95%,
+      #fff 100%
+    );
+    will-change: transform;
+    transform: translateZ(0);
+    animation: spark-spin-smooth 2s linear infinite;
+  }
+
+  @keyframes spark-spin-smooth {
+    from {
+      transform: rotate(0deg) translateZ(0);
     }
-
-    @keyframes spin {
-        from {
-            transform: rotate(0deg);
-        }
-        to {
-            transform: rotate(360deg);
-        }
+    to {
+      transform: rotate(360deg) translateZ(0);
     }
-    /* ////////// END PRELOADER CIRCLE ////////// */
-    /* ////////// Spanizer Text ////////// */
-    @keyframes letter-glow {
-        0% {
-            opacity: 0;
-            text-shadow: 0px 0px 1px rgba(255, 255, 255, 0.1);
-        }
-        66% {
-            opacity: 1;
-            text-shadow: 0px 0px 20px rgba(255, 255, 255, 0.9);
-        }
-        100% {
-            opacity: 0.8;
-            text-shadow: 0px 0px 0px rgba(255, 255, 255, 0);
-        }
+  }
+
+  /* ////////// PRELOADER CIRCLE ////////// */
+  .smiley-container {
+    position: relative;
+    margin-bottom: 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 128px;
+    height: 128px;
+  }
+
+  .loader-circle {
+    width: 64px;
+    height: 64px;
+    border: 3px solid rgba(14, 165, 233, 0.1);
+    border-top: 3px solid #0ea5e9;
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+  }
+
+  @keyframes spin {
+    from {
+      transform: rotate(0deg);
     }
-
-    .animate-letter {
-        display: inline-block;
-        opacity: 0;
-        animation: letter-glow 0.7s ease forwards;
+    to {
+      transform: rotate(360deg);
     }
+  }
 
-    /* ////////// End Spanizer Text ////////// */
-    /* ////////// GOLDEN PIXEL CARD ////////// */
-    .steel-card {
-        position: relative;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        overflow: hidden;
-        border-radius: 0.5rem;
-        /* Матовая черная база */
-        background: #0a0a0a;
-        border: 1px solid rgba(255, 255, 255, 0.05);
-        transition: all 0.6s cubic-bezier(0.23, 1, 0.32, 1);
-        isolation: isolate;
-        transform: translateZ(0);
+  /* ////////// Spanizer Text ////////// */
+  @keyframes letter-glow {
+    0% {
+      opacity: 0;
+      text-shadow: 0px 0px 1px rgba(255, 255, 255, 0.1);
     }
-
-    /* Стальной градиент в покое (едва заметный) */
-    .steel-card::before {
-        content: "";
-        position: absolute;
-        inset: 0;
-        background: linear-gradient(165deg, #1a1a1a 0%, #0a0a0a 100%);
-        opacity: 1;
-        transition: opacity 0.6s ease;
-        z-index: -1;
+    66% {
+      opacity: 1;
+      text-shadow: 0px 0px 20px rgba(255, 255, 255, 0.9);
     }
-
-    /* Золотое свечение при ховере */
-    .steel-card:hover, .steel-card:active {
-        border-color: #fde047;
-        transform: translateY(-8px) scale(1.01);
-        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.8),
-        0 0 25px rgba(234, 179, 8, 0.15);
+    100% {
+      opacity: 0.8;
+      text-shadow: 0px 0px 0px rgba(255, 255, 255, 0);
     }
+  }
 
-    /* Текст и контент внутри */
-    .steel-card .content-wrapper {
-        position: relative;
-        z-index: 10;
-        pointer-events: none; /* Пропускаем клики сквозь текст на карточку */
-    }
-
-    /* Убираем синий из бейджа */
-    .steel-badge {
-        padding: 0.5rem 1.25rem;
-        border: 1px solid rgba(255, 255, 255, 0.1);
-        background: rgba(0, 0, 0, 0.6);
-        backdrop-filter: blur(8px);
-        transition: all 0.4s ease;
-    }
-
-    .steel-card:hover .steel-badge, .steel-card:active .steel-badge {
-        border-color: #fde047;
-        box-shadow: 0 0 15px rgba(254, 240, 138, 0.2);
-    }
-
-    .steel-card:hover .gold-text, .steel-card:active .gold-text {
-        color: #fde047;
-        text-shadow: 0 0 10px rgba(254, 240, 138, 0.5);
-    }
-
-    /* ////////// END GOLDEN PIXEL CARD ////////// */
-
+  .animate-letter {
+    display: inline-block;
+    opacity: 0;
+    animation: letter-glow 0.7s ease forwards;
+  }
 }
-
-
-
