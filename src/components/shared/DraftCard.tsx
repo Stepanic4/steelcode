@@ -49,9 +49,13 @@ export default function DraftCard({
               {title}
             </span>
 
-            <div className="steel-badge relative overflow-hidden px-5 py-2 border border-white/10 bg-black/40 backdrop-blur-md">
-              <span className="gold-text text-[10px] font-mono text-white/40 tracking-[0.3em] uppercase">
-                View the project
+            <div className="flex items-center gap-2 mt-4 opacity-60 transition-opacity duration-300 md:group-hover:opacity-100">
+              <div className="w-1.5 h-1.5 bg-sky-500 animate-pulse" />
+              <span className="gold-text text-[10px] font-mono tracking-[0.3em] uppercase">
+                <span className="text-white/30 mr-2 md:group-hover:text-white/70 transition-colors duration-300">
+                  {">"}
+                </span>
+                Open_Case
               </span>
             </div>
           </div>
