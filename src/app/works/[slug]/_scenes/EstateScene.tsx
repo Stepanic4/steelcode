@@ -1,0 +1,27 @@
+"use client";
+
+import React from "react";
+
+export default function EstateScene() {
+  const placeholderImg =
+    "https://ap.rdcpix.com/4d686208aeb666cc53fc92c68643b082l-m3243868435rd-w960_h720.jpg";
+
+  return (
+    <div className="absolute inset-0 w-full h-full overflow-hidden bg-black group">
+      <img
+        src={placeholderImg}
+        alt="Estate Scene Preview"
+        className="w-full h-full object-cover group-hover:opacity-90 group-hover:scale-105 transition-all duration-700 ease-out"
+      />
+
+      <div className="absolute inset-0 bg-linear-to-t from-black via-transparent to-black/40 pointer-events-none" />
+      <div className="absolute inset-0 opacity-25 shadow-[inset_0_0_100px_rgba(14,165,233,0.5)] pointer-events-none" />
+
+      <div className="absolute bottom-0 left-4 z-10">
+        <p className="text-[10px] text-white font-mono uppercase tracking-[0.3em]">
+          Visual Assets // Asset Loaded
+        </p>
+      </div>
+    </div>
+  );
+}

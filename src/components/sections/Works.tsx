@@ -86,7 +86,7 @@ export default function Works() {
             onClick={() => setIsExpanded(!isExpanded)}
             className="group flex flex-col items-center gap-4 w-full outline-none"
           >
-            <div className="relative w-full max-w-[200px] h-[1px] bg-white/10 overflow-hidden">
+            <div className="relative w-full max-w-[200px] h-px bg-white/10 overflow-hidden">
               <motion.div
                 className="absolute inset-0 bg-sky-500"
                 initial={{ x: "-100%" }}
