@@ -45,14 +45,14 @@ export default function DraftCard({
           <div className="content-wrapper relative z-20 flex flex-col items-center space-y-6 pointer-events-none">
             {/* Внутренний заголовок. Изначально смещен вниз (translate-y-2). 
                 При ховере встает на место, создавая эффект бесшовного движения навстречу исчезающему внешнему тексту. */}
-            <span className="gold-text text-[14px] uppercase tracking-[0.4em] text-white/70 font-light text-center px-4 translate-y-2 transition-all duration-500 ease-out md:group-hover:translate-y-0">
+            <span className="gold-text text-2xl uppercase tracking-[0.4em] font-bold text-center px-4 translate-y-2 transition-all duration-500 ease-out md:group-hover:translate-y-0">
               {title}
             </span>
 
             <div className="flex items-center gap-2 mt-4 opacity-60 transition-opacity duration-300 md:group-hover:opacity-100">
-              <div className="w-1.5 h-1.5 bg-sky-500 animate-pulse" />
-              <span className="gold-text text-[10px] font-mono tracking-[0.3em] uppercase">
-                <span className="text-white/30 mr-2 md:group-hover:text-white/70 transition-colors duration-300">
+              <div className="w-2.5 h-2.5 bg-sky-500 animate-pulse" />
+              <span className="gold-text text-lg font-mono tracking-[0.3em] uppercase">
+                <span className="mr-2 md:group-hover:text-white transition-colors duration-300">
                   {">"}
                 </span>
                 Open_Case
