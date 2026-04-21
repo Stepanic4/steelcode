@@ -1,17 +1,18 @@
 "use client";
 
 import React from "react";
+import Image from "next/image";
 
 export default function GarageScene() {
-  const placeholderImg =
-    "https://www.bmw-m.com/content/dam/bmw/marketBMW_M/www_bmw-m_com/topics/magazine-article-pool/2018/bmw-m3-e30/bmw-m3-e30-stage-02-16x9.jpg?imwidth=1440";
+  const placeholderImg = "/assets/bmw_e30.avif";
 
   return (
-    <div className="absolute inset-0 w-full h-full overflow-hidden bg-black group">
-      <img
+    <div className="relative w-full h-full overflow-hidden bg-black group">
+      <Image
         src={placeholderImg}
         alt="Garage Scene Preview"
-        className="w-full h-full object-cover group-hover:opacity-90 group-hover:scale-105 transition-all duration-700 ease-out"
+        fill
+        className="object-cover group-hover:opacity-90 group-hover:scale-105 transition-all duration-700 ease-out"
       />
 
       <div className="absolute inset-0 bg-linear-to-t from-black via-transparent to-black/40 pointer-events-none" />

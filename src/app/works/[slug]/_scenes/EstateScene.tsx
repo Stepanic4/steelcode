@@ -1,17 +1,18 @@
 "use client";
 
 import React from "react";
+import Image from "next/image";
 
 export default function EstateScene() {
-  const placeholderImg =
-    "https://ap.rdcpix.com/4d686208aeb666cc53fc92c68643b082l-m3243868435rd-w960_h720.jpg";
+  const placeholderImg = "/assets/sity.webp";
 
   return (
-    <div className="absolute inset-0 w-full h-full overflow-hidden bg-black group">
-      <img
+    <div className="relative w-full h-full overflow-hidden bg-black group">
+      <Image
         src={placeholderImg}
         alt="Estate Scene Preview"
-        className="w-full h-full object-cover group-hover:opacity-90 group-hover:scale-105 transition-all duration-700 ease-out"
+        fill
+        className="object-cover group-hover:opacity-90 group-hover:scale-105 transition-all duration-700 ease-out"
       />
 
       <div className="absolute inset-0 bg-linear-to-t from-black via-transparent to-black/40 pointer-events-none" />

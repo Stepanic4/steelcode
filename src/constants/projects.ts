@@ -51,6 +51,6 @@ export const PROJECTS_DATA: Project[] = [
     isDraft: false,
     theme: "theme-silver",
     externalLink: "https://stepanic4.github.io/SteelCodeHTML5/",
-    image: "/assets/barber.jpg",
+    image: "/assets/barber.webp",
   },
 ];
