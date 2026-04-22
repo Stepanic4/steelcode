@@ -16,7 +16,7 @@ export default function Works() {
   return (
     <section
       id="works"
-      className="relative px-6 py-24 md:py-32 max-w-7xl mx-auto w-full border-t border-white/5"
+      className="relative px-6 py-24 md:py-32 max-w-7xl mx-auto w-full border-t border-white"
     >
       <div className="flex flex-col mb-16 md:mb-24">
         <div className="flex items-center gap-4 mb-4">
