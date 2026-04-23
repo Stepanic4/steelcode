@@ -104,7 +104,7 @@ export default function Services() {
     <motion.section
       layout
       id="services"
-      className="py-24 px-6 border-t border-white/70"
+      className="py-24 px-6 border-t border-white"
     >
       <div className="max-w-7xl mx-auto">
         <div className="mb-16">
